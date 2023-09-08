@@ -1,6 +1,7 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
 const path = require('path');
+const {globSync, } = require('glob');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
@@ -10,13 +11,27 @@ const isProduction = process.env.NODE_ENV == 'production';
 const stylesHandler = 'style-loader';
 
 function htmlPlugins() {
-    var plugins = [
-        new HtmlWebpackPlugin({
-            template: 'src/index.html',
+    var plugins = [];
+    for (const html of globSync('src/**/*.html')) {
+        const in_ = String(html);
+        const out = in_.replace(/^src[/\\]/i, '');
+        plugins.push(new HtmlWebpackPlugin({
+            template: in_,
             minify: false,
-            filename: 'index.html',
-        }),
-    ];
+            filename: out,
+        }));
+        console.info(in_, out);
+    }
+    for (const html of globSync(['src/*.njk', 'src/decks/*.njk'])) {
+        const in_ = String(html);
+        const out = in_.replace(/^src[/\\]/i, '').replace(/\.njk$/i, '.html');
+        plugins.push(new HtmlWebpackPlugin({
+            template: in_,
+            minify: false,
+            filename: out,
+        }));
+        console.info(in_, out);
+    }
     return plugins;
 }
 
@@ -57,7 +72,19 @@ const config = {
                 generator: {
                     filename: '[base]',
                 },
-            }
+            },
+            {
+                test: /\.njk$/,
+                use: [{
+                    loader: 'simple-nunjucks-loader',
+                    options: {
+                        searchPaths: [
+                            'src/templates'
+                        ],
+
+                    }
+                }]
+            },
             // Add your rules for custom modules here
             // Learn more about loaders from https://webpack.js.org/loaders/
         ],

@@ -1,0 +1,10 @@
+.twoColumn {
+    columns: 2;
+}
+.twoColumn>li {
+    margin-right: 1em;
+    margin-left: 1em;
+}
+.little {
+    font-size: 70.7%;
+}

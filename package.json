@@ -19,9 +19,12 @@
     "css-loader": "^6.8.1",
     "file-loader": "^6.2.0",
     "gh-pages": "^6.0.0",
+    "glob": "^10.3.4",
     "html-webpack-loader": "^0.0.5",
     "html-webpack-plugin": "^5.5.3",
+    "nunjucks": "^3.2.4",
     "prettier": "^3.0.3",
+    "simple-nunjucks-loader": "^3.2.0",
     "style-loader": "^3.3.3",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
@@ -35,6 +38,6 @@
     "watch": "webpack --watch",
     "serve": "webpack serve",
     "predeploy": "npm run build",
-    "deploy": "gh-pages --message 'npm run deploy' --dotfiles --dist dist"
+    "deploy": "gh-pages --message npm_run_deploy --dotfiles --dist dist"
   }
 }
