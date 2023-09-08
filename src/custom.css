@@ -8,3 +8,13 @@
 .little {
     font-size: 70.7%;
 }
+table.wikitable {
+    margin: 0 0;
+    text-align: center;
+    font-size: 40%;
+}
+table.wikitable td, table.wikitable th {
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.2em 0.2em 0.2em 0.2em;
+}

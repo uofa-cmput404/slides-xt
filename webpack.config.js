@@ -4,6 +4,7 @@ const path = require('path');
 const {globSync, } = require('glob');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV == 'production';
 
@@ -46,11 +47,18 @@ const config = {
         open: true,
         host: 'localhost',
     },
-    plugins: [].concat([
-        
-
+    plugins: [
         // Add your plugins here
         // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: 'images',
+                    to: 'images',
+                }
+            ]},
+        ),
+    ].concat([
     ], htmlPlugins()),
     module: {
         rules: [
