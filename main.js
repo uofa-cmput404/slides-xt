@@ -749,6 +749,7 @@ table.wikitable td, table.wikitable th {
 body {
     --r-main-font: 'Lexend Deca Variable', 'Source Sans Pro', 'Helvetica', sans-serif;
     --r-heading-font: 'Lexend Deca Variable', 'Source Sans Pro', 'Helvetica', sans-serif;
+    --r-background-color: #ffc;
 }
 cite {
     font-size: 50%;
