@@ -8,965 +8,1179 @@
         <div class="reveal">
             <div class="slides">
             
-      <section>
-        <h1>CMPUT 404</h1>
-        <h3>Web Applications and Architecture</h3>
-        <h2>Part 03: The Internet</h2>
-        <p>
-          <small>Created by <br>
-            <a href="http://softwareprocess.es">Abram Hindle</a>
-            (<a href="mailto:abram.hindle@ualberta.ca">abram.hindle@ualberta.ca</a>) <br>
-            and Hazel Campbell (<a href="mailto:hazel.campbell@ualberta.ca">hazel.campbell@ualberta.ca</a>).<br>
-            Copyright 2014-2019.
-          </small>
-        </p>
-      </section>
-      <section>
-        <h2>The Internet</h2>
-      </section>
-      <section>
-        <h3>The Simple View of a Web Client and Web Server</h3>
+  <section>
+    <h1>CMPUT 404</h1>
+    <h3>Web Applications and Architecture</h3>
+    <h2>Part 03: The Internet</h2>
+    <p>
+      <small>Created by
+        <br>
+        <a href="http://softwareprocess.es">Abram Hindle</a>
+        (<a href="mailto:abram.hindle@ualberta.ca">abram.hindle@ualberta.ca</a>)
+        <br>
+        and Hazel Campbell (<a href="mailto:hazel.campbell@ualberta.ca">hazel.campbell@ualberta.ca</a>).<br>
+        Copyright 2014-2023.
+      </small>
+    </p>
+  </section>
+  <section>
+    <h2>The Internet</h2>
+  </section>
+  <section>
+    <h3>The Simple View of a Web Client and Web Server</h3>
+    <ul>
+      <li>
+        We use the web to request, search, navigate, and share information.</li>
+      <li>
+        We use the web to access and operate software.</li>
+      <li style="font-size: 75%">What protocols go over this wire?</li>
+    </ul>
+    <img class="noborder stretch" src="../images/web-server.svg">
+  </section>
+  <section>
+    <ul>
+      <li>But really it's more like this...</li>
+      <li style="font-size: 75%">What protocols go over this wire?</li>
+    </ul>
+    <img class="noborder stretch" src="../images/web-server-plus-more.svg">
+  </section>
+  <section>
+    <h3>Ethernet</h3>
+    <ul>
+      <li>1 Ethernet frame is 64 to 1526 bytes</li>
+    </ul>
+    <table class="shrinky" style="font-size: 80%">
+      <thead>
+        <tr>
+          <td>Preamble</td>
+          <td>SFD</td>
+          <td>Destination</td>
+          <td>Source</td>
+          <td>Length</td>
+          <td>Payload</td>
+          <td>CRC</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>7</td>
+          <td>1</td>
+          <td>6</td>
+          <td>6</td>
+          <td>2</td>
+          <td>46-1500</td>
+          <td>4</td>
+        </tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>
+        I'm going by the Ethernet spec and not anything fancy, IEEE Std 802.3TM-2012 (Revision of IEEE Std 802.3-2008)</li>
+      <li>CRC means each frame has some error detection.</li>
+      <li>SFD – Start Frame Delimiter</li>
+      <li>Originally used over radio, now used over wires.</li>
+      <li>This is not gigabit</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Why are ethernet frames important to the Web?</h3>
+    <ul style="font-size: 90%">
+      <li>Know the minimum packet sizes that can be sent.</li>
+      <li>Know the potential waste in a transmission</li>
+      <li>Know sizes that aren't fragmented or split</li>
+      <li>Know when you'll incur latency due to split packets/frames</li>
+      <li>Keep your message sizes smaller than 1.5kb to ensure you stay inside of packets.</li>
+      <li>Sending 1 byte, incurs many headers.</li>
+      <li>Most people are connected to the internet with something like ethernet and their MTU is 1500 or less.</li>
+    </ul>
+  </section>
+  <section>
+    <h3>IPV4</h3>
+    <ul>
+      <li>Ethernet is not routable</li>
+      <li>We need to communicate over large distances</li>
+      <li>We need to communicate to many computers</li>
+      <li>IP was a compromise to address computers</li>
+      <li>Stateless</li>
+      <li>Backbone of the internet</li>
+      <li>But we ran out of IPV4 addresses</li>
+    </ul>
+  </section>
+  <section>
+    <h3>IPV4 Header</h3>
+    <table class="wikitable">
+      <caption>IPv4 Header Format
+      </caption>
+      <tbody>
+        <tr>
+          <th>
+            <i>Offsets</i>
+          </th>
+          <th>
+            <a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
+          </th>
+          <th colspan="8">0
+          </th>
+          <th colspan="8">1
+          </th>
+          <th colspan="8">2
+          </th>
+          <th colspan="8">3
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
+          </th>
+          <th>
+            <a href="/wiki/Bit" title="Bit">Bit</a>
+          </th>
+          <th style="width:2.6%;">0
+          </th>
+          <th style="width:2.6%;">1
+          </th>
+          <th style="width:2.6%;">2
+          </th>
+          <th style="width:2.6%;">3
+          </th>
+          <th style="width:2.6%;">4
+          </th>
+          <th style="width:2.6%;">5
+          </th>
+          <th style="width:2.6%;">6
+          </th>
+          <th style="width:2.6%;">7
+          </th>
+          <th style="width:2.6%;">8
+          </th>
+          <th style="width:2.6%;">9
+          </th>
+          <th style="width:2.6%;">10
+          </th>
+          <th style="width:2.6%;">11
+          </th>
+          <th style="width:2.6%;">12
+          </th>
+          <th style="width:2.6%;">13
+          </th>
+          <th style="width:2.6%;">14
+          </th>
+          <th style="width:2.6%;">15
+          </th>
+          <th style="width:2.6%;">16
+          </th>
+          <th style="width:2.6%;">17
+          </th>
+          <th style="width:2.6%;">18
+          </th>
+          <th style="width:2.6%;">19
+          </th>
+          <th style="width:2.6%;">20
+          </th>
+          <th style="width:2.6%;">21
+          </th>
+          <th style="width:2.6%;">22
+          </th>
+          <th style="width:2.6%;">23
+          </th>
+          <th style="width:2.6%;">24
+          </th>
+          <th style="width:2.6%;">25
+          </th>
+          <th style="width:2.6%;">26
+          </th>
+          <th style="width:2.6%;">27
+          </th>
+          <th style="width:2.6%;">28
+          </th>
+          <th style="width:2.6%;">29
+          </th>
+          <th style="width:2.6%;">30
+          </th>
+          <th style="width:2.6%;">31
+          </th>
+        </tr>
+        <tr>
+          <th>0
+          </th>
+          <th>0
+          </th>
+          <td colspan="4">
+            <a href="#Version">Version</a>
+          </td>
+          <td colspan="4">
+            <a href="#IHL">IHL</a>
+          </td>
+          <td colspan="6">
+            <a href="#DSCP">DSCP</a>
+          </td>
+          <td colspan="2">
+            <a href="#ECN">ECN</a>
+          </td>
+          <td colspan="16">
+            <a href="#Total_Length">Total Length</a>
+          </td>
+        </tr>
+        <tr>
+          <th>4
+          </th>
+          <th>32
+          </th>
+          <td colspan="16">
+            <a href="#Identification">Identification</a>
+          </td>
+          <td colspan="3">
+            <a href="#Flags">Flags</a>
+          </td>
+          <td colspan="13">
+            <a href="#Fragment_Offset">Fragment Offset</a>
+          </td>
+        </tr>
+        <tr>
+          <th>8
+          </th>
+          <th>64
+          </th>
+          <td colspan="8">
+            <a href="#TTL">Time To Live</a>
+          </td>
+          <td colspan="8">
+            <a href="#Protocol">Protocol</a>
+          </td>
+          <td colspan="16">
+            <a href="#Header_Checksum">Header Checksum</a>
+          </td>
+        </tr>
+        <tr>
+          <th>12
+          </th>
+          <th>96
+          </th>
+          <td colspan="32">
+            <a href="#Source_address">Source IP Address</a>
+          </td>
+        </tr>
+        <tr>
+          <th>16
+          </th>
+          <th>128
+          </th>
+          <td colspan="32">
+            <a href="#Destination_address">Destination IP Address</a>
+          </td>
+        </tr>
+        <tr>
+          <th>20
+          </th>
+          <th>160
+          </th>
+          <td colspan="32" rowspan="4">
+            <a href="#Options">Options</a>
+            (if IHL &gt; 5)
+          </td>
+        </tr>
+        <tr>
+          <th>24
+          </th>
+          <th>192
+          </th>
+        </tr>
+        <tr>
+          <th>28
+          </th>
+          <th>224
+          </th>
+        </tr>
+        <tr>
+          <th>32
+          </th>
+          <th>256
+          </th>
+        </tr>
+      </tbody>
+    </table>
+    <cite style="font-size: 50%">Wikipedia contributors, "IPv4,"
+      <i>Wikipedia, The Free Encyclopedia,</i>
+      <a class="external free" href="https://en.wikipedia.org/w/index.php?title=IPv4&amp;oldid=877557146">https://en.wikipedia.org/w/index.php?title=IPv4&amp;oldid=877557146</a>
+      (accessed January 11, 2019).</cite>
+  </section>
+  <section>
+    <h3>IPV6</h3>
+    <ul>
+      <li>Like IPV4 but...</li>
+      <li>More address space (32->128 bit!)</li>
+      <li>TCP can fit over top of it</li>
+      <li>But the addresses look totally different...
         <ul>
-          <li> We use the web to request, search, navigate, and share information.</li>
-          <li> We use the web to access and operate software.</li>
-          <li style="font-size: 75%">What protocols go over this wire?</li>
+          <li>2001:0db8:0000:0000:0000:0000:0000:0001</li>
+          <li>2001:db8:0:0:0:0:0:1</li>
+          <li>2001:db8::1</li>
+          <li>So much for host:port...</li>
+          <li>https://[2001:db8::1]:443/</li>
         </ul>
-        <img class="noborder stretch" src="../images/web-server.svg">
-      </section>
-      <section>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>IPV6 Header</h3>
+    <table class="wikitable">
+      <caption>Fixed header format
+      </caption>
+      <tbody>
+        <tr>
+          <th style="border-bottom:none; border-right:none;">
+            <i>Offsets</i>
+          </th>
+          <th style="border-left:none;">
+            <a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
+          </th>
+          <th colspan="8">0
+          </th>
+          <th colspan="8">1
+          </th>
+          <th colspan="8">2
+          </th>
+          <th colspan="8">3
+          </th>
+        </tr>
+        <tr>
+          <th style="border-top: none">
+            <a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
+          </th>
+          <th>
+            <a href="/wiki/Bit" title="Bit">Bit</a>
+          </th>
+          <th style="width:2.6%;">0
+          </th>
+          <th style="width:2.6%;">1
+          </th>
+          <th style="width:2.6%;">2
+          </th>
+          <th style="width:2.6%;">3
+          </th>
+          <th style="width:2.6%;">4
+          </th>
+          <th style="width:2.6%;">5
+          </th>
+          <th style="width:2.6%;">6
+          </th>
+          <th style="width:2.6%;">7
+          </th>
+          <th style="width:2.6%;">8
+          </th>
+          <th style="width:2.6%;">9
+          </th>
+          <th style="width:2.6%;">10
+          </th>
+          <th style="width:2.6%;">11
+          </th>
+          <th style="width:2.6%;">12
+          </th>
+          <th style="width:2.6%;">13
+          </th>
+          <th style="width:2.6%;">14
+          </th>
+          <th style="width:2.6%;">15
+          </th>
+          <th style="width:2.6%;">16
+          </th>
+          <th style="width:2.6%;">17
+          </th>
+          <th style="width:2.6%;">18
+          </th>
+          <th style="width:2.6%;">19
+          </th>
+          <th style="width:2.6%;">20
+          </th>
+          <th style="width:2.6%;">21
+          </th>
+          <th style="width:2.6%;">22
+          </th>
+          <th style="width:2.6%;">23
+          </th>
+          <th style="width:2.6%;">24
+          </th>
+          <th style="width:2.6%;">25
+          </th>
+          <th style="width:2.6%;">26
+          </th>
+          <th style="width:2.6%;">27
+          </th>
+          <th style="width:2.6%;">28
+          </th>
+          <th style="width:2.6%;">29
+          </th>
+          <th style="width:2.6%;">30
+          </th>
+          <th style="width:2.6%;">31
+          </th>
+        </tr>
+        <tr>
+          <th>0
+          </th>
+          <th>0
+          </th>
+          <td colspan="4">
+            <i>Version</i>
+          </td>
+          <td colspan="8">
+            <i>Traffic Class</i>
+          </td>
+          <td colspan="20">
+            <i>Flow Label</i>
+          </td>
+        </tr>
+        <tr>
+          <th>4
+          </th>
+          <th>32
+          </th>
+          <td colspan="16">
+            <i>Payload Length</i>
+          </td>
+          <td colspan="8">
+            <i>Next Header</i>
+          </td>
+          <td colspan="8">
+            <i>Hop Limit</i>
+          </td>
+        </tr>
+        <tr>
+          <th>8
+          </th>
+          <th>64
+          </th>
+          <td colspan="32" rowspan="4">
+            <i>Source Address</i>
+          </td>
+        </tr>
+        <tr>
+          <th>12
+          </th>
+          <th>96
+          </th>
+        </tr>
+        <tr>
+          <th>16
+          </th>
+          <th>128
+          </th>
+        </tr>
+        <tr>
+          <th>20
+          </th>
+          <th>160
+          </th>
+        </tr>
+        <tr>
+          <th>24
+          </th>
+          <th>192
+          </th>
+          <td colspan="32" rowspan="4">
+            <i>Destination Address</i>
+          </td>
+        </tr>
+        <tr>
+          <th>28
+          </th>
+          <th>224
+          </th>
+        </tr>
+        <tr>
+          <th>32
+          </th>
+          <th>256
+          </th>
+        </tr>
+        <tr>
+          <th>36
+          </th>
+          <th>288
+          </th>
+        </tr>
+      </tbody>
+    </table>
+    <cite style="font-size: 50%">Wikipedia contributors, "IPv6 packet,"
+      <i>Wikipedia, The Free Encyclopedia,</i>
+      <a class="external free" href="https://en.wikipedia.org/w/index.php?title=IPv6_packet&amp;oldid=876779509">https://en.wikipedia.org/w/index.php?title=IPv6_packet&amp;oldid=876779509</a>
+      (accessed January 11, 2019).
+    </cite>
+  </section>
+  <section>
+    <h3>UDP</h3>
+    <ul>
+      <li>User means that user-space applications can use it</li>
+      <li>Provides checksums—some integrity</li>
+      <li>Provides port numbers</li>
+      <li>Stateless</li>
+      <li>Lossy, not ordered
         <ul>
-          <li>But really it's more like this...</li>
-          <li style="font-size: 75%">What protocols go over this wire?</li>
+          <li>Sent: 0 1 2 3 4 5 6 7 8 9</li>
+          <li>Received: 0 1 2 4 3 5 6 9</li>
         </ul>
-        <img class="noborder stretch" src="../images/web-server-plus-more.svg">
-      </section>
-      <section>
-        <h3>Ethernet</h3>
-        <ul>
-          <li>1 Ethernet frame is 64 to 1526 bytes</li>
-        </ul>
-        <table class="shrinky" style="font-size: 80%">
-          <thead>
-            <tr>
-              <td>Preamble</td>
-              <td>SFD</td>
-              <td>Destination</td>
-              <td>Source</td>
-              <td>Length</td>
-              <td>Payload</td>
-              <td>CRC</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>7</td>
-              <td>1</td>
-              <td>6</td>
-              <td>6</td>
-              <td>2</td>
-              <td>46-1500</td>
-              <td>4</td>
-            </tr>
-          </tbody>
-        </table>
-        <ul>
-          <li> I'm going by the Ethernet spec and not anything fancy, IEEE Std 802.3TM-2012 (Revision of IEEE Std 802.3-2008)</li>
-          <li>CRC means each frame has some error detection.</li>
-          <li>SFD – Start Frame Delimiter</li>
-          <li>Originally used over radio, now used over wires.</li>
-          <li>This is not gigabit</li>
-        </ul>
-      </section>
-      <section>
-        <h3>Why are ethernet frames important to the Web?</h3>
-        <ul style="font-size: 90%">
-          <li>Know the minimum packet sizes that can be sent.</li>
-          <li>Know the potential waste in a transmission</li>
-          <li>Know sizes that aren't fragmented or split</li>
-          <li>Know when you'll incur latency due to split packets/frames</li>
-          <li>Keep your message sizes smaller than 1.5kb to ensure you stay inside of packets.</li>
-          <li>Sending 1 byte, incurs many headers.</li>
-          <li>Most people are connected to the internet with something like ethernet and their MTU is 1500 or less.</li>
-        </ul>
-      </section>
-      <section>
-        <h3>IPV4</h3>
-        <ul>
-          <li>Ethernet is not routable</li>
-          <li>We need to communicate over large distances</li>
-          <li>We need to communicate to many computers</li>
-          <li>IP was a compromise to address computers</li>
-          <li>Stateless</li>
-          <li>Backbone of the internet</li>
-          <li>But we ran out of IPV4 addresses</li>
-        </ul>
-      </section>
-      <section>
-        <h3>IPV4 Header</h3>
-        <table class="wikitable">
-          <caption>IPv4 Header Format
-          </caption>
-          <tbody>
-            <tr>
-              <th><i>Offsets</i>
-              </th>
-              <th><a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
-              </th>
-              <th colspan="8">0
-              </th>
-              <th colspan="8">1
-              </th>
-              <th colspan="8">2
-              </th>
-              <th colspan="8">3
-              </th>
-            </tr>
-            <tr>
-              <th><a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
-              </th>
-              <th><a href="/wiki/Bit" title="Bit">Bit</a>
-              </th>
-              <th style="width:2.6%;">0
-              </th>
-              <th style="width:2.6%;">1
-              </th>
-              <th style="width:2.6%;">2
-              </th>
-              <th style="width:2.6%;">3
-              </th>
-              <th style="width:2.6%;">4
-              </th>
-              <th style="width:2.6%;">5
-              </th>
-              <th style="width:2.6%;">6
-              </th>
-              <th style="width:2.6%;">7
-              </th>
-              <th style="width:2.6%;">8
-              </th>
-              <th style="width:2.6%;">9
-              </th>
-              <th style="width:2.6%;">10
-              </th>
-              <th style="width:2.6%;">11
-              </th>
-              <th style="width:2.6%;">12
-              </th>
-              <th style="width:2.6%;">13
-              </th>
-              <th style="width:2.6%;">14
-              </th>
-              <th style="width:2.6%;">15
-              </th>
-              <th style="width:2.6%;">16
-              </th>
-              <th style="width:2.6%;">17
-              </th>
-              <th style="width:2.6%;">18
-              </th>
-              <th style="width:2.6%;">19
-              </th>
-              <th style="width:2.6%;">20
-              </th>
-              <th style="width:2.6%;">21
-              </th>
-              <th style="width:2.6%;">22
-              </th>
-              <th style="width:2.6%;">23
-              </th>
-              <th style="width:2.6%;">24
-              </th>
-              <th style="width:2.6%;">25
-              </th>
-              <th style="width:2.6%;">26
-              </th>
-              <th style="width:2.6%;">27
-              </th>
-              <th style="width:2.6%;">28
-              </th>
-              <th style="width:2.6%;">29
-              </th>
-              <th style="width:2.6%;">30
-              </th>
-              <th style="width:2.6%;">31
-              </th>
-            </tr>
-            <tr>
-              <th>0
-              </th>
-              <th>0
-              </th>
-              <td colspan="4"><a href="#Version">Version</a>
-              </td>
-              <td colspan="4"><a href="#IHL">IHL</a>
-              </td>
-              <td colspan="6"><a href="#DSCP">DSCP</a>
-              </td>
-              <td colspan="2"><a href="#ECN">ECN</a>
-              </td>
-              <td colspan="16"><a href="#Total_Length">Total Length</a>
-              </td>
-            </tr>
-            <tr>
-              <th>4
-              </th>
-              <th>32
-              </th>
-              <td colspan="16"><a href="#Identification">Identification</a>
-              </td>
-              <td colspan="3"><a href="#Flags">Flags</a>
-              </td>
-              <td colspan="13"><a href="#Fragment_Offset">Fragment Offset</a>
-              </td>
-            </tr>
-            <tr>
-              <th>8
-              </th>
-              <th>64
-              </th>
-              <td colspan="8"><a href="#TTL">Time To Live</a>
-              </td>
-              <td colspan="8"><a href="#Protocol">Protocol</a>
-              </td>
-              <td colspan="16"><a href="#Header_Checksum">Header Checksum</a>
-              </td>
-            </tr>
-            <tr>
-              <th>12
-              </th>
-              <th>96
-              </th>
-              <td colspan="32"><a href="#Source_address">Source IP Address</a>
-              </td>
-            </tr>
-            <tr>
-              <th>16
-              </th>
-              <th>128
-              </th>
-              <td colspan="32"><a href="#Destination_address">Destination IP Address</a>
-              </td>
-            </tr>
-            <tr>
-              <th>20
-              </th>
-              <th>160
-              </th>
-              <td colspan="32" rowspan="4"><a href="#Options">Options</a> (if IHL &gt; 5)
-              </td>
-            </tr>
-            <tr>
-              <th>24
-              </th>
-              <th>192
-              </th>
-            </tr>
-            <tr>
-              <th>28
-              </th>
-              <th>224
-              </th>
-            </tr>
-            <tr>
-              <th>32
-              </th>
-              <th>256
-              </th>
-            </tr>
-          </tbody>
-        </table>
-        <cite style="font-size: 50%">Wikipedia contributors, "IPv4," <i>Wikipedia, The Free Encyclopedia,</i> <a class="external free" href="https://en.wikipedia.org/w/index.php?title=IPv4&amp;oldid=877557146">https://en.wikipedia.org/w/index.php?title=IPv4&amp;oldid=877557146</a> (accessed January 11, 2019).</cite>
-      </section>
-      <section>
-        <h3>IPV6</h3>
-        <ul>
-          <li>Like IPV4 but...</li>
-          <li>More address space (32->128 bit!)</li>
-          <li>TCP can fit over top of it</li>
-          <li>But the addresses look totally different...
-            <ul>
-              <li>2001:0db8:0000:0000:0000:0000:0000:0001</li>
-              <li>2001:db8:0:0:0:0:0:1</li>
-              <li>2001:db8::1</li>
-              <li>So much for host:port...</li>
-              <li>https://[2001:db8::1]:443/</li>
-            </ul>
-          </li>
-        </ul>
-      </section>
-      <section>
-        <h3>IPV6 Header</h3>
-        <table class="wikitable">
-          <caption>Fixed header format
-          </caption>
-          <tbody>
-            <tr>
-              <th style="border-bottom:none; border-right:none;"><i>Offsets</i>
-              </th>
-              <th style="border-left:none;"><a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
-              </th>
-              <th colspan="8">0
-              </th>
-              <th colspan="8">1
-              </th>
-              <th colspan="8">2
-              </th>
-              <th colspan="8">3
-              </th>
-            </tr>
-            <tr>
-              <th style="border-top: none"><a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
-              </th>
-              <th><a href="/wiki/Bit" title="Bit">Bit</a>
-              </th>
-              <th style="width:2.6%;">0
-              </th>
-              <th style="width:2.6%;">1
-              </th>
-              <th style="width:2.6%;">2
-              </th>
-              <th style="width:2.6%;">3
-              </th>
-              <th style="width:2.6%;">4
-              </th>
-              <th style="width:2.6%;">5
-              </th>
-              <th style="width:2.6%;">6
-              </th>
-              <th style="width:2.6%;">7
-              </th>
-              <th style="width:2.6%;">8
-              </th>
-              <th style="width:2.6%;">9
-              </th>
-              <th style="width:2.6%;">10
-              </th>
-              <th style="width:2.6%;">11
-              </th>
-              <th style="width:2.6%;">12
-              </th>
-              <th style="width:2.6%;">13
-              </th>
-              <th style="width:2.6%;">14
-              </th>
-              <th style="width:2.6%;">15
-              </th>
-              <th style="width:2.6%;">16
-              </th>
-              <th style="width:2.6%;">17
-              </th>
-              <th style="width:2.6%;">18
-              </th>
-              <th style="width:2.6%;">19
-              </th>
-              <th style="width:2.6%;">20
-              </th>
-              <th style="width:2.6%;">21
-              </th>
-              <th style="width:2.6%;">22
-              </th>
-              <th style="width:2.6%;">23
-              </th>
-              <th style="width:2.6%;">24
-              </th>
-              <th style="width:2.6%;">25
-              </th>
-              <th style="width:2.6%;">26
-              </th>
-              <th style="width:2.6%;">27
-              </th>
-              <th style="width:2.6%;">28
-              </th>
-              <th style="width:2.6%;">29
-              </th>
-              <th style="width:2.6%;">30
-              </th>
-              <th style="width:2.6%;">31
-              </th>
-            </tr>
-            <tr>
-              <th>0
-              </th>
-              <th>0
-              </th>
-              <td colspan="4"><i>Version</i>
-              </td>
-              <td colspan="8"><i>Traffic Class</i>
-              </td>
-              <td colspan="20"><i>Flow Label</i>
-              </td>
-            </tr>
-            <tr>
-              <th>4
-              </th>
-              <th>32
-              </th>
-              <td colspan="16"><i>Payload Length</i>
-              </td>
-              <td colspan="8"><i>Next Header</i>
-              </td>
-              <td colspan="8"><i>Hop Limit</i>
-              </td>
-            </tr>
-            <tr>
-              <th>8
-              </th>
-              <th>64
-              </th>
-              <td colspan="32" rowspan="4"><i>Source Address</i>
-              </td>
-            </tr>
-            <tr>
-              <th>12
-              </th>
-              <th>96
-              </th>
-            </tr>
-            <tr>
-              <th>16
-              </th>
-              <th>128
-              </th>
-            </tr>
-            <tr>
-              <th>20
-              </th>
-              <th>160
-              </th>
-            </tr>
-            <tr>
-              <th>24
-              </th>
-              <th>192
-              </th>
-              <td colspan="32" rowspan="4"><i>Destination Address</i>
-              </td>
-            </tr>
-            <tr>
-              <th>28
-              </th>
-              <th>224
-              </th>
-            </tr>
-            <tr>
-              <th>32
-              </th>
-              <th>256
-              </th>
-            </tr>
-            <tr>
-              <th>36
-              </th>
-              <th>288
-              </th>
-            </tr>
-          </tbody>
-        </table>
-        <cite style="font-size: 50%">Wikipedia contributors, "IPv6 packet," <i>Wikipedia, The Free Encyclopedia,</i> <a class="external free" href="https://en.wikipedia.org/w/index.php?title=IPv6_packet&amp;oldid=876779509">https://en.wikipedia.org/w/index.php?title=IPv6_packet&amp;oldid=876779509</a> (accessed January 11, 2019).
-        </cite>
-      </section>
-      <section>
-        <h3>UDP</h3>
-        <ul>
-          <li>User means that user-space applications can use it</li>
-          <li>Provides checksums—some integrity</li>
-          <li>Provides port numbers</li>
-          <li>Stateless</li>
-          <li>Lossy, not ordered
-            <ul>
-              <li>Sent: 0 1 2 3 4 5 6 7 8 9</li>
-              <li>Received: 0 1 2 4 3 5 6 9</li>
-            </ul>
-          </li>
-          <li>No connections</li>
-          <li>No guarantees</li>
-        </ul>
-      </section>
-      <section>
-        <h3>UDP</h3>
-        <ul>
-          <li>This header sits on top of IP</li>
-        </ul>
-        <table class="wikitable" style="margin: 0 auto; text-align: center;">
-          <caption>UDP Header
-          </caption>
-          <tbody>
-            <tr>
-              <th style="border-bottom:none; border-right:none;"><i>Offsets</i>
-              </th>
-              <th style="border-left:none;"><a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
-              </th>
-              <th colspan="8">0
-              </th>
-              <th colspan="8">1
-              </th>
-              <th colspan="8">2
-              </th>
-              <th colspan="8">3
-              </th>
-            </tr>
-            <tr>
-              <th style="border-top: none"><a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
-              </th>
-              <th>
-                <style data-mw-deduplicate="TemplateStyles:r861301850">
-                  .mw-parser-output .monospaced {
-                    font-family: monospace, monospace
-                  }
-
-                </style><span class="monospaced"><a href="/wiki/Bit" title="Bit">Bit</a></span>
-              </th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">&nbsp;0</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">&nbsp;1</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">&nbsp;2</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">&nbsp;3</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">&nbsp;4</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">&nbsp;5</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">&nbsp;6</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">&nbsp;7</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">&nbsp;8</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">&nbsp;9</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">10</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">11</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">12</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">13</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">14</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">15</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">16</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">17</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">18</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">19</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">20</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">21</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">22</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">23</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">24</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">25</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">26</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">27</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">28</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">29</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">30</span></th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">31</span>
-              </th>
-            </tr>
-            <tr>
-              <th>0
-              </th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">&nbsp;0</span>
-              </th>
-              <td colspan="16" style="background:#500;">Source port</td>
-              <td colspan="16">Destination port
-              </td>
-            </tr>
-            <tr>
-              <th>4
-              </th>
-              <th>
-                <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850"><span class="monospaced">32</span>
-              </th>
-              <td colspan="16">Length</td>
-              <td colspan="16" style="background:#500;">Checksum
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <ul>
-          <li>The data comes after it. It'll be the IP data size minus the UDP header size.</li>
-          <li>Checksum is unfortunately optional but includes data, UDP header and IP header</li>
-        </ul>
-        <cite style="font-size: 50%">
-          Wikipedia contributors, "User Datagram Protocol," <i>Wikipedia, The Free Encyclopedia,</i> <a class="external free" href="https://en.wikipedia.org/w/index.php?title=User_Datagram_Protocol&amp;oldid=877748831">https://en.wikipedia.org/w/index.php?title=User_Datagram_Protocol&amp;oldid=877748831</a> (accessed January 11, 2019).
-        </cite>
-      </section>
-      <section>
-        <h3>DNS</h3>
-        <ul>
-          <li>Domain Name Service</li>
-          <li>Allows us to bind a name to another name, IP, or set of IPs.</li>
-          <li><var>A</var> records point to an IP</li>
-          <li><var>CNAME</var> records point to another name</li>
-          <li>Works on IPV6 and IPV4</li>
-          <li>Use <var>host</var>, <var>dig</var> or <var>nslookup</var> to check names</li>
-        </ul>
-      </section>
-      <section>
-        <h3>Example Name Record</h3>
-        <pre class="r-stretch"><code data-trim>
+      </li>
+      <li>No connections</li>
+      <li>No guarantees</li>
+    </ul>
+  </section>
+  <section>
+    <h3>UDP</h3>
+    <ul>
+      <li>This header sits on top of IP</li>
+    </ul>
+    <table class="wikitable" style="margin: 0 auto; text-align: center;">
+      <caption>UDP Header
+      </caption>
+      <tbody>
+        <tr>
+          <th style="border-bottom:none; border-right:none;">
+            <i>Offsets</i>
+          </th>
+          <th style="border-left:none;">
+            <a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
+          </th>
+          <th colspan="8">0
+          </th>
+          <th colspan="8">1
+          </th>
+          <th colspan="8">2
+          </th>
+          <th colspan="8">3
+          </th>
+        </tr>
+        <tr>
+          <th style="border-top: none">
+            <a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
+          </th>
+          <th>
+            <style data-mw-deduplicate="TemplateStyles:r861301850">
+              .mw-parser-output .monospaced {
+                font-family: monospace, monospace;
+              }
+            </style>
+            <span class="monospaced">
+              <a href="/wiki/Bit" title="Bit">Bit</a>
+            </span>
+          </th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">&nbsp;0</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">&nbsp;1</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">&nbsp;2</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">&nbsp;3</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">&nbsp;4</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">&nbsp;5</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">&nbsp;6</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">&nbsp;7</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">&nbsp;8</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">&nbsp;9</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">10</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">11</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">12</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">13</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">14</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">15</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">16</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">17</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">18</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">19</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">20</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">21</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">22</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">23</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">24</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">25</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">26</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">27</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">28</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">29</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">30</span></th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">31</span>
+          </th>
+        </tr>
+        <tr>
+          <th>0
+          </th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">&nbsp;0</span>
+          </th>
+          <td colspan="16">Source port</td>
+          <td colspan="16">Destination port</td>
+        </tr>
+        <tr>
+          <th>4
+          </th>
+          <th>
+            <link rel="mw-deduplicated-inline-style" href="mw-data:TemplateStyles:r861301850">
+            <span class="monospaced">32</span>
+          </th>
+          <td colspan="16">Length</td>
+          <td colspan="16">Checksum</td>
+        </tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>The data comes after it. It'll be the IP data size minus the UDP header size.</li>
+      <li>Checksum is unfortunately optional but includes data, UDP header and IP header</li>
+    </ul>
+    <cite style="font-size: 50%">
+      Wikipedia contributors, "User Datagram Protocol,"
+      <i>Wikipedia, The Free Encyclopedia,</i>
+      <a class="external free" href="https://en.wikipedia.org/w/index.php?title=User_Datagram_Protocol&amp;oldid=877748831">https://en.wikipedia.org/w/index.php?title=User_Datagram_Protocol&amp;oldid=877748831</a>
+      (accessed January 11, 2019).
+    </cite>
+  </section>
+  <section>
+    <h3>DNS</h3>
+    <ul>
+      <li>Domain Name Service</li>
+      <li>Allows us to bind a name to another name, IP, or set of IPs.</li>
+      <li>
+        <var>A</var>
+        records point to an IP</li>
+      <li>
+        <var>CNAME</var>
+        records point to another name</li>
+      <li>Works on IPV6 and IPV4</li>
+      <li>Use
+        <var>host</var>,
+        <var>dig</var>
+        or
+        <var>nslookup</var>
+        to check names</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Example Name Record</h3>
+    <pre class="r-stretch"><code data-trim>
 $ host -a ualberta.ca 8.8.8.8
-Trying "ualberta.ca"
-Using domain server:
-Name: 8.8.8.8
-Address: 8.8.8.8#53
-Aliases: 
+trying "ualberta.ca"
+using domain server:
+name: 8.8.8.8
+address: 8.8.8.8#53
+aliases: 
 
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 52691
-;; flags: qr rd ra; QUERY: 1, ANSWER: 9, AUTHORITY: 0, ADDITIONAL: 0
+;; ->>header<<- opcode: query, status: noerror, id: 52691
+;; flags: qr rd ra; query: 1, answer: 9, authority: 0, additional: 0
 
-;; QUESTION SECTION:
-;ualberta.ca.                   IN      ANY
+;; question section:
+;ualberta.ca.                   in      any
 
-;; ANSWER SECTION:
-ualberta.ca.            1799    IN      MX      5 mx.ualberta.ca.
-ualberta.ca.            3599    IN      TXT     "v=spf1 include:_spf.ualberta.ca include:_spf.google.com ?all"
-ualberta.ca.            1799    IN      A       52.202.119.65
-ualberta.ca.            1799    IN      SOA     uans1prd.ualberta.ca. dnsmaster.ualberta.ca. 17171 10800 1800 604800 1800
-ualberta.ca.            3599    IN      NS      ns2.d-zone.ca.
-ualberta.ca.            3599    IN      NS      name.ualberta.ca.
-ualberta.ca.            3599    IN      NS      ns1.d-zone.ca.
-ualberta.ca.            3599    IN      NS      nom.ualberta.ca.
-ualberta.ca.            3599    IN      NS      uans1prd.ualberta.ca.
+;; answer section:
+ualberta.ca.            1799    in      mx      5 mx.ualberta.ca.
+ualberta.ca.            3599    in      txt     "v=spf1 include:_spf.ualberta.ca include:_spf.google.com ?all"
+ualberta.ca.            1799    in      a       52.202.119.65
+ualberta.ca.            1799    in      soa     uans1prd.ualberta.ca. dnsmaster.ualberta.ca. 17171 10800 1800 604800 1800
+ualberta.ca.            3599    in      ns      ns2.d-zone.ca.
+ualberta.ca.            3599    in      ns      name.ualberta.ca.
+ualberta.ca.            3599    in      ns      ns1.d-zone.ca.
+ualberta.ca.            3599    in      ns      nom.ualberta.ca.
+ualberta.ca.            3599    in      ns      uans1prd.ualberta.ca.
 
-Received 286 bytes from 8.8.8.8#53 in 67 ms
-        </pre></code>
-      </section>
-      <section>
-        <h3>Example CNAME Record</h3>
-        <pre class="r-stretch"><code data-trim>
+received 286 bytes from 8.8.8.8#53 in 67 ms
+        </pre>
+  </code>
+</section>
+<section>
+  <h3>Example CNAME Record</h3>
+  <pre class="r-stretch"><code data-trim>
 $ host -a beams.softwareprocess.es 8.8.8.8
-Trying "beams.softwareprocess.es"
-Using domain server:
-Name: 8.8.8.8
-Address: 8.8.8.8#53
-Aliases: 
+trying "beams.softwareprocess.es"
+using domain server:
+name: 8.8.8.8
+address: 8.8.8.8#53
+aliases: 
 
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 60632
-;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+;; ->>header<<- opcode: query, status: noerror, id: 60632
+;; flags: qr rd ra; query: 1, answer: 1, authority: 0, additional: 0
 
-;; QUESTION SECTION:
-;beams.softwareprocess.es.      IN      ANY
+;; question section:
+;beams.softwareprocess.es.      in      any
 
-;; ANSWER SECTION:
-beams.softwareprocess.es. 14399 IN      CNAME   ghs.google.com.
+;; answer section:
+beams.softwareprocess.es. 14399 in      cname   ghs.google.com.
 
-Received 70 bytes from 8.8.8.8#53 in 152 ms
+received 70 bytes from 8.8.8.8#53 in 152 ms
         </code></pre>
-      </section>
-      <section>
-        <h3>TCP</h3>
-        <ul>
-          <li>Transmission Control Protocol</li>
-          <li>Connections</li>
-          <li>3-packet handshake</li>
-          <li>Acknowledge recieving of handshake</li>
-          <li>Maintains order
-            <ul>
-              <li>Sent: 0 1 2 3 4 5 6 7 8 9</li>
-              <li>Received: 0 1 2 3 4 5 6 7 8 9</li>
-            </ul>
-          </li>
-          <li>Used by most internet applications</li>
-          <li>Used by HTTP <small>FTP, SMTP, IMAP, POP3, GOPHER, Telnet</small></li>
-        </ul>
-      </section>
-      <section>
-        <h3>TCP Header</h3>
-        <table class="wikitable" style="margin: 0 auto; text-align:center">
-          <caption>TCP Header
-          </caption>
-          <tbody>
-            <tr>
-              <th style="border-bottom:none; border-right:none;"><i>Offsets</i>
-              </th>
-              <th style="border-left:none;"><a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
-              </th>
-              <th colspan="8">0
-              </th>
-              <th colspan="8">1
-              </th>
-              <th colspan="8">2
-              </th>
-              <th colspan="8">3
-              </th>
-            </tr>
-            <tr>
-              <th style="border-top: none">Octet
-              </th>
-              <th><tt><a href="/wiki/Bit" title="Bit">Bit</a></tt></th>
-              <th><tt>&nbsp;0</tt></th>
-              <th><tt>&nbsp;1</tt></th>
-              <th><tt>&nbsp;2</tt></th>
-              <th><tt>&nbsp;3</tt></th>
-              <th><tt>&nbsp;4</tt></th>
-              <th><tt>&nbsp;5</tt></th>
-              <th><tt>&nbsp;6</tt></th>
-              <th><tt>&nbsp;7</tt></th>
-              <th><tt>&nbsp;8</tt></th>
-              <th><tt>&nbsp;9</tt></th>
-              <th><tt>10</tt></th>
-              <th><tt>11</tt></th>
-              <th><tt>12</tt></th>
-              <th><tt>13</tt></th>
-              <th><tt>14</tt></th>
-              <th><tt>15</tt></th>
-              <th><tt>16</tt></th>
-              <th><tt>17</tt></th>
-              <th><tt>18</tt></th>
-              <th><tt>19</tt></th>
-              <th><tt>20</tt></th>
-              <th><tt>21</tt></th>
-              <th><tt>22</tt></th>
-              <th><tt>23</tt></th>
-              <th><tt>24</tt></th>
-              <th><tt>25</tt></th>
-              <th><tt>26</tt></th>
-              <th><tt>27</tt></th>
-              <th><tt>28</tt></th>
-              <th><tt>29</tt></th>
-              <th><tt>30</tt></th>
-              <th><tt>31</tt>
-              </th>
-            </tr>
-            <tr>
-              <th>0
-              </th>
-              <th><tt> 0</tt>
-              </th>
-              <td colspan="16">Source port</td>
-              <td colspan="16">Destination port
-              </td>
-            </tr>
-            <tr>
-              <th>4
-              </th>
-              <th><tt>32</tt>
-              </th>
-              <td colspan="32">Sequence number
-              </td>
-            </tr>
-            <tr>
-              <th>8
-              </th>
-              <th><tt>64</tt>
-              </th>
-              <td colspan="32">Acknowledgment number (if <tt>ACK</tt> set)
-              </td>
-            </tr>
-            <tr>
-              <th>12
-              </th>
-              <th><tt>96</tt>
-              </th>
-              <td colspan="4">Data offset</td>
-              <td colspan="3">Reserved<br><tt><b>0 0 0</b></tt></td>
-              <td><tt>N<br>S</tt></td>
-              <td><tt>C<br>W<br>R</tt></td>
-              <td><tt>E<br>C<br>E</tt></td>
-              <td><tt>U<br>R<br>G</tt></td>
-              <td><tt>A<br>C<br>K</tt></td>
-              <td><tt>P<br>S<br>H</tt></td>
-              <td><tt>R<br>S<br>T</tt></td>
-              <td><tt>S<br>Y<br>N</tt></td>
-              <td><tt>F<br>I<br>N</tt></td>
-              <td colspan="16">Window Size
-              </td>
-            </tr>
-            <tr>
-              <th>16
-              </th>
-              <th><tt>128</tt>
-              </th>
-              <td colspan="16">Checksum</td>
-              <td colspan="16">Urgent pointer (if <tt>URG</tt> set)
-              </td>
-            </tr>
-            <tr>
-              <th>20<br>...
-              </th>
-              <th><tt>160<br>...</tt>
-              </th>
-              <td colspan="32" style="background:#500;">Options (if <i>data offset</i> &gt; 5. Padded at the end with "0" bytes if necessary.)<br>...
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <cite style="font-size: 50%">Wikipedia contributors, "Transmission Control Protocol," <i>Wikipedia, The Free Encyclopedia,</i> <a class="external free" href="https://en.wikipedia.org/w/index.php?title=Transmission_Control_Protocol&amp;oldid=877273958">https://en.wikipedia.org/w/index.php?title=Transmission_Control_Protocol&amp;oldid=877273958</a> (accessed January 11, 2019).
-        </cite>
-      </section>
-      <section>
-        <h3>TCP Connections</h3>
-        <img class="noborder stretch" src="../images/Tcp_state_diagram_fixed_new.svg" style="background: white;">
-        <cite><a title="Scil100 [CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0) or GFDL (http://www.gnu.org/copyleft/fdl.html)]" href="https://commons.wikimedia.org/wiki/File:Tcp_state_diagram_fixed_new.svg">Sergiodc2, Marty Pauley, Scil100 [CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0) or GFDL (http://www.gnu.org/copyleft/fdl.html)]</a></cite>
-      </section>
-      <section>
-        <h3>Firewalls</h3>
-        <ul>
-          <li>Usually prevent hosts from communicating on certain ports, or hosting services.</li>
-          <li>HTTP and firewalls means that webclients are unlikely to be webservers as well. That communication must be initiated by clients rather than webservices.</li>
-          <li>IETF seems unaware of their existence but at least HTTP gets through.</li>
-        </ul>
-      </section>
-      <section>
-        <h3>Scenario</h3>
-        Get http://slashdot.org
-        <ul>
-          <li>Context
-            <ul>
-              <li>I am at home on a Friday evening. It is 10pm and I haven't been outside all day.</li>
-              <li>I need to read slashdot because I'm bored</li>
-              <li>I have a cable modem internet connection from Shaw.</li>
-              <li>I've connected to the cable modem with CAT5 cables and ethernet.</li>
-            </ul>
-          </li>
-        </ul>
-      </section>
-      <section>
-        <samp>
-          <pre>
+</section>
+<section>
+  <h3>TCP</h3>
+  <ul>
+    <li>Transmission Control Protocol</li>
+    <li>Connections</li>
+    <li>3-packet handshake</li>
+    <li>Acknowledge recieving of handshake</li>
+    <li>Maintains order
+      <ul>
+        <li>Sent: 0 1 2 3 4 5 6 7 8 9</li>
+        <li>Received: 0 1 2 3 4 5 6 7 8 9</li>
+      </ul>
+    </li>
+    <li>Used by most internet applications</li>
+    <li>Used by HTTP
+      <small>FTP, SMTP, IMAP, POP3, GOPHER, Telnet</small>
+    </li>
+  </ul>
+</section>
+<section>
+  <h3>TCP Header</h3>
+  <table class="wikitable" style="margin: 0 auto; text-align:center">
+    <caption>TCP Header
+    </caption>
+    <tbody>
+      <tr>
+        <th style="border-bottom:none; border-right:none;">
+          <i>Offsets</i>
+        </th>
+        <th style="border-left:none;">
+          <a href="/wiki/Octet_(computing)" title="Octet (computing)">Octet</a>
+        </th>
+        <th colspan="8">0
+        </th>
+        <th colspan="8">1
+        </th>
+        <th colspan="8">2
+        </th>
+        <th colspan="8">3
+        </th>
+      </tr>
+      <tr>
+        <th style="border-top: none">Octet
+        </th>
+        <th>
+          <tt>
+            <a href="/wiki/Bit" title="Bit">Bit</a>
+          </tt>
+        </th>
+        <th>
+          <tt>&nbsp;0</tt>
+        </th>
+        <th>
+          <tt>&nbsp;1</tt>
+        </th>
+        <th>
+          <tt>&nbsp;2</tt>
+        </th>
+        <th>
+          <tt>&nbsp;3</tt>
+        </th>
+        <th>
+          <tt>&nbsp;4</tt>
+        </th>
+        <th>
+          <tt>&nbsp;5</tt>
+        </th>
+        <th>
+          <tt>&nbsp;6</tt>
+        </th>
+        <th>
+          <tt>&nbsp;7</tt>
+        </th>
+        <th>
+          <tt>&nbsp;8</tt>
+        </th>
+        <th>
+          <tt>&nbsp;9</tt>
+        </th>
+        <th>
+          <tt>10</tt>
+        </th>
+        <th>
+          <tt>11</tt>
+        </th>
+        <th>
+          <tt>12</tt>
+        </th>
+        <th>
+          <tt>13</tt>
+        </th>
+        <th>
+          <tt>14</tt>
+        </th>
+        <th>
+          <tt>15</tt>
+        </th>
+        <th>
+          <tt>16</tt>
+        </th>
+        <th>
+          <tt>17</tt>
+        </th>
+        <th>
+          <tt>18</tt>
+        </th>
+        <th>
+          <tt>19</tt>
+        </th>
+        <th>
+          <tt>20</tt>
+        </th>
+        <th>
+          <tt>21</tt>
+        </th>
+        <th>
+          <tt>22</tt>
+        </th>
+        <th>
+          <tt>23</tt>
+        </th>
+        <th>
+          <tt>24</tt>
+        </th>
+        <th>
+          <tt>25</tt>
+        </th>
+        <th>
+          <tt>26</tt>
+        </th>
+        <th>
+          <tt>27</tt>
+        </th>
+        <th>
+          <tt>28</tt>
+        </th>
+        <th>
+          <tt>29</tt>
+        </th>
+        <th>
+          <tt>30</tt>
+        </th>
+        <th>
+          <tt>31</tt>
+        </th>
+      </tr>
+      <tr>
+        <th>0
+        </th>
+        <th>
+          <tt>
+            0</tt>
+        </th>
+        <td colspan="16">Source port</td>
+        <td colspan="16">Destination port
+        </td>
+      </tr>
+      <tr>
+        <th>4
+        </th>
+        <th>
+          <tt>32</tt>
+        </th>
+        <td colspan="32">Sequence number
+        </td>
+      </tr>
+      <tr>
+        <th>8
+        </th>
+        <th>
+          <tt>64</tt>
+        </th>
+        <td colspan="32">Acknowledgment number (if
+          <tt>ACK</tt>
+          set)
+        </td>
+      </tr>
+      <tr>
+        <th>12
+        </th>
+        <th>
+          <tt>96</tt>
+        </th>
+        <td colspan="4">Data offset</td>
+        <td colspan="3">Reserved<br>
+          <tt>
+            <b>0 0 0</b>
+          </tt>
+        </td>
+        <td>
+          <tt>N<br>S</tt>
+        </td>
+        <td>
+          <tt>C<br>W<br>R</tt>
+        </td>
+        <td>
+          <tt>E<br>C<br>E</tt>
+        </td>
+        <td>
+          <tt>U<br>R<br>G</tt>
+        </td>
+        <td>
+          <tt>A<br>C<br>K</tt>
+        </td>
+        <td>
+          <tt>P<br>S<br>H</tt>
+        </td>
+        <td>
+          <tt>R<br>S<br>T</tt>
+        </td>
+        <td>
+          <tt>S<br>Y<br>N</tt>
+        </td>
+        <td>
+          <tt>F<br>I<br>N</tt>
+        </td>
+        <td colspan="16">Window Size
+        </td>
+      </tr>
+      <tr>
+        <th>16
+        </th>
+        <th>
+          <tt>128</tt>
+        </th>
+        <td colspan="16">Checksum</td>
+        <td colspan="16">Urgent pointer (if
+          <tt>URG</tt>
+          set)
+        </td>
+      </tr>
+      <tr>
+        <th>20<br>...
+        </th>
+        <th>
+          <tt>160<br>...</tt>
+        </th>
+        <td colspan="32">Options (if
+          <i>data offset</i>
+          &gt; 5. Padded at the end with "0" bytes if necessary.)<br>...
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <cite style="font-size: 50%">Wikipedia contributors, "Transmission Control Protocol,"
+    <i>Wikipedia, The Free Encyclopedia,</i>
+    <a class="external free" href="https://en.wikipedia.org/w/index.php?title=Transmission_Control_Protocol&amp;oldid=877273958">https://en.wikipedia.org/w/index.php?title=Transmission_Control_Protocol&amp;oldid=877273958</a>
+    (accessed January 11, 2019).
+  </cite>
+</section>
+<section>
+  <h3>TCP Connections</h3>
+  <img class="noborder stretch" src="../images/Tcp_state_diagram_fixed_new.svg" style="background: white;">
+  <cite>
+    <a title="Scil100 [CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0) or GFDL (http://www.gnu.org/copyleft/fdl.html)]" href="https://commons.wikimedia.org/wiki/File:Tcp_state_diagram_fixed_new.svg">Sergiodc2, Marty Pauley, Scil100 [CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0) or GFDL (http://www.gnu.org/copyleft/fdl.html)]</a>
+  </cite>
+</section>
+<section>
+  <h3>Firewalls</h3>
+  <ul>
+    <li>Usually prevent hosts from communicating on certain ports, or hosting services.</li>
+    <li>HTTP and firewalls means that webclients are unlikely to be webservers as well. That communication must be initiated by clients rather than webservices.</li>
+    <li>IETF seems unaware of their existence but at least HTTP gets through.</li>
+  </ul>
+</section>
+<section>
+  <h3>Scenario</h3>
+  Get http://slashdot.org
+  <ul>
+    <li>Context
+      <ul>
+        <li>I am at home on a Friday evening. It is 10pm and I haven't been outside all day.</li>
+        <li>I need to read slashdot because I'm bored</li>
+        <li>I have a cable modem internet connection from Shaw.</li>
+        <li>I've connected to the cable modem with CAT5 cables and ethernet.</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+<section>
+  <samp>
+    <pre>
 $ python3
-Python 3.7.2 (default, Jan  3 2019, 02:55:40) 
-[GCC 8.2.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
+python 3.7.2 (default, jan  3 2019, 02:55:40) 
+[gcc 8.2.0] on linux
+type "help", "copyright", "credits" or "license" for more information.
 >>> import requests
 >>> requests.get("http://slashdot.org")
-&lt;Response [200]&gt;
+&lt;response [200]&gt;
 >>> 
         </samp></pre>
-          <ul style="font-size: 70%">
-            <li>Python <var>requests</var> tells the OS to connect to <var>slashdot.org</var> via TCP on TCP port 80.</li>
-            <li>The OS looks up <var>slashdot.org</var> and needs to contact a nameserver</li>
-            <li>OS Sends a UDP packet on port 53 to the nameserver configured (my Shaw router, 192.168.0.1)</li>
-            <li>The UDP packet is over IP</li>
-            <li>The IP packet is over ethernet</li>
-            <li>Cable modem accepts this packet, contacts Shaw's DNS server behalf of my computer, over UDP over IP over the cable modem link.</li>
-          </ul>
-      </section>
-      <section>
-        <ul style="font-size: 70%">
-          <li>Shaw's DNS server receives my query and doesn't know <var>slashdot.org</var> so it asks a more authoritative server.</li>
-          <li>Sends DNS request over UDP over IP over ethernet to the switch in its datacenter, to an edge router, over the internet, to the root DNS server, asking about <var>org</var>.</li>
-          <li>Gets a DNS response indicating the address of the <var>org</var> server.</li>
-          <li>Sends a DNS request to the <var>org</var> server asking for the <var>SOA</var> (Start of Authority) of <var>slashdot.org</var></li>
-          <li>Gets a DNS response indicating the DNS server that knows about <var>slashdot.org</var></li>
-          <li>Sends a DNS request to the authoritative server for <var>slashdot.org</var></li>
-          <li>Gets a response back on the UDP port, response contains an A record listing an IP of <var>slashdot.org</var></li>
-          <li>Shaw's DNS server makes a DNS response packet and sends it back to
-            me over UDP, over IP, over ethernet, over their
-            private network, back to my cable modem,
-            back on to ethernet, IP, and UDP back to my home computer.
-          </li>
-        </ul>
-      </section>
-      <section>
-        <ul style="font-size: 80%">
-          <li>My OS receives the DNS response, records the IP address and then initiates a TCP connection to port 80 of the slashdot.org IP.</li>
-          <li>A TCP SYN packet is sent to the slashdot.org IP at port 80, over IP, over
-            ethernet to the cable modem, through shaw and through the internet to
-            slashdot's datacenter where a copy of the packet appears on some
-            ethernet cable, decoded as an IP, TCP connect SYN packet.
-          </li>
-          <li>Slashdot.org sends a TCP SYN+ACK packet back across IP, across
-            ethernet, over their network and internet back to shaw, over shaw's
-            network, to my cable modem, over ethernet, over IP, back to my
-            computer
-          </li>
-          <li>My computer sends a TCP ACK packet back across all the way to slashdot.org through all the prior layers</li>
-          <li>A connection is established!
-          </li>
-        </ul>
-      </section>
-      <section>
-        <ul style="font-size: 90%">
-          <li>Now that my home computer is connected with
-            slashdot.org over TCP I can send data packets
-            across that TCP connection.
-          </li>
-          <li>Python eventually runs <br><code>send(ourSlashdotConnection, “GET / HTTP/1.0\r\nHost: slashdot.org\r\n\r\n”);</code></li>
-          <li>This causes a TCP data packet on the slashdot
-            connection to be made, shuffled off to IP and ethernet,
-            across to cable modem and back all the way to
-            slashdot.org
-          </li>
-        </ul>
-      </section>
-      <section>
-        <ul style="font-size: 90%">
-          <li>Slashdot's webserver is waiting on the connection and it is
-            reading bytes from the connection. After my packet is
-            delivered to the webserver (over TCP, over IP, over
-            ethernet, over the datacenter network, over the internet, ...)
-            <code>“GET / HTTP/1.0\r\nHost: slashdot.org\r\n\r\n”</code>
-          </li>
-          </li>
-          <li>Slashdot.org's webserver's TCP layers send a TCP ACK packet back
-            to my IP address acknowledging the receipt of the packet that
-            contained the GET request I sent.
-          </li>
-          <li>Slashdot.org's webserver sends an HTTP response which is over
-            40kb in size broken up across 29 packets. All these packets needs
-            to be acknowledged by my home computer.
-          </li>
-        </ul>
-      </section>
-      <section>
-        <div class="columns">
-          <div class="column">
-            <ul style="font-size: 60%">
-              <li>1 UDP DNS Request for slashdot.org</li>
-              <li> 1 UDP DNS Response from my nameserver for slashdot.org of 1.2.3.4</li>
-              <li> 1 TCP SYN for 1.2.3.4 on port 80</li>
-              <li> 1 TCP SYN+ACK from 1.2.3.4 port 80</li>
-              <li> 1 TCP ACK to 1.2.3.4 on port 80</li>
-              <li> 1 TCP data packet with the GET request to 1.2.3.4</li>
-              <li>1 TCP ACK from 1.2.3.4</li>
-              <li>1 TCP data packet from 1.2.3.4</li>
-              <li>1 TCP ACK to 1.2.3.4</li>
-              <li>... 26 data & ACKs later</li>
-              <li>1 TCP data packet from 1.2.3.4</li>
-              <li> 1 TCP ACK to 1.2.3.4</li>
-              <li>1 TCP FIN close from 1.2.3.4</li>
-              <li>1 TCP FIN+ACK to 1.2.3.4</li>
-              <li>1 TCP ACK from 1.2.3.4</li>
-            </ul>
-          </div>
-          <div class="column">
-            <ul style="font-size: 80%">
-              <li>~2 UDP packets (except all the ones I didn't see because they were done on my behalf by Shaw's DNS server)</li>
-              <li>~60 TCP packets</li>
-              <li>~62 Ethernet packets</li>
-              <li>The TCP packets are probably copied at least 10 times across 10 or more links.</li>
-              <li>So my 1 request of 50KiB in size could cost the entire network more than 500KiB in traffic.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-      <section>
-        How did we get routed to slashdot?
-        <samp>
-          <pre>
+    <ul style="font-size: 70%">
+      <li>Python
+        <var>requests</var>
+        tells the OS to connect to
+        <var>slashdot.org</var>
+        via TCP on TCP port 80.</li>
+      <li>The OS looks up
+        <var>slashdot.org</var>
+        and needs to contact a nameserver</li>
+      <li>OS Sends a UDP packet on port 53 to the nameserver configured (my Shaw router, 192.168.0.1)</li>
+      <li>The UDP packet is over IP</li>
+      <li>The IP packet is over ethernet</li>
+      <li>Cable modem accepts this packet, contacts Shaw's DNS server behalf of my computer, over UDP over IP over the cable modem link.</li>
+    </ul>
+  </section>
+  <section>
+    <ul style="font-size: 70%">
+      <li>Shaw's DNS server receives my query and doesn't know
+        <var>slashdot.org</var>
+        so it asks a more authoritative server.</li>
+      <li>Sends DNS request over UDP over IP over ethernet to the switch in its datacenter, to an edge router, over the internet, to the root DNS server, asking about
+        <var>org</var>.</li>
+      <li>Gets a DNS response indicating the address of the
+        <var>org</var>
+        server.</li>
+      <li>Sends a DNS request to the
+        <var>org</var>
+        server asking for the
+        <var>SOA</var>
+        (Start of Authority) of
+        <var>slashdot.org</var>
+      </li>
+      <li>Gets a DNS response indicating the DNS server that knows about
+        <var>slashdot.org</var>
+      </li>
+      <li>Sends a DNS request to the authoritative server for
+        <var>slashdot.org</var>
+      </li>
+      <li>Gets a response back on the UDP port, response contains an A record listing an IP of
+        <var>slashdot.org</var>
+      </li>
+      <li>Shaw's DNS server makes a DNS response packet and sends it back to me over UDP, over IP, over ethernet, over their private network, back to my cable modem, back on to ethernet, IP, and UDP back to my home computer.
+      </li>
+    </ul>
+  </section>
+  <section>
+    <ul style="font-size: 80%">
+      <li>My OS receives the DNS response, records the IP address and then initiates a TCP connection to port 80 of the slashdot.org IP.</li>
+      <li>A TCP SYN packet is sent to the slashdot.org IP at port 80, over IP, over ethernet to the cable modem, through shaw and through the internet to slashdot's datacenter where a copy of the packet appears on some ethernet cable, decoded as an IP, TCP connect SYN packet.
+      </li>
+      <li>Slashdot.org sends a TCP SYN+ACK packet back across IP, across ethernet, over their network and internet back to shaw, over shaw's network, to my cable modem, over ethernet, over IP, back to my computer
+      </li>
+      <li>My computer sends a TCP ACK packet back across all the way to slashdot.org through all the prior layers</li>
+      <li>A connection is established!
+      </li>
+    </ul>
+  </section>
+  <section>
+    <ul style="font-size: 90%">
+      <li>Now that my home computer is connected with slashdot.org over TCP I can send data packets across that TCP connection.
+      </li>
+      <li>Python eventually runs
+        <br>
+        <code>send(ourSlashdotConnection, “GET / HTTP/1.0\r\nHost: slashdot.org\r\n\r\n”);</code>
+      </li>
+      <li>This causes a TCP data packet on the slashdot connection to be made, shuffled off to IP and ethernet, across to cable modem and back all the way to slashdot.org
+      </li>
+    </ul>
+  </section>
+  <section>
+    <ul style="font-size: 90%">
+      <li>Slashdot's webserver is waiting on the connection and it is reading bytes from the connection. After my packet is delivered to the webserver (over TCP, over IP, over ethernet, over the datacenter network, over the internet, ...)
+        <code>“GET / HTTP/1.0\r\nHost: slashdot.org\r\n\r\n”</code>
+      </li>
+    </li>
+    <li>Slashdot.org's webserver's TCP layers send a TCP ACK packet back to my IP address acknowledging the receipt of the packet that contained the GET request I sent.
+    </li>
+    <li>Slashdot.org's webserver sends an HTTP response which is over 40kb in size broken up across 29 packets. All these packets needs to be acknowledged by my home computer.
+    </li>
+  </ul>
+</section>
+<section>
+  <div class="columns">
+    <div class="column">
+      <ul style="font-size: 60%">
+        <li>1 UDP DNS Request for slashdot.org</li>
+        <li>
+          1 UDP DNS Response from my nameserver for slashdot.org of 1.2.3.4</li>
+        <li>
+          1 TCP SYN for 1.2.3.4 on port 80</li>
+        <li>
+          1 TCP SYN+ACK from 1.2.3.4 port 80</li>
+        <li>
+          1 TCP ACK to 1.2.3.4 on port 80</li>
+        <li>
+          1 TCP data packet with the GET request to 1.2.3.4</li>
+        <li>1 TCP ACK from 1.2.3.4</li>
+        <li>1 TCP data packet from 1.2.3.4</li>
+        <li>1 TCP ACK to 1.2.3.4</li>
+        <li>... 26 data & ACKs later</li>
+        <li>1 TCP data packet from 1.2.3.4</li>
+        <li>
+          1 TCP ACK to 1.2.3.4</li>
+        <li>1 TCP FIN close from 1.2.3.4</li>
+        <li>1 TCP FIN+ACK to 1.2.3.4</li>
+        <li>1 TCP ACK from 1.2.3.4</li>
+      </ul>
+    </div>
+    <div class="column">
+      <ul style="font-size: 80%">
+        <li>~2 UDP packets (except all the ones I didn't see because they were done on my behalf by Shaw's DNS server)</li>
+        <li>~60 TCP packets</li>
+        <li>~62 Ethernet packets</li>
+        <li>The TCP packets are probably copied at least 10 times across 10 or more links.</li>
+        <li>So my 1 request of 50KiB in size could cost the entire network more than 500KiB in traffic.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section>
+  How did we get routed to slashdot?
+  <samp>
+    <pre>
 hindle1@piggy:~$ sudo traceroute slashdot.org
 traceroute to slashdot.org (216.34.181.45), 30 hops max, 60 byte packets
 1 192.168.0.1 (192.168.0.1) 0.171 ms
@@ -974,91 +1188,130 @@ traceroute to slashdot.org (216.34.181.45), 30 hops max, 60 byte packets
 3 xxxxxxxxxxxx.ed.shawcable.net (64.59.184.245) 33.812 ms
 4 rc3sc-tge0-0-0-10.wp.shawcable.net (66.163.74.226) 44.058 ms
 5 rc2so-tge0-4-0-1.cg.shawcable.net (66.163.77.98) 77.525 ms
-6 ix-3-3-2-0.tcore1.CT8-Chicago.as6453.net (66.110.14.13) 74.733 ms
+6 ix-3-3-2-0.tcore1.ct8-chicago.as6453.net (66.110.14.13) 74.733 ms
 7 64.86.78.10 (64.86.78.10) 70.375 ms
 8 hr1-te-9-0-0.elkgrovech3.savvis.net (204.70.196.14) 74.230 ms
 9 das5-v3032.ch3.savvis.net (64.37.207.158) 71.660 ms
 10 64.27.160.194 (64.27.160.194) 83.311 ms
 11 slashdot.org (216.34.181.45) 73.920 ms
-        </pre></samp>
-      </section>
-      <section>
-        <h3>Takeaways</h3>
-        <ul>
-          <li>The bandwidth used to send large or small messages.</li>
-          <li>If latency matters which transport should you use?</li>
-          <li>Packets get routed!</li>
-          <li>Ethernet often imposes requirements on communication</li>
-          <li>Can you think of any other takeaways?</li>
-        </ul>
-      </section>
-      <section>
-        <h3>Special IPs and Ports</h3>
-        <ul>
-          <li>127.0.0.1 localhost (packets loop back to your computer)</li>
-          <li>192.168.*.* and 10.*.*.* are common private subnets for local IP communication. E.g. 192.168.0.2 is my computer and 192.168.0.1 is my Shaw cable modem.</li>
-          <li>TCP Port 80 - HTTP</li>
-          <li>TCP Port 443 - HTTPS</li>
-          <li>UDP Port 53 - DNS</li>
-        </ul>
-      </section>
-      <section>
-        <h3>Resources</h3>
-        <ul style="font-size: 70%">
-          <li>
-            Wikipedia
-            <ul>
-              <li><a href="http://en.wikipedia.org/wiki/Transmission_Control_Protocol">http://en.wikipedia.org/wiki/Transmission_Control_Protocol</a></li>
-              <li><a href="http://en.wikipedia.org/wiki/User_Datagram_Protocol">http://en.wikipedia.org/wiki/User_Datagram_Protocol</a></li>
-              <li><a href="http://en.wikipedia.org/wiki/Ethernet">http://en.wikipedia.org/wiki/Ethernet</a></li>
-              <li><a href="http://en.wikipedia.org/wiki/802.11">http://en.wikipedia.org/wiki/802.11</a></li>
-              <li><a href="http://en.wikipedia.org/wiki/Domain_Name_System">http://en.wikipedia.org/wiki/Domain_Name_System</a></li>
-            </ul>
-          </li>
-          <li>
-            Ethernet
-            <ul>
-              <li><a href="http://standards.ieee.org/about/get/802/802.3.html">http://standards.ieee.org/about/get/802/802.3.html</a></li>
-              <li><a href="http://www.osnews.com/story/21132/Metcalfe_on_Ethernet_s_History/">http://www.osnews.com/story/21132/Metcalfe_on_Ethernet_s_History/</a></li>
-              <li><a href="http://timeline.ethernethistory.com/">http://timeline.ethernethistory.com/</a></li>
-              <li><a href="http://theinstitute.ieee.org/technology-focus/technology-history/ethernet-turns-40">http://theinstitute.ieee.org/technology-focus/technology-history/ethernet-turns-40</a></li>
-            </ul>
-          </li>
-        </ul>
-      </section>
-      <section>
-        <h3>Resources</h3>
-        <ul style="font-size: 80%">
-          <li>
-            DNS
-            <ul>
-              <li>
-                Domain Names
-                <ul>
-                  <li><a href="http://tools.ietf.org/html/rfc1035">http://tools.ietf.org/html/rfc1035</a></li>
-                  <li><a href="http://tools.ietf.org/html/rfc1123">http://tools.ietf.org/html/rfc1123</a></li>
-                  <li><a href="http://tools.ietf.org/html/rfc2181">http://tools.ietf.org/html/rfc2181</a></li>
-                </ul>
-              </li>
-              <li>
-                Paul Vixie on DNS
-                <ul>
-                  <li><a href="http://queue.acm.org/detail.cfm?id=1242499">http://queue.acm.org/detail.cfm?id=1242499</a></li>
-                  <li><a href="http://tools.ietf.org/html/rfc1123">http://tools.ietf.org/html/rfc1123</a></li>
-                  <li><a href="http://tools.ietf.org/html/rfc2181">http://tools.ietf.org/html/rfc2181</a></li>
-                </ul>
-              </li>
-              <li>
-                Tools
-                <ul>
-                  <li>On linux: <var>host</var> and <var>whois</var> and <var>pwhois</var></li>
-                  <li><a href="http://network-tools.com/nslook/">http://network-tools.com/nslook/</a></li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </section>
+        </pre>
+  </samp>
+</section>
+<section>
+  <h3>Takeaways</h3>
+  <ul>
+    <li>The bandwidth used to send large or small messages.</li>
+    <li>If latency matters which transport should you use?</li>
+    <li>Packets get routed!</li>
+    <li>Ethernet often imposes requirements on communication</li>
+    <li>Can you think of any other takeaways?</li>
+  </ul>
+</section>
+<section>
+  <h3>Special IPs and Ports</h3>
+  <ul>
+    <li>127.0.0.1 localhost (packets loop back to your computer)</li>
+    <li>192.168.*.* and 10.*.*.* are common private subnets for local IP communication. E.g. 192.168.0.2 is my computer and 192.168.0.1 is my Shaw cable modem.</li>
+    <li>TCP Port 80 - HTTP</li>
+    <li>TCP Port 443 - HTTPS</li>
+    <li>UDP Port 53 - DNS</li>
+  </ul>
+</section>
+<section>
+  <h3>Resources</h3>
+  <ul style="font-size: 70%">
+    <li>
+      Wikipedia
+      <ul>
+        <li>
+          <a href="http://en.wikipedia.org/wiki/Transmission_Control_Protocol">http://en.wikipedia.org/wiki/Transmission_Control_Protocol</a>
+        </li>
+        <li>
+          <a href="http://en.wikipedia.org/wiki/User_Datagram_Protocol">http://en.wikipedia.org/wiki/User_Datagram_Protocol</a>
+        </li>
+        <li>
+          <a href="http://en.wikipedia.org/wiki/Ethernet">http://en.wikipedia.org/wiki/Ethernet</a>
+        </li>
+        <li>
+          <a href="http://en.wikipedia.org/wiki/802.11">http://en.wikipedia.org/wiki/802.11</a>
+        </li>
+        <li>
+          <a href="http://en.wikipedia.org/wiki/Domain_Name_System">http://en.wikipedia.org/wiki/Domain_Name_System</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      Ethernet
+      <ul>
+        <li>
+          <a href="http://standards.ieee.org/about/get/802/802.3.html">http://standards.ieee.org/about/get/802/802.3.html</a>
+        </li>
+        <li>
+          <a href="http://www.osnews.com/story/21132/Metcalfe_on_Ethernet_s_History/">http://www.osnews.com/story/21132/Metcalfe_on_Ethernet_s_History/</a>
+        </li>
+        <li>
+          <a href="http://timeline.ethernethistory.com/">http://timeline.ethernethistory.com/</a>
+        </li>
+        <li>
+          <a href="http://theinstitute.ieee.org/technology-focus/technology-history/ethernet-turns-40">http://theinstitute.ieee.org/technology-focus/technology-history/ethernet-turns-40</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</section>
+<section>
+  <h3>Resources</h3>
+  <ul style="font-size: 80%">
+    <li>
+      DNS
+      <ul>
+        <li>
+          Domain Names
+          <ul>
+            <li>
+              <a href="http://tools.ietf.org/html/rfc1035">http://tools.ietf.org/html/rfc1035</a>
+            </li>
+            <li>
+              <a href="http://tools.ietf.org/html/rfc1123">http://tools.ietf.org/html/rfc1123</a>
+            </li>
+            <li>
+              <a href="http://tools.ietf.org/html/rfc2181">http://tools.ietf.org/html/rfc2181</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          Paul Vixie on DNS
+          <ul>
+            <li>
+              <a href="http://queue.acm.org/detail.cfm?id=1242499">http://queue.acm.org/detail.cfm?id=1242499</a>
+            </li>
+            <li>
+              <a href="http://tools.ietf.org/html/rfc1123">http://tools.ietf.org/html/rfc1123</a>
+            </li>
+            <li>
+              <a href="http://tools.ietf.org/html/rfc2181">http://tools.ietf.org/html/rfc2181</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          Tools
+          <ul>
+            <li>On linux:
+              <var>host</var>
+              and
+              <var>whois</var>
+              and
+              <var>pwhois</var>
+            </li>
+            <li>
+              <a href="http://network-tools.com/nslook/">http://network-tools.com/nslook/</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</section>
 
                           <section style="font-size: 90%">
                 <h4>License</h4>

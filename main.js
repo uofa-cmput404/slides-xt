@@ -136,6 +136,65 @@ module.exports = function (i) {
 
 /***/ }),
 
+/***/ 553:
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Z: () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(738);
+/* harmony import */ var _css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(705);
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(742);
+/* harmony import */ var _css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__);
+// Imports
+
+
+
+var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(250), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(732), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_2___ = new URL(/* asset import */ __webpack_require__(987), __webpack_require__.b);
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+var ___CSS_LOADER_URL_REPLACEMENT_0___ = _css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
+var ___CSS_LOADER_URL_REPLACEMENT_1___ = _css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_1___);
+var ___CSS_LOADER_URL_REPLACEMENT_2___ = _css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_2___);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `/* lexend-deca-vietnamese-wght-normal */
+@font-face {
+  font-family: 'Lexend Deca Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(${___CSS_LOADER_URL_REPLACEMENT_0___}) format('woff2-variations');
+  unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;
+}
+
+/* lexend-deca-latin-ext-wght-normal */
+@font-face {
+  font-family: 'Lexend Deca Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(${___CSS_LOADER_URL_REPLACEMENT_1___}) format('woff2-variations');
+  unicode-range: U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+/* lexend-deca-latin-wght-normal */
+@font-face {
+  font-family: 'Lexend Deca Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(${___CSS_LOADER_URL_REPLACEMENT_2___}) format('woff2-variations');
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ 118:
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
@@ -680,6 +739,19 @@ table.wikitable td, table.wikitable th {
     text-align: center;
     vertical-align: middle;
     padding: 0.2em 0.2em 0.2em 0.2em;
+}
+.columns{
+    display: flex;
+}
+.column{
+    flex: 1;
+}
+body {
+    --r-main-font: 'Lexend Deca Variable', 'Source Sans Pro', 'Helvetica', sans-serif;
+    --r-heading-font: 'Lexend Deca Variable', 'Source Sans Pro', 'Helvetica', sans-serif;
+}
+cite {
+    font-size: 50%;
 }`, ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
@@ -954,6 +1026,27 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABz
 /***/ ((module) => {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABkklEQVRYR8WX4VHDMAxG6wnoJrABZQPYBCaBTWAD2g1gE5gg6OOsXuxIlr40d81dfrSJ9V4c2VLK7spHuTJ/5wpM07QXuXc5X0opX2tEJcadjHuV80li/FgxTIEK/5QBCICBD6xEhSMGHgQPgBgLiYVAB1dpSqKDawxTohFw4JSEA3clzgIBPCURwE2JucBR7rhPJJv5OpJwDX+SfDjgx1wACQeJG1aChP9K/IMmdZ8DtESV1WyP3Bt4MwM6sj4NMxMYiqUWHQu4KYA/SYkIjOsm3BXYWMKFDwU2khjCQ4ELJUJ4SmClRArOCmSXGuKma0fYD5CbzHxFpCSGAhfAVSSUGDUk2BWZaff2g6GE15BsBQ9nwmpIGDiyHQddwNTMKkbZaf9fajXQca1EX44puJZUsnY0ObGmITE3GVLCbEhQUjGVt146j6oasWN+49Vph2w1pZ5EansNZqKBm1txbU57iRRcZ86RWMDdWtBJUHBHwoQPi1GV+JCbntmvok7iTX4/Up9mgyTc/FJYDTcndgH/AA5A/CHsyEkVAAAAAElFTkSuQmCC";
+
+/***/ }),
+
+/***/ 732:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "node_modules/@fontsource-variable/lexend-deca/files/lexend-deca-latin-ext-wght-normal.woff2";
+
+/***/ }),
+
+/***/ 987:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "node_modules/@fontsource-variable/lexend-deca/files/lexend-deca-latin-wght-normal.woff2";
+
+/***/ }),
+
+/***/ 250:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "node_modules/@fontsource-variable/lexend-deca/files/lexend-deca-vietnamese-wght-normal.woff2";
 
 /***/ }),
 
@@ -3779,6 +3872,186 @@ var white_update = injectStylesIntoStyleTag_default()(white/* default */.Z, whit
 
        /* harmony default export */ const theme_white = (white/* default */.Z && white/* default */.Z.locals ? white/* default */.Z.locals : undefined);
 
+;// CONCATENATED MODULE: ./node_modules/fitty/dist/fitty.module.js
+/**
+ * fitty v2.3.7 - Snugly resizes text to fit its parent container
+ * Copyright (c) 2023 Rik Schennink <rik@pqina.nl> (https://pqina.nl/)
+ */
+
+var fitty_module_e = function (e) {
+  if (e) {
+    var t = function (e) {
+        return [].slice.call(e);
+      },
+      n = 0,
+      i = 1,
+      r = 2,
+      o = 3,
+      a = [],
+      l = null,
+      u = "requestAnimationFrame" in e ? function () {
+        e.cancelAnimationFrame(l), l = e.requestAnimationFrame(function () {
+          return s(a.filter(function (e) {
+            return e.dirty && e.active;
+          }));
+        });
+      } : function () {},
+      c = function (e) {
+        return function () {
+          a.forEach(function (t) {
+            return t.dirty = e;
+          }), u();
+        };
+      },
+      s = function (e) {
+        e.filter(function (e) {
+          return !e.styleComputed;
+        }).forEach(function (e) {
+          e.styleComputed = m(e);
+        }), e.filter(y).forEach(v);
+        var t = e.filter(p);
+        t.forEach(d), t.forEach(function (e) {
+          v(e), f(e);
+        }), t.forEach(S);
+      },
+      f = function (e) {
+        return e.dirty = n;
+      },
+      d = function (e) {
+        e.availableWidth = e.element.parentNode.clientWidth, e.currentWidth = e.element.scrollWidth, e.previousFontSize = e.currentFontSize, e.currentFontSize = Math.min(Math.max(e.minSize, e.availableWidth / e.currentWidth * e.previousFontSize), e.maxSize), e.whiteSpace = e.multiLine && e.currentFontSize === e.minSize ? "normal" : "nowrap";
+      },
+      p = function (e) {
+        return e.dirty !== r || e.dirty === r && e.element.parentNode.clientWidth !== e.availableWidth;
+      },
+      m = function (t) {
+        var n = e.getComputedStyle(t.element, null);
+        return t.currentFontSize = parseFloat(n.getPropertyValue("font-size")), t.display = n.getPropertyValue("display"), t.whiteSpace = n.getPropertyValue("white-space"), !0;
+      },
+      y = function (e) {
+        var t = !1;
+        return !e.preStyleTestCompleted && (/inline-/.test(e.display) || (t = !0, e.display = "inline-block"), "nowrap" !== e.whiteSpace && (t = !0, e.whiteSpace = "nowrap"), e.preStyleTestCompleted = !0, t);
+      },
+      v = function (e) {
+        e.element.style.whiteSpace = e.whiteSpace, e.element.style.display = e.display, e.element.style.fontSize = e.currentFontSize + "px";
+      },
+      S = function (e) {
+        e.element.dispatchEvent(new CustomEvent("fit", {
+          detail: {
+            oldValue: e.previousFontSize,
+            newValue: e.currentFontSize,
+            scaleFactor: e.currentFontSize / e.previousFontSize
+          }
+        }));
+      },
+      h = function (e, t) {
+        return function () {
+          e.dirty = t, e.active && u();
+        };
+      },
+      w = function (e) {
+        return function () {
+          a = a.filter(function (t) {
+            return t.element !== e.element;
+          }), e.observeMutations && e.observer.disconnect(), e.element.style.whiteSpace = e.originalStyle.whiteSpace, e.element.style.display = e.originalStyle.display, e.element.style.fontSize = e.originalStyle.fontSize;
+        };
+      },
+      b = function (e) {
+        return function () {
+          e.active || (e.active = !0, u());
+        };
+      },
+      z = function (e) {
+        return function () {
+          return e.active = !1;
+        };
+      },
+      F = function (e) {
+        e.observeMutations && (e.observer = new MutationObserver(h(e, i)), e.observer.observe(e.element, e.observeMutations));
+      },
+      g = {
+        minSize: 16,
+        maxSize: 512,
+        multiLine: !0,
+        observeMutations: "MutationObserver" in e && {
+          subtree: !0,
+          childList: !0,
+          characterData: !0
+        }
+      },
+      W = null,
+      E = function () {
+        e.clearTimeout(W), W = e.setTimeout(c(r), x.observeWindowDelay);
+      },
+      M = ["resize", "orientationchange"];
+    return Object.defineProperty(x, "observeWindow", {
+      set: function (t) {
+        var n = "".concat(t ? "add" : "remove", "EventListener");
+        M.forEach(function (t) {
+          e[n](t, E);
+        });
+      }
+    }), x.observeWindow = !0, x.observeWindowDelay = 100, x.fitAll = c(o), x;
+  }
+  function C(e, t) {
+    var n = Object.assign({}, g, t),
+      i = e.map(function (e) {
+        var t = Object.assign({}, n, {
+          element: e,
+          active: !0
+        });
+        return function (e) {
+          e.originalStyle = {
+            whiteSpace: e.element.style.whiteSpace,
+            display: e.element.style.display,
+            fontSize: e.element.style.fontSize
+          }, F(e), e.newbie = !0, e.dirty = !0, a.push(e);
+        }(t), {
+          element: e,
+          fit: h(t, o),
+          unfreeze: b(t),
+          freeze: z(t),
+          unsubscribe: w(t)
+        };
+      });
+    return u(), i;
+  }
+  function x(e) {
+    var n = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {};
+    return "string" == typeof e ? C(t(document.querySelectorAll(e)), n) : C([e], n)[0];
+  }
+}("undefined" == typeof window ? null : window);
+/* harmony default export */ const fitty_module = ((/* unused pure expression or super */ null && (fitty_module_e)));
+// EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js!./node_modules/@fontsource-variable/lexend-deca/index.css
+var lexend_deca = __webpack_require__(553);
+;// CONCATENATED MODULE: ./node_modules/@fontsource-variable/lexend-deca/index.css
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var lexend_deca_options = {};
+
+lexend_deca_options.styleTagTransform = (styleTagTransform_default());
+lexend_deca_options.setAttributes = (setAttributesWithoutAttributes_default());
+
+      lexend_deca_options.insert = insertBySelector_default().bind(null, "head");
+    
+lexend_deca_options.domAPI = (styleDomAPI_default());
+lexend_deca_options.insertStyleElement = (insertStyleElement_default());
+
+var lexend_deca_update = injectStylesIntoStyleTag_default()(lexend_deca/* default */.Z, lexend_deca_options);
+
+
+
+
+       /* harmony default export */ const _fontsource_variable_lexend_deca = (lexend_deca/* default */.Z && lexend_deca/* default */.Z.locals ? lexend_deca/* default */.Z.locals : undefined);
+
 ;// CONCATENATED MODULE: ./src/.nojekyll
 const _nojekyll_namespaceObject = __webpack_require__.p + ".nojekyll";
 // EXTERNAL MODULE: ./node_modules/css-loader/dist/cjs.js!./src/custom.css
@@ -3819,7 +4092,17 @@ console.log("Hello World!");
 
 
 
-reveal_esm.initialize();
+
+
+reveal_esm.initialize({
+  hash: true,
+  respondToHashChanges: true,
+  history: false
+});
+
+// fitty('.columns');
+// fitty('.column');
+// fitty('section>ul');
 })();
 
 /******/ })()
