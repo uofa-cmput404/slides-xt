@@ -18,3 +18,16 @@ table.wikitable td, table.wikitable th {
     vertical-align: middle;
     padding: 0.2em 0.2em 0.2em 0.2em;
 }
+.columns{
+    display: flex;
+}
+.column{
+    flex: 1;
+}
+body {
+    --r-main-font: 'Lexend Deca Variable', 'Source Sans Pro', 'Helvetica', sans-serif;
+    --r-heading-font: 'Lexend Deca Variable', 'Source Sans Pro', 'Helvetica', sans-serif;
+}
+cite {
+    font-size: 50%;
+}

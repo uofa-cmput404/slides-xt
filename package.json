@@ -9,6 +9,8 @@
   "homepage": "https://uofa-cmput404.github.io/slides-xt",
   "private": false,
   "dependencies": {
+    "@fontsource-variable/lexend-deca": "^5.0.8",
+    "fitty": "^2.3.7",
     "reveal.js": "^4.5.0"
   },
   "devDependencies": {

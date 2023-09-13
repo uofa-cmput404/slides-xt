@@ -1,0 +1,871 @@
+{% extends "base.njk" %}
+
+{% block slides %}
+    <section>
+        <h1>CMPUT 404</h1>
+        <h3>Web Applications and Architecture</h3>
+        <h2>Part 04: HTTP</h2>
+        <p>
+            <small>Created by
+                <br>
+                <a href="http://softwareprocess.es">Abram Hindle</a>
+                (<a href="mailto:abram.hindle@ualberta.ca">abram.hindle@ualberta.ca</a>)
+                <br>
+                and Hazel Campbell (<a href="mailto:hazel.campbell@ualberta.ca">hazel.campbell@ualberta.ca</a>).<br>
+                Copyright 2014-2023.
+            </small>
+        </p>
+    </section>
+    <section>
+        <h3>Context: FTP vs HTTP</h3>
+        <div class="columns" style="font-size: 70%">
+            <div class="column">
+                <ul>
+                    <li>1971</li>
+                    <li>Just files and lists of files (aka directories)</li>
+                    <li>Out of band communication (files xferred via 2nd connection)</li>
+                    <li>Firewalls prevent server connecting back to client (fixed with passive mode)</li>
+                    <li>200 OK</li>
+                    <li>Must log in everytime, but by convention anonymous logins</li>
+                </ul>
+            </div>
+            <div class="column">
+                <ul>
+                    <li>1991</li>
+                    <li>Sends content, not files</li>
+                    <li>Responds to requests: GET/POST/DELETE/PUT/HEAD/etc.</li>
+                    <li>Allows extra information (headers) and arguments (queries) with commands</li>
+                    <li>200 OK</li>
+                    <li>Default: anonymous, no log-in</li>
+                    <li>Dynamic content (generated at the time the request is received)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h3>Context: Gopher vs HTTP</h3>
+        <div class="columns" style="font-size: 80%">
+            <div class="column">
+                <ul>
+                    <li>1991</li>
+                    <li>Sends files, directories</li>
+                    <li>Simple</li>
+                    <li>Hypertext</li>
+                    <li>Limited file types: menus, text, binary, gif, image</li>
+                    <li>Death by licensing and adoption</li>
+                </ul>
+            </div>
+            <div class="column">
+                <ul>
+                    <li>1991</li>
+                    <li>Sends content, not files</li>
+                    <li>Responds to requests: GET/POST/DELETE/PUT/HEAD/etc.</li>
+                    <li>More complex</li>
+                    <li>Any type of content</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h3>HTTP</h3>
+        <ul style="font-size: 90%;">
+            <li>Hypertext &mdash; "over" text</li>
+            <li>Transport &mdash; Move it/communicate it</li>
+            <li>Protocol &mdash; an agreed-upon method of communication</li>
+            <li>Accepted custom headers &mdash; allowing for extension, new features</li>
+            <li>Allowed for a more request/command oriented pattern (remember the command pattern)</li>
+            <li>Relied on the pairing of web clients and web servers</li>
+            <li>Relies on URIs to describe resources, allows more than 1 resource to be hosted on 1 server</li>
+        </ul>
+    </section>
+    <section>
+        <ul>
+            <li>RFC: The standard for HTTP:
+                <a href="http://tools.ietf.org/html/rfc2616">http://tools.ietf.org/html/rfc2616</a>
+            </li>
+            <li>RFC: Request For Comments
+                <ul>
+                    <li>Hypertext Transfer Protocol &mdash; HTTP/1.1</li>
+                    <li>IETF's definion of HTTP/1.1</li>
+                </ul>
+            </li>
+            <li>No matter what I say about HTTP, the RFC is the final word.</li>
+        </ul>
+    </section>
+    <section>
+        <h3>HTTP Basics</h3>
+        <ul>
+            <li>HTTP uses TCP (usually)</li>
+            <li>HTTP uses TCP Port 80 (usually)
+            </li>
+            <li>
+                HTTPS allows for ENCRYPTED HTTP
+            </li>
+            <li>HTTPS uses port TCP 443 (usually)
+            </li>
+            <li>
+                HTTP can work over IPV4 and IPV6
+            </li>
+            <li>HTTP requests are made to addresses called URIs
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h3>HTTP Commands</h3>
+        <p>Every HTTP command is made to a URI.</p>
+        <ul>
+            <li>GET – Retrieve information from that URI
+            </li>
+            <li>POST – Run search, log-in, append data, change data
+            </li>
+            <li>HEAD – GET without a message body (for caching)
+            </li>
+            <li>PUT – Store the entity at the that URI
+            </li>
+            <li>
+                DELETE – Delete the resource at that URI
+            </li>
+            <li class="rare">PATCH – Modify the entity at that URI
+            </li>
+            <li class="rare">OPTIONS – What options a resource can accommodate
+            </li>
+            <li class="rare">TRACE – Debugging / Echo Request
+            </li>
+            <li class="rare">CONNECT – Tunneling proxy over HTTP
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h3>URI or URL?</h3>
+        URI
+        <ul style="font-size: 85%">
+            <li>Universal Resource Identifier
+            </li>
+            <li>Identifies (points to) a resource</li>
+            <li>Most URIs are URLs
+                <ul>
+                    <li>URL: Uniform Resource Locator
+                    </li>
+                    <li>Tells you how to get to a resource</li>
+                    <li>
+                        <var>http://ualberta.ca/</var>
+                    </li>
+                </ul>
+            </li>
+            <li>Some URIs are URNs
+                <ul>
+                    <li>URN: Uniform Resource Name</li>
+                    <li>Tells you the unique name or number given to a resource by some body (e.g. IETF)</li>
+                    <li>
+                        <var>urn:ietf:rfc:3986</var>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h3>URLs</h3>
+        <ul>
+            <li>Two main parts: scheme and everything else</li>
+        </li>
+        <li>Common URL Schemes:
+            <var>http</var>,
+            <var>https</var>,
+            <var>mailto</var>,
+            <var>file</var>,
+            <var>data</var>
+        </li>
+        <li>URL Schemes for older technologies:
+            <var>ftp</var>,
+            <var>gopher</var>,
+            <var>irc</var>
+        </li>
+        <li>URI Schemes for new technologies:
+            <var>spotify:track:35zrlBOjpfDPMcZzglWOuV</var>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>URLs</h3>
+    <ul>
+        <li>scheme</li>
+        <li>:</li>
+        <li>authority
+            <ul>
+                <li>username:password@ (optional)</li>
+                <li>hostname</li>
+                <li>:port (optional)</li>
+            </ul>
+        </li>
+        <li>path</li>
+        <li>?query (optional)</li>
+        <li>#argument (optional)</li>
+    </ul>
+    <p>Username/password not used much anymore...</p>
+</section>
+<section>
+    <p style="font-size: 80%">
+        <var>http://joe:hunter23@[::1]:8000/search.html?q=cat%20pictures&amp;results=20#result-10</var>
+    </p>
+    <div class="columns" style="font-size: 80%;">
+        <div class="column">
+            <ul>
+                <li>scheme
+                    <var>http</var>
+                </li>
+                <li>:</li>
+                <li>authority
+                    <var>joe:hunter23@[::1]:8000</var>
+                    <ul>
+                        <li>Username
+                            <var>joe</var>
+                        </li>
+                        <li>Password
+                            <var>hunter23</var>
+                        </li>
+                        <li>@</li>
+                        <li>Host
+                            <var>[::1]</var>
+                        </li>
+                        <li>:</li>
+                        <li>Port
+                            <var>8000</var>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="column">
+            <ul>
+                <li>path
+                    <var>search.html</var>
+                </li>
+                <li>?</li>
+                <li>?query
+                    <var>?q=cat%20pictures&amp;results=20</var>
+                </il>
+                <li>#</li>
+                <li>fragment
+                    <var>#result-10</var>
+                </li>
+            </ul>
+            <p style="font-size: 50%;">[::1] is IPv6 loopback address, like IPv4's 127.0.0.1</p>
+        </div>
+    </div>
+</section>
+<section>
+    <h3>Absolute and relative URLs</h3>
+    <ul>
+        <li>
+            <a href="http://[::1]:8000/images/web-server.svg">http://[::1]:8000/images/web-server.svg</a>
+            <ul>
+                <li>Absolute authority, absolute path</li>
+            </ul>
+        </li>
+        <li>
+            <a href="http://[::1]:8000/images/../index.html">http://[::1]:8000/images/../index.html</a>
+            <ul>
+                <li>Absolute authority, relative path</li>
+            </ul>
+        </li>
+        <li>
+            <a href="/images/web-server.svg">/images/web-server.svg</a>
+            <ul>
+                <li>Implied authority, absolute path</li>
+            </ul>
+        </li>
+        <li>
+            <a href="images/web-server.svg">images/web-server.svg</a>
+            <ul>
+                <li>Implied authority, relative path</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Example URLs</h3>
+    <ul style="font-size: 80%;">
+        <li>
+            <a href="http://uofa-cmput404.github.io/cmput404-slides/index.html">http://uofa-cmput404.github.io/cmput404-slides/index.html</a>
+            <ul>
+                <li>Result: opens webpage (slides)</li>
+            </ul>
+        </li>
+        <li>
+            <a href="mailto:hazel.campbell@ualberta.ca">mailto:hazel.campbell@ualberta.ca</a>
+            <ul>
+                <li>Result: opens email client (new email to Hazel)</li>
+            </ul>
+        </li>
+        <li>
+            <a href="spotify:track:6i7BrJ729QLUemr0i4rLU2">spotify:track:6i7BrJ729QLUemr0i4rLU2</a>
+            <ul>
+                <li>Result: opens Buddy Rich's version of Weather Report's Jazz hit Birdland in Spotify</li>
+            </ul>
+        </li>
+        <li>
+            <a href="tel:+1-211-867-5309">tel:+1-211-867-5309</a>
+            <ul>
+                <li>Result: calls Jenny</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Queries</h3>
+    <p>URLs can have a query portion. Consider
+        <a href="https://www.google.com/search?q=cat+pictures&ie=utf8">https://www.google.com/search?q=cat+pictures&amp;ie=utf8</a>
+    </p>
+    <ul>
+        <li>Query portions can have one or more arguments</li>
+        <li>Usually:
+            <var>key=value&amp;key2=value2</var>
+        </li>
+        <li>But some other formats exist, such as using other separators
+            <var>;</var>
+            instead of
+            <var>&amp;</var>, or just having a string and no keys/values.</li>
+    </ul>
+</section>
+<section>
+    <h3>Fragments</h3>
+    <p>URLs can have a fragment portion. Consider
+        <a href="https://en.wikipedia.org/wiki/Methanol#Applications">https://en.wikipedia.org/wiki/Methanol#Applications</a>
+    </p>
+    <ul>
+        <li>Jumps to some spot in the content
+            <ul>
+                <li>Jumps to a time in a video:
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ#t=98s">https://www.youtube.com/watch?v=dQw4w9WgXcQ#t=98s</a>
+                </li>
+                <li>Jumps to a part of a page:
+                    <a href="https://en.wikipedia.org/wiki/Methanol#Applications">https://en.wikipedia.org/wiki/Methanol#Applications</a>
+                </li>
+                <li>Jumps to a slide:
+                    <a href="#/0">#/0</a>
+                </li>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h3>Why are URLs important?</h3>
+        <ul style="font-size: 80%;">
+            <li>True names...
+                <ul>
+                    <li>Rumpelstiltskin</li>
+                </ul>
+            </li>
+            <li>The Laws of Magic!
+                <ul>
+                    <li>The Law of Names &mdash; Knowing the complete true name of an entity gives one control over it.
+                        <a href="http://deoxy.org/lawsofmagic.htm">http://deoxy.org/lawsofmagic.htm</a>
+                    </li>
+                </ul>
+            </li>
+            <li>URL
+                <ul>
+                    <li>Knowing the complete true URL lets one request/command it.
+                        <ul>
+                            <li>Like that URL for the weather...<a href="http://dd.weather.gc.ca/citypage_weather/xml/AB/s0000045_e.xml">http://dd.weather.gc.ca/citypage_weather/xml/AB/s0000045_e.xml</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h3>URIs and Encoding</h3>
+        <ul style="font-size: 75%">
+            <li>Universal URIs have to be able to handle anything</li>
+            <li>Even paths with spaces and other characters... (accents, punctuation, symbols, emoji...)</li>
+            <li>For HTTP assume our URLs are Unicode UTF-8 encoded</li>
+            <li>For characters that
+                <em>aren't</em>
+                in
+                <var>-._~0-9a-zA-Z</var>
+                we use % encoding
+                <ul>
+                    <li>RFC 3986</li>
+                    <li>
+                        <var>%20</var>
+                        is space</li>
+                    <li>
+                        <var>%e2%98%83</var>
+                        is ☃ (<var>&amp;#x2603;</var>
+                        in HTML)</li>
+                    <li>
+                        <a href="images/%E2%98%83.svg">
+                            <var>images/%E2%98%83.svg</var>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>For domain names we use "punycode" encoding
+                <ul>
+                    <li>http://☃.net/ which is converted to http://xn--n3h.net/</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h3>HTTP Example</h3>
+        <p>Let's
+            <var>GET http://slashdot.org</var>
+        </p>
+        <ul>
+            <li>Request
+                <a href="http://slashdot.org">http://slashdot.org</a>
+            </li>
+            <li>We see http, so we know it's going to be the HTTP protocol.</li>
+            <li>No port specified so assume port 80.</li>
+            <li>No path specified so assume /</li>
+        </ul>
+    </section>
+    <section>
+        <ul>
+            <li>Open up a connection to port 80 slashdot.org</li>
+            <li>Send...
+        </ul>
+        <pre><code class="http">get / http/1.1\r\n
+host: slashdot.org\r\n
+user-agent: mozilla/5.0 (x11; linux x86_64; rv:64.0) gecko/20100101 firefox/64.0\r\n
+accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n
+accept-language: en-us,en;q=0.5\r\n
+accept-encoding: gzip, deflate\r\n
+connection: keep-alive\r\n
+upgrade-insecure-requests: 1\r\n
+dnt: 1\r\n
+\r\n</code></pre>
+        <ul>
+            <li>
+                <var>/</var>
+                in
+                <var>GET /</var>
+                is the path: we're asking for the root aka the index of the root directory.</li>
+            <li>
+                <var>Host: slashdot.org</var>... wait... I thought we already knew the IP address?</li>
+        </ul>
+    </section>
+    <section>
+        <ul>
+            <li>Receive headers...</li>
+        </ul>
+        <pre><code class="http">http/1.1 301 moved permanently\r\n
+server: nginx/1.13.12\r\n
+date: mon, 14 jan 2019 23:18:22 gmt\r\n
+content-type: text/html\r\n
+content-length: 186\r\n
+connection: keep-alive\r\n
+location: https://slashdot.org/\r\n
+\r\n</code></pre>
+        <ul>
+            <li>
+                <var>301 Moved Permanently</var>
+                &mdash; your princess is in another castle.</li>
+        </ul>
+    </section>
+    <section>
+        <ul>
+            <li>Receive content...</li>
+        </ul>
+        <pre><code class="html">&lt;html>
+&lt;head>&lt;title>301 moved permanently&lt;/title>&lt;/head>
+&lt;body bgcolor="white">
+&lt;center>&lt;h1>301 moved permanently&lt;/h1>&lt;/center>
+&lt;hr>&lt;center>nginx/1.13.12&lt;/center>
+&lt;/body>
+&lt;/html></code></pre>
+        <ul>
+            <li>Webpage should redirect, following the location header, but in case it doesn't we're provided a short HTML page as well to explain the situation.</li>
+        </ul>
+    </section>
+    <section>
+        <ul>
+            <li>So the browser doesn't show you this page, instead it goes to the location specific in the
+                <var>Location</var>
+                header.</li>
+        </ul>
+        <pre><code class="http">location: https://slashdot.org/\r\n</code></pre>
+        <ul>
+            <li>It's sending us to the same slashdot page we asked for, except now, HTTPS!</li>
+            <li>HTTPS: Encrypted... but... everyone still knows we're on slashdot. They might not be able to tell
+                <em>where</em>
+                on slashdot we are though.</li>
+            <li style="font-size: 75%">Time for our web browser to try again...</li>
+        </ul>
+    </section>
+    <section>
+        <ul>
+            <li>Browser connects to slashdot.org on port 443.</li>
+            <li>Browser initiates a TLS connection!</li>
+            <li>For HTTP our layers look like:
+                <ul>
+                    <li>Ethernet</li>
+                    <li>IPv4</li>
+                    <li>TCP</li>
+                    <li>HTTP</li>
+                </li>
+            </ul>
+        </section>
+        <section>
+            <ul>
+                <li>Browser connects to slashdot.org on port 443.</li>
+                <li>Browser initiates a TLS connection!</li>
+                <li>For HTTPS our layers look like:
+                    <ul>
+                        <li>Ethernet</li>
+                        <li>IPv4</li>
+                        <li>TCP</li>
+                        <li style="font-size: 75%">TLS</li>
+                        <li>HTTP</li>
+                    </li>
+                    <li>Squeeze in TLS between TCP and HTTP.</li>
+                </ul>
+            </section>
+            <section>
+                <ul>
+                    <li>Open up a connection to port 443 slashdot.org</li>
+                    <li>Do a TLS handshake and open up TLS connection</li>
+                    <li>Send...
+                </ul>
+                <pre><code class="http">get / http/1.1\r\n
+host: slashdot.org\r\n
+user-agent: mozilla/5.0 (x11; linux x86_64; rv:64.0) gecko/20100101 firefox/64.0\r\n
+accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n
+accept-language: en-us,en;q=0.5\r\n
+accept-encoding: gzip, deflate\r\n
+connection: keep-alive\r\n
+upgrade-insecure-requests: 1\r\n
+dnt: 1\r\n
+\r\n</code></pre>
+            </section>
+            <section>
+                <ul>
+                    <li>Receive headers...</li>
+                </ul>
+                <pre><code class="http">http/1.1 200 ok\r\n
+server: nginx/1.13.12\r\n
+date: mon, 14 jan 2019 23:18:22 gmt\r\n
+content-type: text/html; charset=utf-8\r\n
+transfer-encoding: chunked\r\n
+connection: keep-alive\r\n
+slash_log_data: shtml\r\n
+cache-control: no-cache\r\n
+pragma: no-cache\r\n
+x-xrds-location: https://slashdot.org/slashdot.xrds\r\n
+strict-transport-security: max-age=31536000\r\n
+content-encoding: gzip\r\n
+\r\n</code></pre>
+                <ul>
+                    <li>
+                        <var>200 OK</var>
+                        &mdash; okay, I did what you asked, everything went fine.</li>
+                </ul>
+            </section>
+            <section>
+                <ul>
+                    <li>Receive content...</li>
+                    <li>Just get garbled binary junk... no HTML</li>
+                    <li>
+                        <var>Content-Encoding: gzip</var>
+                    </li>
+                    <li>Web browser has to uncompress it first</li>
+                </ul>
+            </section>
+            <section>
+                <ul>
+                    <li>Decompress content...</li>
+                </ul>
+                <pre><code class="html" style="width: 100%; padding: 0; margin: 0; font-size: 75%;">&lt;!-- html-header type=current begin -->
+	
+	&lt;!doctype html>
+	
+	
+	&lt;html lang="en">
+	&lt;head>
+	&lt;!-- render ie9 -->
+	&lt;meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+    ... another 10 thousand lines of html ...
+</code></pre>
+            </section>
+            <section>
+                <h3>HTTP GET</h3>
+                <p>Remember, we used HTTP GET on slashdot.org</p>
+                <ul style="font-size: 80%">
+                    <li>HTTP GET is a simple request to be sent that resource.
+                        <ul>
+                            <li>It might be dynamic (resource is generated when the request is recieved by software on the server)</li>
+                            <li>It might be static (just a file sitting on the server, unchanging)</li>
+                            <li>It might be a mix of static and dynamic content</li>
+                        </ul>
+                    </li>
+                    <li>We can send query parameters along an HTTP get in the URL</li>
+                    <li>It is considered bad if GET request causes the server to change data&mdash;we should use a different HTTP method for that</li>
+                </ul>
+            </section>
+            <section>
+                <h3>HTTP POST</h3>
+                <ul style="font-size: 85%">
+                    <li>HTTP POST is a request to update, create, or generally interact with a URL.
+                        <ul>
+                            <li>Can do things like ?queries but not limited by length.</li>
+                            <li>Used to submit HTML forms</li>
+                            <li>POST is expected to add or mutate data</li>
+                        </ul>
+                    </li>
+                    <li>We can send query parameters along an HTTP get in the URL</li>
+                    <li>It is considered bad if GET request causes the server to change data&mdash;we should use a different HTTP method for that</li>
+                </ul>
+            </section>
+            <section>
+                <h3>HTTP POST</h3>
+                <ul style="font-size: 85%">
+                    <li>URL-encoded parameters (percent-encoded)
+                        <ul>
+                            <li>POST parameters are usually sent in a POST request body as
+                                <var>application/x-www-form-urlencoded</var>
+                            </li>
+                            <li>They could also be sent following RFC 2388's format:
+                                <var>multipart/form-data</var>.
+                                <ul>
+                                    <li>
+                                        <a href="http://tools.ietf.org/html/rfc2388">http://tools.ietf.org/html/rfc2388</a>
+                                    </li>
+                                    <li>Used when uploading files</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h3>HTTP POST Example</h3>
+                <form method="POST">
+                    name
+                    <input name="name"><br>
+                    occupation
+                    <input name="occupation"><br>
+                    <input type="submit">
+                </form>
+            </section>
+            <section>
+                <h3>HTTP POST Example</h3>
+                Web browser sends:
+                <pre><code>post /04-http.html http/1.1
+host: localhost:8000
+user-agent: mozilla/5.0 (x11; linux x86_64; rv:64.0) gecko/20100101 firefox/64.0
+accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+accept-language: en-us,en;q=0.5
+accept-encoding: gzip, deflate
+referer: http://localhost:8000/04-http.html
+content-type: application/x-www-form-urlencoded
+content-length: 0
+connection: keep-alive
+upgrade-insecure-requests: 1
+dnt: 1
+
+name=hazel&occupation=slide+maker</code></pre>
+            </section>
+            <section>
+                <h3>HTTP POST and Forms</h3>
+                <ul>
+                    <li>Each form element has a
+                        <var>name</var>
+                    </li>
+                    <li>The
+                        <var>name</var>
+                        matches the key.</var>
+                </li>
+                <li>E.g.
+                    <var>&lt;input name="occupation"></var>
+                    becomes
+                    <var>occupation=</var>
+                </li>
+                <li>The content of the input element becomes the value</li>
+            </ul>
+        </section>
+        <section id="multipart">
+            <h3 style="text-transform: none">multipart/form-data</h3>
+            <ul style="font-size: 70%">
+                <li>
+                    <a href="http://tools.ietf.org/html/rfc2388">http://tools.ietf.org/html/rfc2388</a>
+                </li>
+                <li>Use mime to send form data
+                    <ul>
+                        <li>Multipurpose Internet Mail Extensions</li>
+                    </ul>
+                </li>
+                <li>Mostly used to upload files as binary, but it can be used for any form</li>
+                <li>Sends the content-size first and then asks the server if that's okay
+                    <ul>
+                        <li>Server responds
+                            <var>HTTP/1.1 100 Continue</var>
+                            if it can handle that
+                            <em>size</em>
+                            of data</li>
+                        <li>Then the client sends the body</li>
+                    </ul>
+                </li>
+                <li>
+                    Because of this interaction you can argue that this is a slower method (adds a round trip latency) since it requires the server to respond to the initial header before it sends the body.</li>
+                <li>This is so the client doesn't try to send files that are too big for the server to handle, or of a type it can't handle, etc.</li>
+            </ul>
+        </section>
+        <section>
+            <h3 style="text-transform: none">multipart/form-data Example</h3>
+            <pre><code>hindle1@st-francis:~$ curl -f 'what=1' -f 'suzie=q' -x post http://webdocs.cs.ualberta.ca/~hindle1/1.py --trace-ascii /dev/stdout
+post /~hindle1/1.py http/1.1
+user-agent: curl/7.22.0 (x86_64-pc-linux-gnu) libcurl/7.22.0 ope
+nssl/1.0.1 zlib/1.2.3.4 libidn/1.23 librtmp/2.3
+host: webdocs.cs.ualberta.ca
+accept: */*
+content-length: 235
+expect: 100-continue
+content-type: multipart/form-data; boundary=----------------------------9edfbc1fb1b0</code></pre>
+            <ul>
+                <li>The boundary lets the server tell when one part of the form ends and another begins.</li>
+                <li>The random number should be chosen so that it won't show up in the contents.</li>
+            </ul>
+        </section>
+        <section>
+            <h4 style="text-transform: none">multipart/form-data</h4>
+            The server sends back:
+            <pre><code>http/1.1 100 continue</code></pre>
+            Then the client proceeds:
+            <pre><code>------------------------------9edfbc1fb1b0
+content-disposition: form-data; name="what"
+
+1
+------------------------------9edfbc1fb1b0
+content-disposition: form-data; name="suzie"
+
+q
+------------------------------9edfbc1fb1b0--</code></pre>
+        </section>
+        <section>
+            The server finally gives its actual response:
+            <pre><code>&lt;= recv
+http/1.1 200 ok
+date: mon, 13 jan 2014 23:37:30 gmt
+server: apache/2.2.3 (red hat)
+connection: close
+transfer-encoding: chunked
+content-type: text/html; charset=utf-8
+
+&lt;h3>form contents:&lt;/h3>
+&lt;dl>
+&lt;dt>suzie: &lt;i>&amp;lt;type 'instance'&amp;gt;&lt;/i>
+&lt;dd>fieldstorage('suzie', none, 'q')
+&lt;dt>what: &lt;i>&amp;lt;type 'instance'&amp;gt;&lt;/i>
+&lt;dd>fieldstorage('what', none, '1')</pre>
+        </code>
+    </section>
+    <section>
+        <h3>HTTP 2</h3>
+        <ul style="font-size: 75%">
+            <li>2015&mdash;24 years after HTTP</li>
+            <li>Based on proposed SPDY protocol by Google: designed to reduce latency</li>
+            <li>Only supported over TLS (HTTPS)</li>
+            <li>Same methods, status codes, headers and URIs for compatibility</li>
+            <li>Binary protocol: not viewable/debuggable/writable in plain text
+                <ul>
+                    <li>Compress headers for less bandwidth</li>
+                </ul>
+            </li>
+            <li>Pipelining: request request request ... response response response</li>
+            <li>Push: psychic servers look into the future and sends clients content before they even request it 🔮</li>
+            <li>Multiplexing</li>
+        </ul>
+    </section>
+    <section>
+        <h3>Multiplexing and Pipelining</h3>
+        <img style="background: white;" src="../images/multiplexing01.svg">
+        <cite>Ilya Grigorik, Surma,
+            <a href="https://developers.google.com/web/fundamentals/performance/http2/#request_and_response_multiplexing">https://developers.google.com/web/fundamentals/performance/http2/#request_and_response_multiplexing</a>, Retrieved 2019-01-17 under a Creative Commons Attribution 3.0 License</cite>
+    </section>
+    <section>
+        <h3>HTTP 3</h3>
+        <ul>
+            <li>2022 - 7 years after HTTP 2</li>
+            <li>HTTP 2 was still too slow! (For Google)</li>
+            <li>Get webpages loaded faster
+                <ul>
+                    <li>Especially small ones</li>
+                </ul>
+            </li>
+            <li>TCP stopped all multiplexed streams if a packet went missing</li>
+            <li>TCP handshake needed to complete before TLS handshake</li>
+            <li>Runs over QUIC inside of UDP packets
+        </ul>
+    </section>
+    <section>
+        <h3>Quick UDP Internet Connections</h3>
+        <ul>
+            <li>QUIC provides the same guarantees that TCP provides
+                <ul>
+                    <li>Nickname: "TCP 2"</li>
+                </ul>
+            </li>
+            <li>TCP was specified in 1974!</li>
+            <li>However, QUIC has lower latency</li>
+            <li>Especially in the case of dropped packets</li>
+            <li>Provides multiple "streams", TCP only provides one</li>
+            <li>Integrates with TLS 1.3</li>
+        </ul>
+    </section>
+    <section>
+        <ul>
+            <li>Avoid using multiple TCP connections to a single server
+                <ul>
+                    <li>Reduce high-latency TCP handshakes</li>
+                    <li>Reduce high-CPU TLS handshakes</li>
+                </ul>
+            </li>
+            <li>Requests and responses in both directions happening all at the same time, data is interleaved</li>
+            <li>Requests/responses can be prioritized</li>
+        </ul>
+    </section>
+    <section>
+        <h3>Resources: RFCs</h3>
+        <ul>
+            <li>URIs:
+                <a href="https://tools.ietf.org/html/rfc3986">https://tools.ietf.org/html/rfc3986</a>
+            </li>
+            <li>HTTP:
+                <a href="https://tools.ietf.org/html/rfc2616">https://tools.ietf.org/html/rfc2616</a>
+            </li>
+            <li>HTTP 2:
+                <a href="https://datatracker.ietf.org/doc/html/rfc7540">https://datatracker.ietf.org/doc/html/rfc7540</a>
+            </li>
+            <li>HTTP 3:
+                <a href="https://datatracker.ietf.org/doc/html/rfc9114">https://datatracker.ietf.org/doc/html/rfc9114</a>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h3>Resources</h3>
+        <ul>
+            <li>Domain Names
+                <ul>
+                    <li>
+                        <a href="http://tools.ietf.org/html/rfc1035">http://tools.ietf.org/html/rfc1035</a>
+                    </li>
+                    <li>
+                        <a href="http://tools.ietf.org/html/rfc1123">http://tools.ietf.org/html/rfc1123</a>
+                    </li>
+                    <li>
+                        <a href="http://tools.ietf.org/html/rfc2181">http://tools.ietf.org/html/rfc2181</a>
+                    </li>
+                    <li>Paul Vixie on DNS:
+                        <a href="http://queue.acm.org/detail.cfm?id=1242499">http://queue.acm.org/detail.cfm?id=1242499</a>
+                    </li>
+                    <li>International domain names:
+                        <a href="http://www.unicode.org/faq/idn.html" ">http://www.unicode.org/faq/idn.html
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+{% endblock %}
