@@ -749,7 +749,7 @@ table.wikitable td, table.wikitable th {
 body {
     --r-main-font: 'Lexend Deca Variable', 'Source Sans Pro', 'Helvetica', sans-serif;
     --r-heading-font: 'Lexend Deca Variable', 'Source Sans Pro', 'Helvetica', sans-serif;
-    --r-background-color: #ffc;
+    --r-background-color: #ffd;
 }
 cite {
     font-size: 50%;
@@ -1033,105 +1033,105 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABz
 /***/ 732:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/@fontsource-variable/lexend-deca/files//lexend-deca-latin-ext-wght-normal.3c52b0d9539d16f55727..woff2";
+module.exports = __webpack_require__.p + "node_modules/@fontsource-variable/lexend-deca/files//lexend-deca-latin-ext-wght-normal.3c52b0d9539d16f55727.woff2";
 
 /***/ }),
 
 /***/ 987:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/@fontsource-variable/lexend-deca/files//lexend-deca-latin-wght-normal.89aab19b14ed836c4ff1..woff2";
+module.exports = __webpack_require__.p + "node_modules/@fontsource-variable/lexend-deca/files//lexend-deca-latin-wght-normal.89aab19b14ed836c4ff1.woff2";
 
 /***/ }),
 
 /***/ 250:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/@fontsource-variable/lexend-deca/files//lexend-deca-vietnamese-wght-normal.dab39dd47d8c51e5288a..woff2";
+module.exports = __webpack_require__.p + "node_modules/@fontsource-variable/lexend-deca/files//lexend-deca-vietnamese-wght-normal.dab39dd47d8c51e5288a.woff2";
 
 /***/ }),
 
 /***/ 300:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-italic.97e79d3e28a440c77195..eot";
+module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-italic.97e79d3e28a440c77195.eot";
 
 /***/ }),
 
 /***/ 37:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-italic.10a5cb40054505a4b3a9..ttf";
+module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-italic.10a5cb40054505a4b3a9.ttf";
 
 /***/ }),
 
 /***/ 874:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-italic.983d97ca59e8e24e94c6..woff";
+module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-italic.983d97ca59e8e24e94c6.woff";
 
 /***/ }),
 
 /***/ 654:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-regular.36443d248c8a75fde2a6..eot";
+module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-regular.36443d248c8a75fde2a6.eot";
 
 /***/ }),
 
 /***/ 422:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-regular.45c54810910de71280ab..ttf";
+module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-regular.45c54810910de71280ab.ttf";
 
 /***/ }),
 
 /***/ 155:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-regular.d16535500d9438afb409..woff";
+module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-regular.d16535500d9438afb409.woff";
 
 /***/ }),
 
 /***/ 463:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-semibold.83db537e62224a779338..eot";
+module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-semibold.83db537e62224a779338.eot";
 
 /***/ }),
 
 /***/ 794:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-semibold.6ebea875df77b49da05b..ttf";
+module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-semibold.6ebea875df77b49da05b.ttf";
 
 /***/ }),
 
 /***/ 836:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-semibold.f11ba60ae1c65b37e616..woff";
+module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-semibold.f11ba60ae1c65b37e616.woff";
 
 /***/ }),
 
 /***/ 56:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-semibolditalic.fb03c6601ab6f48952c4..eot";
+module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-semibolditalic.fb03c6601ab6f48952c4.eot";
 
 /***/ }),
 
 /***/ 877:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-semibolditalic.522a9ee9b3b2ecbdd367..ttf";
+module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-semibolditalic.522a9ee9b3b2ecbdd367.ttf";
 
 /***/ }),
 
 /***/ 524:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-semibolditalic.a43f56accdef4a0b01f0..woff";
+module.exports = __webpack_require__.p + "node_modules/reveal.js/dist/theme/fonts/source-sans-pro//source-sans-pro-semibolditalic.a43f56accdef4a0b01f0.woff";
 
 /***/ })
 
