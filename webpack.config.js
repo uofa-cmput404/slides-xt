@@ -41,7 +41,8 @@ const config = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         clean: true,
-        assetModuleFilename: '[file]',
+        assetModuleFilename: '[path][name].[hash][ext]',
+        asyncChunks: false,
     },
     devServer: {
         open: true,
