@@ -6,6 +6,7 @@ on:
         - main
 permissions:
     contents: write
+    pages: write
 jobs:
     deploy:
         runs-on: ubuntu-latest
@@ -24,6 +25,6 @@ jobs:
             - name: gh-pages deploy
               run: |
                     git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-                    yarn run deploy -- -u "github-actions-bot <support+actions@github.com>"
+                    yarn run deploy -u "github-actions-bot <support+actions@github.com>" --message gh_actions_npm_run_deploy
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
