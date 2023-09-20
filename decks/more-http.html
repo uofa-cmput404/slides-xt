@@ -329,589 +329,589 @@ content-length: 60
     </section>
     <section>
         <p>What?</p>
-        <pre><code class="http">user-agent: mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/64.0.3282.140 safari/537.36 edge/17.17134</pre>
-    </code>
-    <p style="font-size: 80%">Microsoft Edge version 17<br> which is based on Chrome 64<br> which is based on WebKit 537
-        (part of Safari)<br>
-        (WebKit itself was forked from/based on KHTML, KDE's HTML rendering engine, but it claims to work like Gecko, Mozilla's
-        old rendering engine)<br> which is like Mozilla/5.0 (Netscape Navigator version 5.0)<br>
-        running on Windows NT 10.0 on a 64-bit Intel x86 CPU.<br>
-    </p>
-    <p style="font-size: 80%">So some code from KDE (a linux Desktop Environment) is now in Microsft's latest browser, Edge.</p>
-    <p style="font-size: 50%">2019: year of the Linux desktop on the Windows desktop</p>
-</section>
-<section>
-    <h3>HTTP Status Codes</h3>
-    <p>In
-        <var>HTTP/1.1 200 OK</var>, 200 is the status code.</p>
-    <ul>
-        <li>1XX &mdash; Informational codes, ex: 100 Continue</li>
-        <li>2XX &mdash; Success codes, ex: 200 OK</li>
-        <li>3XX &mdash; Redirection codes, ex: 301 Moved Permanently</li>
-        <li>4XX &mdash; Client Error codes, ex: 404 Not Found</li>
-        <li>5XX &mdash; Server Error codes, ex: 500 Internal Server Error</li>
-    </ul>
-    <cite>RFC:
-        <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">
-            https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</a>
-    </cite>
-</section>
-<section>
-    <h3>Informational Status Codes: 1XX</h3>
-    <ul>
-        <li>
-            <var>HTTP/1.1 100 Continue</var>
-            <ul>
-                <li>Used in multipart and uploads</li>
-                <li>Tells the client to send the request body/data</li>
-                <li>The server had a choice to accept the request or not and it has decided to accept it</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 75%">
-        <li>
-            <var>HTTP/1.1 101 Switching Protocols</var>
-            (rare)
-            <ul>
-                <li>
-                    <var>Upgrade:</var>
-                    header specifies the new protocol</li>
-                <li>Protocol switches immediately after the blank line at the end of headers</li>
-                <li>Switch from HTTP/1.1 to HTTP/2 on unencrypted connections:
-                    <ul>
-                        <li>but browsers don't support HTTP/2 over unencrypted connections</li>
-                        <li>so it's basically never used</li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li>Browsers select HTTP/1.1 or HTTP/2 during the TLS handshake for https URLS
-            <ul>
-                <li>TLS Application-Layer Protocol Negotiation</li>
-                <li>Occurs at the same as cipher suite negotiation</li>
-                <li>No additional round-trip latency</li>
-                <li>RFC 7301:
-                    <a href="https://tools.ietf.org/html/rfc7301">https://tools.ietf.org/html/rfc7301</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <cite>
-        <a href="https://http2.github.io/http2-spec/">https://http2.github.io/http2-spec/</a>
-    </cite>
-</section>
-<section>
-    <h3>Successful Status Codes: 2XX</h3>
-    <ul>
-        <li>
-            <var>HTTP/1.1 200 OK</var>
-            <ul>
-                <li>Request succeeded, depends on the client request</li>
-                <li>GET: sends an entity for to the requested URI</li>
-                <li>HEAD: sends headers for the entity for the requested URI</li>
-                <li>POST: sends an entity describing the result of the POST</li>
-                <li>TRACE: sends back the entity it received</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul>
-        <li>
-            <var>HTTP/1.1 201 Created</var>
-            <ul>
-                <li>Request succeeded and a new entity was created and exists (e.g. PUT)</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 202 Accepted</var>
-            <ul>
-                <li>Like
-                    <var>200 OK</var>
-                    but the server's not done with it yet. For example, you asked the server to perform a calculation and its working on
-                    it.</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 203 Non-Authoritative Information</var>
-            (rare)
-            <ul>
-                <li>Used with proxies.</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul>
-        <li>
-            <var>HTTP/1.1 204 No Content</var>
-            <ul>
-                <li>Request succeeded but the server is only sending headers and no entity or response body</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 205 Reset Content</var>
-            (rare)
-            <ul>
-                <li>Like
-                    <var>204 No Content</var>
-                    but the browser should clear the form/page</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul>
-        <li>
-            <var>HTTP/1.1 206 Partial Content</var>
-            <ul style="font-size: 85%">
-                <li>Used to resume downloads:
-                    <ol>
-                        <li>Client does HTTP GET with a
-                            <var>Range</var>
-                            header to continue a big download that was interrupted</li>
-                        <li>Server responds with 206 Partial Content and a
-                            <var>Content-Range</var>
-                            indicating what part its sending</li>
-                    </ol>
-                </li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section style="">
-    <h3>Redirect Status Codes: 3XX</h3>
-    <p>There's always a reason why you want to redirect something</p>
-    <ul style="columns: 2; font-size: 80%;">
-        <li>HTTP allows for redirection</li>
-        <li>Redirection is cheap abstraction</li>
-        <li>Work-around for browser/protocol issues</li>
-        <li>Redirect HTTP requests to HTTPS</li>
-        <li>Redirect requests to old URIs to their new URIs</li>
-        <li>Load balancing</li>
-        <li>Separate dynamic and static content onto two different servers</li>
-        <li>One host in URIs but use more than one server behind the scenes</li>
-        <li>URL shorteners</li>
-        <li>Reorganized website but want to keep old URIs working (fighting link-rot)</li>
-    </ul>
-</section>
-<section>
-    <div class="columns" style="font-size: 80%">
-        <div class="column">
-            <ol>
-                <li>Use a form to
-                    <var>POST</var>
-                    to reply on a forum</li>
-                <li>Server sends you the page showing your reply</li>
-                <li>Your press refresh to see if they replied back</li>
-                <li>Browser resends the
-                    <var>POST</var>
-                    to the page, causing a duplicate forum post</li>
-            </ol>
-        </div>
-        <div class="column">
-            <ol>
-                <li>Use a form to
-                    <var>POST</var>
-                    to reply on a forum</li>
-                <li>Server sends you a
-                    <var>303 See Other</var>
-                    to the forum thread</li>
-                <li>Browser makes a
-                    <var>GET</var>
-                    request for the forum thread</li>
-                <li>Server sends you forum thread with your reply</li>
-                <li>Hitting refresh now works without creating duplicate posts</li>
-            </ol>
-        </div>
-    </div>
-</section>
-<section>
-    <ul style="font-size: 85%">
-        <li>
-            <var>HTTP/1.1 300 Multiple Choices</var>
-            (rare)
-            <ul>
-                <li>Responds with a list of choices (e.g. same page in different languages) and the user or the browser chooses one</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 301 Moved Permanently</var>
-            <ul>
-                <li>Go to the URI mentioned in the
-                    <var>Location</var>
-                    header,
-                    <em>and don't ask me again!</em>
-                </li>
-                <li>URI in the location bar automatically changes</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 302 Found</var>
-            <ul>
-                <li>Temporary redirect. Client should GET the URI mentioned in the
-                    <var>Location</var>
-                    header and display that response instead</li>
-                <li>URI in the location bar stays the same (invisible to the user)</li>
-                <li>Useful for load-balancing</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul>
-        <li>
-            <var>HTTP/1.1 303 See Other</var>
-            <ul>
-                <li>Exists to solve the forum-POSTing problem</li>
-                <li>GET the URI in the
-                    <var>Location</var>
-                    header</li>
-                <li>Don't save the redirect in your cache, you can keep making POSTs to the URI that gave you a 303</li>
-                <li>URI in the location bar changes</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 75%">
-        <li>
-            <var>HTTP/1.1 304 Not Modified</var>
-            <ul>
-                <li>Browser can make a conditional
-                    <var>GET</var>s request for URIs that it has cached, asking the server to send the entity
-                    <em>only</em>
-                    if it's changed since the time it was cached or a specific version</li>
-                <li>
-                    <var>If-None-Match:</var>
-                    followed by a list of etags (like git tags, named versions) will get a 200 OK only if it has a new version not in the
-                    list</li>
-                <li>
-                    <var>If-Modified-Since:</var>
-                    followed by a date and time will get a 200 OK only if it has a newer version since that time</li>
-                <li>No response body/entity</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 85%">
-        <li>
-            <var>HTTP/1.1 305 Use Proxy</var>
-            (rare)
-            <ul>
-                <li>Try the proxy server specified by the
-                    <var>Location:</var>
-                    header</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 307 Temporary Redirect</var>
-            <ul>
-                <li>Go to the URI mentioned in the
-                    <var>Location</var>
-                    header</li>
-                <li>Keep making requests to the URI you originally requested in case the server needs to redirect you somewhere else
-                    next time</li>
-                <li>Cache the redirection using standard caching headers and rules</li>
-                <li>URI in the location bar is updated</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section style="">
-    <h3>Client Error Status Codes: 4XX</h3>
-    <p>It's your fault! (or the User Agent's)</p>
-    <ul style="columns: 2; font-size: 80%;">
-        <li>You're not allowed</li>
-        <li>You're wrong</li>
-        <li>You owe us money</li>
-        <li>You can't handle it</li>
-        <li>You're taking too long</li>
-        <li>You're changing things at the same time as someone else</li>
-        <li>It ain't here and it ain't never coming back</li>
-        <li>You're not making any sense</li>
-        <li>You're asking too much</li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 82%">
-        <li>
-            <var>HTTP/1.1 400 Bad Request</var>
-            <ul>
-                <li>Hey buddy, I can't read this garbage.
-                    <em>Don't send it again.</em>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 401 Unauthorized</var>
-            <ul>
-                <li>You have to send authentication information to see this URI.</li>
-                <li>Headers and entity (response body) explains to the browser and user how to log in.</li>
-                <li>Mostly useful for HTTP
-                    <var>Authorization:</var>
-                    header authentication</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul>
-        <li>
-            <var>HTTP/1.1 402 Payment Required</var>
-            (rare)
-            <ul>
-                <li>Pay up, buttercup!</li>
-                <li>Supposedly reserved, but some services use it anyway, e.g. MobileMe used it (the predecessor to iCloud)</li>
-                <li>Google APIs use it</li>
-                <li>YouTube will use it to force you to solve a CAPTCHA</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 85%">
-        <li>
-            <var>HTTP/1.1 403 Forbidden</var>
-            <ul>
-                <li>The web server will never respond to this request, no matter who you log in as</li>
-                <li>
-                    Maybe it could answer your request but an administrator disabled that ability.</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 404 Not Found</var>
-            <ul>
-                <li>You've got the wrong resource or path. Can't find what you're looking for. Droids? What droids?</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 405 Method not allowed</var>
-            <ul>
-                <li>Whatever method you used (GET/HEAD/POST/PUT/DELETE/...) doesn't work on this URI</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    Fancy 404 pages...<br> <img class="stretch noborder" src="images/github_404.png">
-</section>
-<section>
-    <ul style="font-size: 85%">
-        <li>
-            <var>HTTP/1.1 406 Not Acceptable</var>
-            <ul>
-                <li>The sever cannot respond in way that matches your request's accept header line.</li>
-                <li>Example: You asked for JSON and we can only serve XML, but it's your fault.</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 407 Proxy Authentication Required</var>
-            <ul>
-                <li>We're not going to proxy your request till you authenticate.</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 408 Request time out</var>
-            <ul>
-                <li>You took too long to send your request, we're not going to service you. Try again but faster next time.</li>
-                <li>Example: the Slowloris attack</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 85%">
-        <li>
-            <var>HTTP/1.1 409 Conflict</var>
-            <ul>
-                <li>The request is in conflict. Often used with
-                    <var>PUT</var>
-                    requests.</li>
-                <li>Example: Two people trying to
-                    <var>PUT</var>
-                    a new version for the same URI at the same time</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 410 Gone</var>
-            <ul>
-                <li>Yeah it was here, but it ain't coming back. Don't even try again.</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 411 Length Required</var>
-            <ul>
-                <li>I can't service a request (ex:
-                    <var>POST</var>) without a
-                    <var>Content-Length:</var>
-                    header</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 85%">
-        <li>
-            <var>HTTP/1.1 412 Precondition Failed</var>
-            <ul>
-                <li>Header information wouldn't be what you wanted it to be so I won't process the request</li>
-                <li>Example: modified too recently, so don't allow PUT to succeed to modify it again</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 413 Request Entity Too Large</var>
-            <ul>
-                <li>Sending an entity (POST, PUT, ...) that's bigger than the server can handle</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 414 Request-URI Too Long</var>
-            <ul>
-                <li>Webservers will only handle URLs up to a certain length</li>
-                <li>Example: Apache webserver is limited to 4000-8192 by default (depending on version)</li>
-                <li>Example: nginx webserver places a limit on total length of HTTP headers + requested URI</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 85%">
-        <li>
-            <var>HTTP/1.1 415 Unsupported Media Type</var>
-            <ul>
-                <li>Uploading (POST, PUT, ...) using a format the server doesn't understand.</li>
-                <li>Example: posting pictures formatted in JPEG2000</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 416 Request Range Not Satisfiable</var>
-            <ul>
-                <li>You sent a
-                    <var>Range:</var>
-                    header to get just part of a file but the part you asked for doesn't make sense</li>
-                <li>Example: You ask to resume a download that was interrupted of a 1MiB file at 1.1Mib</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 85%">
-        <li>
-            <var>HTTP/1.1 417 Expectation Failed</var>
-            <ul>
-                <li>The server cannot meet the
-                    <var>Expect:</var>
-                    header</li>
-                <li>Example: client sent
-                    <var>Expect: 100 Continue</var>
-                    while POSTing multipart/form-data, but the server can't do that</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 85%">
-        <li>
-            <var>HTTP/1.1 418 I'm a teapot</var>
-            <ul>
-                <li>Indicates that the server refuses to brew coffee because it is a teapot.</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 422 Unprocessable Entity</var>
-            <ul>
-                <li>Indicates that the server understood the Content-Type and the syntax of the entity (request body) is correct but
-                    that it was unable to process it.</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 426 Upgrade Required</var>
-            <ul>
-                <li>Indicates that the server requires use of HTTP 2 or later.</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 85%">
-        <li>
-            <var>HTTP/1.1 428 Precondition Required</var>
-            <ul>
-                <li>Indicates that the client needs to send a request with an If- header.</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 429 Too Many Requests</var>
-            <ul>
-                <li>Indicates that the client has sent too many requests in a short period of time.</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 431 Request Header Fields Too Large</var>
-            <ul>
-                <li>Indicates that the client has sent request headers that are too long.</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 85%">
-        <li>
-            <var>HTTP/1.1 451 Unavailable For Legal Reasons</var>
-            <ul>
-                <li>Indicates that the server could service the request... if it wasn't illegal.</li>
-                <li>Example: Server used to host content that was later taken down for copyright reasons.</li>
-            </ul>
-        </li>
-    </ul>
-    <blockquote>This request may not be serviced in the Roman Province of Judea due to the Lex Julia Majestatis, which
-        disallows access to resources hosted on servers deemed to be operated by the People's Front of Judea.
-        <cite>&mdash;&nbsp;<a href="https://tools.ietf.org/html/rfc7725">RFC 7725</a>
+        <pre><code class="http">user-agent: mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/64.0.3282.140 safari/537.36 edge/17.17134</code></pre>
+        <p style="font-size: 80%">Microsoft Edge version 17<br> which is based on Chrome 64<br> which is based on WebKit 537
+            (part of Safari)<br>
+            (WebKit itself was forked from/based on KHTML, KDE's HTML rendering engine, but it claims to work like Gecko, Mozilla's
+            old rendering engine)<br> which is like Mozilla/5.0 (Netscape Navigator version 5.0)<br>
+            running on Windows NT 10.0 on a 64-bit Intel x86 CPU.<br>
+        </p>
+        <p style="font-size: 80%">So some code from KDE (a linux Desktop Environment) is now in Microsft's latest browser, Edge.</p>
+        <p style="font-size: 50%">2019: year of the Linux desktop on the Windows desktop</p>
+    </section>
+    <section>
+        <h3>HTTP Status Codes</h3>
+        <p>In
+            <var>HTTP/1.1 200 OK</var>, 200 is the status code.</p>
+        <ul>
+            <li>1XX &mdash; Informational codes, ex: 100 Continue</li>
+            <li>2XX &mdash; Success codes, ex: 200 OK</li>
+            <li>3XX &mdash; Redirection codes, ex: 301 Moved Permanently</li>
+            <li>4XX &mdash; Client Error codes, ex: 404 Not Found</li>
+            <li>5XX &mdash; Server Error codes, ex: 500 Internal Server Error</li>
+        </ul>
+        <cite>RFC:
+            <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">
+                https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</a>
         </cite>
-    </blockquote>
-</section>
-<section style="">
-    <h3>Server Error Status Codes: 5XX</h3>
-    <p>It's the server's fault!</p>
-    <ul style="columns: 2; font-size: 80%;">
-        <li>My script crashed</li>
-        <li>My system is misconfigured</li>
-        <li>I broke something</li>
-        <li>We didn't implement that</li>
-        <li>The server is down</li>
-        <li>I don't support that version of HTTP</li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 85%">
-        <li>
-            <var>HTTP/1.1 500 Internal Server Error</var>
-            <ul>
-                <li>Server side software encountered some kind of error</li>
-                <li>Example: your Python Django code crashed</li>
-                <li>Example: couldn't connect to the database</li>
-            </ul>
-        </li>
-        <li>
-            <var>HTTP/1.1 501 Not Implemented</var>
-            <ul>
-                <li>The server can't fulfill that request (such as an HTTP PUT) because it doesn't even know what HTTP PUT is</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <ul style="font-size: 65%">
-        <li>
-            <var>HTTP/1.1 502 Bad Gateway</var>
-            <ul>
-                <li>The server talks to another HTTP server to fulfill this request and that other server isn't working.</li>
-            </ul>
-        </li>
+    </section>
+    <section>
+        <h3>Informational Status Codes: 1XX</h3>
+        <ul>
+            <li>
+                <var>HTTP/1.1 100 Continue</var>
+                <ul>
+                    <li>Used in multipart and uploads</li>
+                    <li>Tells the client to send the request body/data</li>
+                    <li>The server had a choice to accept the request or not and it has decided to accept it</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 75%">
+            <li>
+                <var>HTTP/1.1 101 Switching Protocols</var>
+                (rare)
+                <ul>
+                    <li>
+                        <var>Upgrade:</var>
+                        header specifies the new protocol</li>
+                    <li>Protocol switches immediately after the blank line at the end of headers</li>
+                    <li>Switch from HTTP/1.1 to HTTP/2 on unencrypted connections:
+                        <ul>
+                            <li>but browsers don't support HTTP/2 over unencrypted connections</li>
+                            <li>so it's basically never used</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>Browsers select HTTP/1.1 or HTTP/2 during the TLS handshake for https URLS
+                <ul>
+                    <li>TLS Application-Layer Protocol Negotiation</li>
+                    <li>Occurs at the same as cipher suite negotiation</li>
+                    <li>No additional round-trip latency</li>
+                    <li>RFC 7301:
+                        <a href="https://tools.ietf.org/html/rfc7301">https://tools.ietf.org/html/rfc7301</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <cite>
+            <a href="https://http2.github.io/http2-spec/">https://http2.github.io/http2-spec/</a>
+        </cite>
+    </section>
+    <section>
+        <h3>Successful Status Codes: 2XX</h3>
+        <ul>
+            <li>
+                <var>HTTP/1.1 200 OK</var>
+                <ul>
+                    <li>Request succeeded, depends on the client request</li>
+                    <li>GET: sends an entity for to the requested URI</li>
+                    <li>HEAD: sends headers for the entity for the requested URI</li>
+                    <li>POST: sends an entity describing the result of the POST</li>
+                    <li>TRACE: sends back the entity it received</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul>
+            <li>
+                <var>HTTP/1.1 201 Created</var>
+                <ul>
+                    <li>Request succeeded and a new entity was created and exists (e.g. PUT)</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 202 Accepted</var>
+                <ul>
+                    <li>Like
+                        <var>200 OK</var>
+                        but the server's not done with it yet. For example, you asked the server to perform a calculation and its working on
+                        it.</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 203 Non-Authoritative Information</var>
+                (rare)
+                <ul>
+                    <li>Used with proxies.</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul>
+            <li>
+                <var>HTTP/1.1 204 No Content</var>
+                <ul>
+                    <li>Request succeeded but the server is only sending headers and no entity or response body</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 205 Reset Content</var>
+                (rare)
+                <ul>
+                    <li>Like
+                        <var>204 No Content</var>
+                        but the browser should clear the form/page</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul>
+            <li>
+                <var>HTTP/1.1 206 Partial Content</var>
+                <ul style="font-size: 85%">
+                    <li>Used to resume downloads:
+                        <ol>
+                            <li>Client does HTTP GET with a
+                                <var>Range</var>
+                                header to continue a big download that was interrupted</li>
+                            <li>Server responds with 206 Partial Content and a
+                                <var>Content-Range</var>
+                                indicating what part its sending</li>
+                        </ol>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section style="">
+        <h3>Redirect Status Codes: 3XX</h3>
+        <p>There's always a reason why you want to redirect something</p>
+        <ul style="columns: 2; font-size: 80%;">
+            <li>HTTP allows for redirection</li>
+            <li>Redirection is cheap abstraction</li>
+            <li>Work-around for browser/protocol issues</li>
+            <li>Redirect HTTP requests to HTTPS</li>
+            <li>Redirect requests to old URIs to their new URIs</li>
+            <li>Load balancing</li>
+            <li>Separate dynamic and static content onto two different servers</li>
+            <li>One host in URIs but use more than one server behind the scenes</li>
+            <li>URL shorteners</li>
+            <li>Reorganized website but want to keep old URIs working (fighting link-rot)</li>
+        </ul>
+    </section>
+    <section>
+        <div class="columns" style="font-size: 80%">
+            <div class="column">
+                <ol>
+                    <li>Use a form to
+                        <var>POST</var>
+                        to reply on a forum</li>
+                    <li>Server sends you the page showing your reply</li>
+                    <li>Your press refresh to see if they replied back</li>
+                    <li>Browser resends the
+                        <var>POST</var>
+                        to the page, causing a duplicate forum post</li>
+                </ol>
+            </div>
+            <div class="column">
+                <ol>
+                    <li>Use a form to
+                        <var>POST</var>
+                        to reply on a forum</li>
+                    <li>Server sends you a
+                        <var>303 See Other</var>
+                        to the forum thread</li>
+                    <li>Browser makes a
+                        <var>GET</var>
+                        request for the forum thread</li>
+                    <li>Server sends you forum thread with your reply</li>
+                    <li>Hitting refresh now works without creating duplicate posts</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+    <section>
+        <ul style="font-size: 85%">
+            <li>
+                <var>HTTP/1.1 300 Multiple Choices</var>
+                (rare)
+                <ul>
+                    <li>Responds with a list of choices (e.g. same page in different languages) and the user or the browser chooses one</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 301 Moved Permanently</var>
+                <ul>
+                    <li>Go to the URI mentioned in the
+                        <var>Location</var>
+                        header,
+                        <em>and don't ask me again!</em>
+                    </li>
+                    <li>URI in the location bar automatically changes</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 302 Found</var>
+                <ul>
+                    <li>Temporary redirect. Client should GET the URI mentioned in the
+                        <var>Location</var>
+                        header and display that response instead</li>
+                    <li>URI in the location bar stays the same (invisible to the user)</li>
+                    <li>Useful for load-balancing</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul>
+            <li>
+                <var>HTTP/1.1 303 See Other</var>
+                <ul>
+                    <li>Exists to solve the forum-POSTing problem</li>
+                    <li>GET the URI in the
+                        <var>Location</var>
+                        header</li>
+                    <li>Don't save the redirect in your cache, you can keep making POSTs to the URI that gave you a 303</li>
+                    <li>URI in the location bar changes</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 75%">
+            <li>
+                <var>HTTP/1.1 304 Not Modified</var>
+                <ul>
+                    <li>Browser can make a conditional
+                        <var>GET</var>s request for URIs that it has cached, asking the server to send the entity
+                        <em>only</em>
+                        if it's changed since the time it was cached or a specific version</li>
+                    <li>
+                        <var>If-None-Match:</var>
+                        followed by a list of etags (like git tags, named versions) will get a 200 OK only if it has a new version not in the
+                        list</li>
+                    <li>
+                        <var>If-Modified-Since:</var>
+                        followed by a date and time will get a 200 OK only if it has a newer version since that time</li>
+                    <li>No response body/entity</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 85%">
+            <li>
+                <var>HTTP/1.1 305 Use Proxy</var>
+                (rare)
+                <ul>
+                    <li>Try the proxy server specified by the
+                        <var>Location:</var>
+                        header</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 307 Temporary Redirect</var>
+                <ul>
+                    <li>Go to the URI mentioned in the
+                        <var>Location</var>
+                        header</li>
+                    <li>Keep making requests to the URI you originally requested in case the server needs to redirect you somewhere else
+                        next time</li>
+                    <li>Cache the redirection using standard caching headers and rules</li>
+                    <li>URI in the location bar is updated</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section style="">
+        <h3>Client Error Status Codes: 4XX</h3>
+        <p>It's your fault! (or the User Agent's)</p>
+        <ul style="columns: 2; font-size: 80%;">
+            <li>You're not allowed</li>
+            <li>You're wrong</li>
+            <li>You owe us money</li>
+            <li>You can't handle it</li>
+            <li>You're taking too long</li>
+            <li>You're changing things at the same time as someone else</li>
+            <li>It ain't here and it ain't never coming back</li>
+            <li>You're not making any sense</li>
+            <li>You're asking too much</li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 82%">
+            <li>
+                <var>HTTP/1.1 400 Bad Request</var>
+                <ul>
+                    <li>Hey buddy, I can't read this garbage.
+                        <em>Don't send it again.</em>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 401 Unauthorized</var>
+                <ul>
+                    <li>You have to send authentication information to see this URI.</li>
+                    <li>Headers and entity (response body) explains to the browser and user how to log in.</li>
+                    <li>Mostly useful for HTTP
+                        <var>Authorization:</var>
+                        header authentication</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul>
+            <li>
+                <var>HTTP/1.1 402 Payment Required</var>
+                (rare)
+                <ul>
+                    <li>Pay up, buttercup!</li>
+                    <li>Supposedly reserved, but some services use it anyway, e.g. MobileMe used it (the predecessor to iCloud)</li>
+                    <li>Google APIs use it</li>
+                    <li>YouTube will use it to force you to solve a CAPTCHA</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 85%">
+            <li>
+                <var>HTTP/1.1 403 Forbidden</var>
+                <ul>
+                    <li>The web server will never respond to this request, no matter who you log in as</li>
+                    <li>
+                        Maybe it could answer your request but an administrator disabled that ability.</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 404 Not Found</var>
+                <ul>
+                    <li>You've got the wrong resource or path. Can't find what you're looking for. Droids? What droids?</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 405 Method not allowed</var>
+                <ul>
+                    <li>Whatever method you used (GET/HEAD/POST/PUT/DELETE/...) doesn't work on this URI</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        Fancy 404 pages...<br> <img class="stretch noborder" src="images/github_404.png">
+    </section>
+    <section>
+        <ul style="font-size: 85%">
+            <li>
+                <var>HTTP/1.1 406 Not Acceptable</var>
+                <ul>
+                    <li>The sever cannot respond in way that matches your request's accept header line.</li>
+                    <li>Example: You asked for JSON and we can only serve XML, but it's your fault.</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 407 Proxy Authentication Required</var>
+                <ul>
+                    <li>We're not going to proxy your request till you authenticate.</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 408 Request time out</var>
+                <ul>
+                    <li>You took too long to send your request, we're not going to service you. Try again but faster next time.</li>
+                    <li>Example: the Slowloris attack</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 85%">
+            <li>
+                <var>HTTP/1.1 409 Conflict</var>
+                <ul>
+                    <li>The request is in conflict. Often used with
+                        <var>PUT</var>
+                        requests.</li>
+                    <li>Example: Two people trying to
+                        <var>PUT</var>
+                        a new version for the same URI at the same time</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 410 Gone</var>
+                <ul>
+                    <li>Yeah it was here, but it ain't coming back. Don't even try again.</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 411 Length Required</var>
+                <ul>
+                    <li>I can't service a request (ex:
+                        <var>POST</var>) without a
+                        <var>Content-Length:</var>
+                        header</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 85%">
+            <li>
+                <var>HTTP/1.1 412 Precondition Failed</var>
+                <ul>
+                    <li>Header information wouldn't be what you wanted it to be so I won't process the request</li>
+                    <li>Example: modified too recently, so don't allow PUT to succeed to modify it again</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 413 Request Entity Too Large</var>
+                <ul>
+                    <li>Sending an entity (POST, PUT, ...) that's bigger than the server can handle</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 414 Request-URI Too Long</var>
+                <ul>
+                    <li>Webservers will only handle URLs up to a certain length</li>
+                    <li>Example: Apache webserver is limited to 4000-8192 by default (depending on version)</li>
+                    <li>Example: nginx webserver places a limit on total length of HTTP headers + requested URI</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 85%">
+            <li>
+                <var>HTTP/1.1 415 Unsupported Media Type</var>
+                <ul>
+                    <li>Uploading (POST, PUT, ...) using a format the server doesn't understand.</li>
+                    <li>Example: posting pictures formatted in JPEG2000</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 416 Request Range Not Satisfiable</var>
+                <ul>
+                    <li>You sent a
+                        <var>Range:</var>
+                        header to get just part of a file but the part you asked for doesn't make sense</li>
+                    <li>Example: You ask to resume a download that was interrupted of a 1MiB file at 1.1Mib</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 85%">
+            <li>
+                <var>HTTP/1.1 417 Expectation Failed</var>
+                <ul>
+                    <li>The server cannot meet the
+                        <var>Expect:</var>
+                        header</li>
+                    <li>Example: client sent
+                        <var>Expect: 100 Continue</var>
+                        while POSTing multipart/form-data, but the server can't do that</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 85%">
+            <li>
+                <var>HTTP/1.1 418 I'm a teapot</var>
+                <ul>
+                    <li>Indicates that the server refuses to brew coffee because it is a teapot.</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 422 Unprocessable Entity</var>
+                <ul>
+                    <li>Indicates that the server understood the Content-Type and the syntax of the entity (request body) is correct but
+                        that it was unable to process it.</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 426 Upgrade Required</var>
+                <ul>
+                    <li>Indicates that the server requires use of HTTP 2 or later.</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 85%">
+            <li>
+                <var>HTTP/1.1 428 Precondition Required</var>
+                <ul>
+                    <li>Indicates that the client needs to send a request with an If- header.</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 429 Too Many Requests</var>
+                <ul>
+                    <li>Indicates that the client has sent too many requests in a short period of time.</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 431 Request Header Fields Too Large</var>
+                <ul>
+                    <li>Indicates that the client has sent request headers that are too long.</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 85%">
+            <li>
+                <var>HTTP/1.1 451 Unavailable For Legal Reasons</var>
+                <ul>
+                    <li>Indicates that the server could service the request... if it wasn't illegal.</li>
+                    <li>Example: Server used to host content that was later taken down for copyright reasons.</li>
+                </ul>
+            </li>
+        </ul>
+        <blockquote>This request may not be serviced in the Roman Province of Judea due to the Lex Julia Majestatis, which
+            disallows access to resources hosted on servers deemed to be operated by the People's Front of Judea.
+            <cite>&mdash;&nbsp;<a href="https://tools.ietf.org/html/rfc7725">RFC 7725</a>
+            </cite>
+        </blockquote>
+    </section>
+    <section style="">
+        <h3>Server Error Status Codes: 5XX</h3>
+        <p>It's the server's fault!</p>
+        <ul style="columns: 2; font-size: 80%;">
+            <li>My script crashed</li>
+            <li>My system is misconfigured</li>
+            <li>I broke something</li>
+            <li>We didn't implement that</li>
+            <li>The server is down</li>
+            <li>I don't support that version of HTTP</li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 85%">
+            <li>
+                <var>HTTP/1.1 500 Internal Server Error</var>
+                <ul>
+                    <li>Server side software encountered some kind of error</li>
+                    <li>Example: your Python Django code crashed</li>
+                    <li>Example: couldn't connect to the database</li>
+                </ul>
+            </li>
+            <li>
+                <var>HTTP/1.1 501 Not Implemented</var>
+                <ul>
+                    <li>The server can't fulfill that request (such as an HTTP PUT) because it doesn't even know what HTTP PUT is</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 65%">
+            <li>
+                <var>HTTP/1.1 502 Bad Gateway</var>
+                <ul>
+                    <li>The server talks to another HTTP server to fulfill this request and that other server isn't working.</li>
+                </ul>
+            </li>
+        </ul>
     </section>
     <section>
         <ul style="font-size: 70%;">
@@ -1511,8 +1511,9 @@ content-length: 60
         <h4>HTTP Server Headers</h4>
         <ul style="font-size: 75%">
             <li>
-                <var>Public-Key-Pins: pin-sha256=<wbr>"cUPcTAZWKaASuYWhhneDttWpY3oBAkE3h2+soZS7sWs="<wbr>; pin-sha256=<wbr>"M8HztCzM3elUxkcjR2S5P4hhyBNf6lHkmjAHKhpGPWE="; max-age=5184000; includeSubDomains;
-                    report-uri="https://www.example.org/hpkp-report"</var>
+                <var>Public-Key-Pins: pin-sha256=<wbr>"cUPcTAZWKaASuYWhhneDttWpY3oBAkE3h2+soZS7sWs="<wbr>; pin-sha256=<wbr>
+                "M8HztCzM3elUxkcjR2S5P4hhyBNf6lHkmjAHKhpGPWE="; max-age=5184000; includeSubDomains;
+                report-uri="https://www.example.org/hpkp-report"</var>
                 <ul>
                     <li>Tells the client not to only accept one of the two specified certificates from the webserver for the next 60 days</li>
                     <li>Dangerous: can lock people out of being able to view your site for a long time</li>
