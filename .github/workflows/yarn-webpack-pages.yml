@@ -1,0 +1,29 @@
+name: yarn-webpack-gh-pages
+on:
+    push:
+      branches:
+        - master
+        - main
+permissions:
+    contents: write
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: nodejs
+              uses: actions/setup-node@v3
+              with:
+                node-version: '20.x'
+            - name: yarn install
+              uses: borales/actions-yarn@v4
+              with:
+                cmd: install --frozen-lockfile # will run `yarn install` command
+              #   env:
+              #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # if needed
+            - name: gh-pages deploy
+              run: |
+                    git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+                    yarn run deploy -- -u "github-actions-bot <support+actions@github.com>"
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
