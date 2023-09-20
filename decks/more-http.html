@@ -1100,7 +1100,7 @@ content-length: 60
     </section>
     <section>
         <h4>HTTP Request Headers</h4>
-        <ul style="font-size: 90%">
+        <ul style="font-size: 80%">
             <li>
                 <var>Authorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l</var>
                 <ul>
@@ -1143,7 +1143,7 @@ content-length: 60
     </section>
     <section>
         <h4>HTTP Request Headers</h4>
-        <ul style="font-size: 90%">
+        <ul style="font-size: 80%">
             <li>
                 <var>Expect: 100-continue</var>
                 <ul>
@@ -1370,7 +1370,7 @@ content-length: 60
     </section>
     <section>
         <h4>HTTP Server Headers</h4>
-        <ul>
+        <ul style="font-size: 80%;">
             <li>
                 <var>Content-Disposition: attachment; filename="filename.jpg"</var>
                 <ul>
@@ -1393,7 +1393,7 @@ content-length: 60
     </section>
     <section>
         <h4>HTTP Server Headers</h4>
-        <ul style="font-size: 85%">
+        <ul style="font-size: 80%">
             <li>
                 <var>Content-Length: 500</var>
                 <ul>
@@ -1509,10 +1509,9 @@ content-length: 60
     </section>
     <section>
         <h4>HTTP Server Headers</h4>
-        <ul style="font-size: 85%">
+        <ul style="font-size: 75%">
             <li>
-                <var>Public-Key-Pins: pin-sha256="cUPcTAZWKaASuYWhhneDttWpY3oBAkE3h2+soZS7sWs=";
-                    pin-sha256="M8HztCzM3elUxkcjR2S5P4hhyBNf6lHkmjAHKhpGPWE="; max-age=5184000; includeSubDomains;
+                <var>Public-Key-Pins: pin-sha256=<wbr>"cUPcTAZWKaASuYWhhneDttWpY3oBAkE3h2+soZS7sWs="<wbr>; pin-sha256=<wbr>"M8HztCzM3elUxkcjR2S5P4hhyBNf6lHkmjAHKhpGPWE="; max-age=5184000; includeSubDomains;
                     report-uri="https://www.example.org/hpkp-report"</var>
                 <ul>
                     <li>Tells the client not to only accept one of the two specified certificates from the webserver for the next 60 days</li>
@@ -1600,7 +1599,6 @@ content-length: 60
                     <li>HTTP/1.1 requires
                         <var>Transfer-Encoding: Chunked</var>
                         for this to work</li>
-                    <li>HTTP/2 doesn't work in all browsers</li>
                 </ul>
             </li>
             <li>
