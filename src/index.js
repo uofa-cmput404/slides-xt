@@ -8,10 +8,15 @@ import '@fontsource-variable/lexend-deca';
 import './.nojekyll';
 import './custom.css';
 
+import RevealMarkdown from 'reveal.js/plugin/markdown/markdown.js';
+
 Reveal.initialize({
     hash: true,
     respondToHashChanges: true,
     history: false,
+    plugins: [
+        RevealMarkdown
+    ]
 });
 
 // fitty('.columns');
