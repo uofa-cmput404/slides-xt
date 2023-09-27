@@ -1036,6 +1036,65 @@ Display flex also lays out other objects too.
         </p>
 
       </section>
+      <section>
+            <h2>CSS Example</h2>
+            <p><code><pre>
+                nav ul {
+                    list-style: none;
+                }
+                nav ul>li {
+                    display: inline-block;
+                }
+            </pre></code></p>
+            <p>
+                Any &lt;ul&gt; inside of (descendants of) &lt;nav&gt; has no bullet points, and the list items that are directly inside of that (children) are displayed without line breaks between them.
+                This could be a good start for making a navigation bar.
+                </p>
+        </section>
+      <section>
+            <h2>CSS Example</h2>
+            <p><code><pre>
+                em {
+                    font-style: italic;
+                }
+                p>em {
+                    font-weight: bold;
+                }
+            </pre></code></p>
+            <p>
+                Things you want to emphasize (the &lt;em&gt; tag) should be in italics. Things you want to emphasize in paragraphs should <em>also</em> be bold.
+                </p>
+        </section>
+      <section>
+            <h2>CSS Example</h2>
+            <p><code><pre>
+                h1, h2, h3, h4, h5, h6 {
+                    text-decoration: underline;
+                }
+                h1, h2, h3 {
+                    font-variant: small-caps;
+                }
+            </pre></code></p>
+            <p>Headings should be underlined. First, second, and third level headings should also be in <samp style="font-variant: small-caps;">small caps</samp>.
+            </p>
+        </section>
+      <section>
+            <h2>CSS Units</h2>
+            <ul>
+                <li><code>px</code> - 1/96th of an inch. One pixel <em>if</em> DPI & zoom is 96.</li>
+                <li><code>%</code> - percentage, usually of the containing (parent) element.</li>
+                <li><code>em</code> - the font size. For example, 2em is twice the size of the font.</li>
+                <li><code>ex</code> - the height of the letter 'x' (usually) in the current font and font size.</li>
+                <li>...</li>
+            </ul>
+        </section>
+      <section>
+            <h2>CSS Units</h2>
+            <ul>
+                <li>Prefer to use % or units based on font size (<code>em</code>, <code>ex<code>).</li>
+                <li>Avoid <code>px</code>, it won't react to zooming and user's font size, monitor resolution, etc. as well.</li>
+            </ul>
+        </section>
       <section style="font-size: 90%;">
         <h2>CSS Help!</h2>
         <p> CSS is spread across many specs, so it is hard to really get a
@@ -1044,11 +1103,7 @@ Display flex also lays out other objects too.
           <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS">MDN's CSS Documentation</a> -- probably the best resource.
           </li>
           <li><a href="https://caniuse.com/">Can I Use?</a> -- browswer compatibility tables, sometimes these are more up-to-date than MDN's compatibility tables.
-          <li><a href="">CSS Specifications</a> -- Not all of these are
-            available or work</li>
-          <li><a href="http://www.w3.org/TR/CSS2/propidx.html">Full
-              property table from CSS2</a> -- The CSS2 Spec is more
-            encapsulated in one place</li>
+          <li><a href="https://www.w3.org/TR/css-2023/">2023 CSS Specifications</a></li>
         </ul>
       </section>
       <section>
