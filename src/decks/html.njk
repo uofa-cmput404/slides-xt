@@ -385,10 +385,7 @@ Even &lt;span style="color:red">as the Flemings&lt;/span>, 'twixt Cadsand and Br
   Their bulwarks build to put the sea to flight;&lt;br>
 &lt;/div></pre></code>
       </section>
-      <!-- ######################## END MARKDOWN SLIDE ########################## -->
-
-
-      <section>
+      <section style="font-size: 65%;">
         <h2>&lt;div&gt; and &lt;span&gt; tags: With Style</h2>
 
         <p>Looks like this:</p>
@@ -406,12 +403,7 @@ Even &lt;span style="color:red">as the Flemings&lt;/span>, 'twixt Cadsand and Br
             Their bulwarks build to put the sea to flight;<br>
           </div>
         </blockquote>
-
       </section>
-
-
-
-      <!-- ######################## START MARKDOWN SLIDE ########################## -->
       <section data-markdown>
         <textarea data-template>
           ## Style
@@ -426,7 +418,6 @@ We added style attributes. The style attributes are Cascading Style
 Sheet properties.
 </textarea>
       </section>
-      <!-- ######################## END MARKDOWN SLIDE ########################## -->
       <section>
         <h3>Cascading</h3>
         <ul>
@@ -434,11 +425,11 @@ Sheet properties.
             font-weight, etc.).
         </ul>
         </li>
-        <pre><code class="html"><span style="color:blue;">Hello! 
+        <pre><code class="html">{% filter escape %}<span style="color:blue;">Hello! 
   <span style="color:blue;font-weight: bold;">Hello!
     <span style="color:blue;font-weight: bold;box-shadow: 10px 10px 5px #888888;">Hello!</span>
   </span>
-</span></code></pre>
+</span>{% endfilter %}</code></pre>
         Looks like:
         <blockquote style="font-size: 200%">
           <span style="color:blue;">Hello!
@@ -455,13 +446,13 @@ Sheet properties.
             font-weight, etc.).
         </ul>
         </li>
-        <pre><code class="html"><span style="color:blue;">Hello! 
+        <pre><code class="html">{% filter escape %}<span style="color:blue;">Hello! 
   <span style="font-weight: bold;">Hello!
     <span style="box-shadow: 10px 10px 5px #888888;">Hello!
       <span style="color:red;">Hello!</span>
     </span>
   </span>
-</span></code></pre>
+</span>{% endfilter %}</code></pre>
         Looks like:
         <blockquote style="font-size: 200%">
           <span style="color:blue;">Hello!
@@ -650,12 +641,6 @@ float: right;
         </p>
 
       </section>
-      <!-- ######################## END HTML SLIDE ########################## -->
-
-
-
-      <!-- ######################## START MARKDOWN SLIDE ########################## -->
-
       <section style="font-size: 80%"><div data-markdown>
         <textarea data-template>
           ## CSS Selectors
@@ -673,9 +658,6 @@ CSS style information.
 ````
 </textarea>
 </div></section>
-      <!-- ######################## END MARKDOWN SLIDE ########################## -->
-
-      <!-- ######################## START MARKDOWN SLIDE ########################## -->
       <section style="font-size: 65%">
         <div data-markdown>
           <textarea data-template>
@@ -715,10 +697,6 @@ p.highlight { background-color:orange; }
         <p class="highlight">ALERT in orange!</p>
 
       </section>
-      <!-- ######################## END MARKDOWN SLIDE ########################## -->
-
-
-      <!-- ######################## START MARKDOWN SLIDE ########################## -->
       <section data-markdown>
         <textarea data-template>
           ## CSS Selectors
@@ -734,9 +712,6 @@ p.highlight { background-color:orange; }
 ````
 </textarea>
 </section>
-      <!-- ######################## END MARKDOWN SLIDE ########################## -->
-
-      <!-- ######################## START MARKDOWN SLIDE --  -- ########################## -->
       <section style="font-size: 80%">
         <div data-markdown>
           <textarea data-template>
@@ -762,9 +737,6 @@ p { background-color:yellow; }
         </style>
         <p id="fake1">Great. Everything is yellow now.</p>
       </section>
-      <!-- ######################## END MARKDOWN SLIDE ########################## -->
-
-      <!-- ######################## START MARKDOWN SLIDE --  -- ########################## -->
       <section style="font-size: 70%">
         <div data-markdown>
           <textarea data-template>
@@ -1057,43 +1029,27 @@ Display flex also lays out other objects too.
         </p>
 
       </section>
-      <!-- ######################## END MARKDOWN SLIDE ########################## -->
-
-
-
-
-
-
-      <!-- ######################## START HTML SLIDE ########################## -->
-      <section>
+      <section style="font-size: 90%;">
         <h2>CSS Help!</h2>
         <p> CSS is spread across many specs, so it is hard to really get a
           clear grasp on it.</p>
         <ul>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS">MDN's CSS Documentation</a> -- probably the best resource.
+          </li>
+          <li><a href="https://caniuse.com/">Can I Use?</a> -- browswer compatibility tables, sometimes these are more up-to-date than MDN's compatibility tables.
           <li><a href="">CSS Specifications</a> -- Not all of these are
             available or work</li>
-          <li><a href="http://www.w3schools.com/css/css3_intro.asp">CSS3
-              Tutorial</a> from W3Schools.</li>
-          <li><a href="http://www.w3schools.com/css/default.asp">CSS
-              Tutorial</a> from W3Schools.</li>
           <li><a href="http://www.w3.org/TR/CSS2/propidx.html">Full
               property table from CSS2</a> -- The CSS2 Spec is more
             encapsulated in one place</li>
         </ul>
       </section>
-      <!-- ######################## END HTML SLIDE ########################## -->
-
-
-      <!-- ######################## START HTML SLIDE ########################## -->
       <section>
         <h2>HTML for User Interfaces</h2>
         <p> The HTML Form elements let us accept input from browsers in a
           structured way and form HTTP GETs and POSTs.</p>
         <p> In the lab you should have covered some of this.</p>
       </section>
-      <!-- ######################## END HTML SLIDE ########################## -->
-
-      <!-- ######################## START MARKDOWN SLIDE ########################## -->
       <section style="font-size: 70%">
         <div data-markdown>
           <textarea data-template>
@@ -1106,7 +1062,7 @@ be submitted as once.
 * action - We can specify the URI to GET or POST to.
 
 ````
-<form action="http://webdocs.cs.ualberta.ca/~hindle1/1.py" method="get">
+<form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
 What is your name? <input name="name"/></br>
 What is your quest? <input name="quest"/></br>
 What is your favorite colour? <input name="colour"/></br>
@@ -1116,7 +1072,7 @@ What is your favorite colour? <input name="colour"/></br>
 </textarea>
         </div>
 
-        <form action="http://webdocs.cs.ualberta.ca/~hindle1/1.py" method="get">
+        <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
           What is your name? <input name="name" /></br>
           What is your quest? <input name="quest" /></br>
           What is your favorite colour? <input name="colour" /></br>
@@ -1125,9 +1081,6 @@ What is your favorite colour? <input name="colour"/></br>
 
 
       </section>
-      <!-- ######################## END MARKDOWN SLIDE ########################## -->
-
-      <!-- ######################## START MARKDOWN SLIDE ########################## -->
       <section>
         <div data-markdown>
           <textarea data-template>
@@ -1158,7 +1111,7 @@ Hidden types allow you to embed values to send along to help the request.
 
 
 ````
-<form action="http://webdocs.cs.ualberta.ca/~hindle1/1.py" method="get">
+<form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
 What is your name? <input name="name"/></br>
 What is your quest? <input name="quest"/></br>
 What is your favorite colour? <input name="colour"/></br>
@@ -1169,7 +1122,7 @@ What is your favorite colour? <input name="colour"/></br>
 </textarea>
         </div>
 
-        <form action="http://webdocs.cs.ualberta.ca/~hindle1/1.py" method="get">
+        <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
           What is your name? <input name="name" /></br>
           What is your quest? <input name="quest" /></br>
           What is your favorite colour? <input name="colour" /></br>
@@ -1189,7 +1142,7 @@ What is your favorite colour? <input name="colour"/></br>
 
 
 ````
-<form action="http://webdocs.cs.ualberta.ca/~hindle1/1.py" method="get">
+<form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
 Do you like cake? <input name="cakeliker" type="checkbox" checked/><br/>
 How much do you like cake? <input min="0" max="15" value="10"
                                   type="range"/><br/>
@@ -1204,7 +1157,7 @@ Vanilla: <input name="filling" value="vanilla" type="radio"/><br/>
 </textarea>
         </div>
 
-        <form action="http://webdocs.cs.ualberta.ca/~hindle1/1.py" method="get">
+        <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
           Do you like cake? <input name="cakeliker" type="checkbox" checked /><br />
           How much do you like cake? <input min="0" max="15" value="10" type="range" /><br />
           When should we eat cake? <input type="date" name="cakewhen" /><br />
@@ -1227,7 +1180,7 @@ Vanilla: <input name="filling" value="vanilla" type="radio"/><br/>
 Select tag is for a dropdown box of options
 
 ````
-<form action="http://webdocs.cs.ualberta.ca/~hindle1/1.py" method="get">
+<form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
 What kind of cake shall we have?</br>
 <select name="caketype">
   <option value="angel">Angel Food Cake</option>
@@ -1240,7 +1193,7 @@ What kind of cake shall we have?</br>
 </textarea>
         </div>
 
-        <form action="http://webdocs.cs.ualberta.ca/~hindle1/1.py" method="get">
+        <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
           What kind of cake shall we have?</br>
           <select name="caketype">
             <option value="angel">Angel Food Cake</option>
@@ -1264,7 +1217,7 @@ You can upload files with the input tag but we need to switch the POST
 encoding.
 
 ````
-<form action="http://webdocs.cs.ualberta.ca/~hindle1/1.py"
+<form action="http://buttercup.cs.ualberta.ca:9000/"
       enctype="multipart/form-data"
       method="get">
   Choose a file to upload!
@@ -1275,7 +1228,7 @@ encoding.
 </textarea>
         </div>
 
-        <form action="http://webdocs.cs.ualberta.ca/~hindle1/1.py" enctype="multipart/form-data" method="post">
+        <form action="http://buttercup.cs.ualberta.ca:9000/" enctype="multipart/form-data" method="post">
           Choose a file to upload!
           <input name="uploadFile" type="file" />
           <input type="submit" />
