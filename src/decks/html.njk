@@ -1132,9 +1132,6 @@ What is your favorite colour? <input name="colour"/></br>
 
 
       </section>
-      <!-- ######################## END MARKDOWN SLIDE ########################## -->
-
-      <!-- ######################## START MARKDOWN SLIDE ########################## -->
       <section>
         <div data-markdown>
           <textarea data-template>
@@ -1146,7 +1143,6 @@ What is your favorite colour? <input name="colour"/></br>
 Do you like cake? <input name="cakeliker" type="checkbox" checked/><br/>
 How much do you like cake? <input min="0" max="15" value="10"
                                   type="range"/><br/>
-<!-- does not work on FF right now -->
 When should we eat cake? <input type="date" name="cakewhen"/><br/>
 What kind of filling? 
 Chocolate: <input name="filling" value="chocolate" type="radio"/>
@@ -1178,7 +1174,7 @@ Select tag is for a dropdown box of options
 
 ````
 <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
-What kind of cake shall we have?</br>
+What kind of cake shall we have?<br>
 <select name="caketype">
   <option value="angel">Angel Food Cake</option>
   <option value="devil" selected>Devil's Food Cake</option>
