@@ -17,9 +17,9 @@ jobs:
               with:
                 node-version: '20.x'
             - name: yarn install
-              uses: borales/actions-yarn@v4
+              uses: bahmutov/npm-install@v1
               with:
-                cmd: install --frozen-lockfile # will run `yarn install` command
+                useRollingCache: false
               #   env:
               #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # if needed
             - name: gh-pages deploy

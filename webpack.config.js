@@ -90,7 +90,9 @@ const config = {
                         searchPaths: [
                             'src/templates'
                         ],
-
+                        filters: {
+                            prexample: path.join(__dirname, 'prexample.js')
+                        }
                     }
                 }]
             },

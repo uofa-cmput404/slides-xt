@@ -2,7 +2,6 @@ console.log("Hello World!");
 import Reveal from "reveal.js";
 import 'reveal.js/dist/reveal.css';
 import 'reveal.js/dist/theme/white.css';
-import fitty from 'fitty/dist/fitty.module';
 import '@fontsource-variable/lexend-deca';
 
 import './.nojekyll';
@@ -18,7 +17,3 @@ Reveal.initialize({
         RevealMarkdown
     ]
 });
-
-// fitty('.columns');
-// fitty('.column');
-// fitty('section>ul');
