@@ -1114,47 +1114,30 @@ What is your favorite colour? <input name="colour"/></br>
 
 
 </section>
-<section>
-  <div data-markdown>
-    <textarea data-template>
-            ## &lt;input&gt; tag
-
-The input tag can take in textual input, passwords, or act as submit
-button.
-
-* type - button / *checkbox* / color / date / datetime /  datetime-local / email
-/  file /  *hidden* /  image / month / number / password /  *radio* /
-range / reset / search /  *submit* / tel /  *text* /  time / url / week
-* name - the name of the data sent to the URI
-* value - the default value
-Hidden types allow you to embed values to send along to help the request.
-
-</textarea>
-  </div>
+<section style="font-size: 80%;">
+  <h2>&lt;input> tag</h2>
+  <p>The input tag can take in textual input, passwords, or act as submit
+    button.
+  </p>
+  <ul>
+    <li><code>type=</code> button / *checkbox* / color / date / datetime / datetime-local / email
+      / file / *hidden* / image / month / number / password / *radio* /
+      range / reset / search / *submit* / tel / *text* / time / url / week
+    </li>
+    <li><code>name=</code> the name to send in the query string or post</li>
+    <li><code>value=</code> the default value</li>
+    <li>Hidden type lets you embed values to send to help track the request.</li>
+  </ul>
 </section>
-<!-- ######################## END MARKDOWN SLIDE ########################## -->
-
-
-
-<!-- ######################## START MARKDOWN SLIDE ########################## -->
 <section>
-  <div data-markdown>
-    <textarea data-template>
-            ## &lt;input&gt; tag
-
-
-````
-<form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
-What is your name? <input name="name"/></br>
-What is your quest? <input name="quest"/></br>
-What is your favorite colour? <input name="colour"/></br>
-<input type="hidden" name="hitchhiker" value="I'm coming too!"/>
-<input type="submit"/>
-</form>
-````
-</textarea>
-  </div>
-
+  <h2>&lt;input> tag</h2>
+  <code><pre>&lt;form action=&quot;http://buttercup.cs.ualberta.ca:9000/&quot; method=&quot;get&quot;&gt;
+  What is your name? &lt;input name=&quot;name&quot;/&gt;&lt;/br&gt;
+  What is your quest? &lt;input name=&quot;quest&quot;/&gt;&lt;/br&gt;
+  What is your favorite colour? &lt;input name=&quot;colour&quot;/&gt;&lt;/br&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;hitchhiker&quot; value=&quot;I&#39;m coming too!&quot;/&gt;
+  &lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;</pre></code>
   <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
     What is your name? <input name="name" /></br>
     What is your quest? <input name="quest" /></br>
@@ -1162,30 +1145,19 @@ What is your favorite colour? <input name="colour"/></br>
     <input type="hidden" name="hitchhiker" value="I'm coming too!" />
     <input type="submit" />
   </form>
-
-
 </section>
 <section>
-  <div data-markdown>
-    <textarea data-template>
-            ## &lt;input&gt; tag
-
-
-````
-<form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
-Do you like cake? <input name="cakeliker" type="checkbox" checked/><br/>
-How much do you like cake? <input min="0" max="15" value="10"
-                                  type="range"/><br/>
-When should we eat cake? <input type="date" name="cakewhen"/><br/>
-What kind of filling? 
-Chocolate: <input name="filling" value="chocolate" type="radio"/>
-Vanilla: <input name="filling" value="vanilla" type="radio"/><br/>
-<input type="submit"/>
-</form>
-````
-</textarea>
-  </div>
-
+  <h2>&lt;input> tag</h2>
+  <code><pre>&lt;form action=&quot;http://buttercup.cs.ualberta.ca:9000/&quot; method=&quot;get&quot;&gt;
+  Do you like cake? &lt;input name=&quot;cakeliker&quot; type=&quot;checkbox&quot; checked/&gt;&lt;br/&gt;
+  How much do you like cake? &lt;input min=&quot;0&quot; max=&quot;15&quot; value=&quot;10&quot;
+                                    type=&quot;range&quot;/&gt;&lt;br/&gt;
+  When should we eat cake? &lt;input type=&quot;date&quot; name=&quot;cakewhen&quot;/&gt;&lt;br/&gt;
+  What kind of filling? 
+  Chocolate: &lt;input name=&quot;filling&quot; value=&quot;chocolate&quot; type=&quot;radio&quot;/&gt;
+  Vanilla: &lt;input name=&quot;filling&quot; value=&quot;vanilla&quot; type=&quot;radio&quot;/&gt;&lt;br/&gt;
+  &lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;</pre></code>
   <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
     Do you like cake? <input name="cakeliker" type="checkbox" checked /><br />
     How much do you like cake? <input min="0" max="15" value="10" type="range" /><br />
@@ -1195,30 +1167,20 @@ Vanilla: <input name="filling" value="vanilla" type="radio"/><br/>
     Vanilla: <input name="filling" value="vanilla" type="radio" /><br />
     <input type="submit" />
   </form>
-
-
 </section>
 <section>
-  <div data-markdown>
-    <textarea data-template>
-            ## &lt;select&gt; tag
-
-Select tag is for a dropdown box of options
-
-````
-<form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
-What kind of cake shall we have?<br>
-<select name="caketype">
-  <option value="angel">Angel Food Cake</option>
-  <option value="devil" selected>Devil's Food Cake</option>
-  <option value="cowpatty">Marie Antionette's Cake</option>
-</select>
-<input type="submit"/>
-</form>
-````
-</textarea>
-  </div>
-
+  <h2>&lt;select> tag</h2>
+  <p>Select tag is for a dropdown box of options
+  </p>
+  <code><pre>&lt;form action=&quot;http://buttercup.cs.ualberta.ca:9000/&quot; method=&quot;get&quot;&gt;
+  What kind of cake shall we have?&lt;br&gt;
+  &lt;select name=&quot;caketype&quot;&gt;
+    &lt;option value=&quot;angel&quot;&gt;Angel Food Cake&lt;/option&gt;
+    &lt;option value=&quot;devil&quot; selected&gt;Devil&#39;s Food Cake&lt;/option&gt;
+    &lt;option value=&quot;cowpatty&quot;&gt;Marie Antionette&#39;s Cake&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;</pre></code>
   <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
     What kind of cake shall we have?</br>
     <select name="caketype">
@@ -1228,49 +1190,35 @@ What kind of cake shall we have?<br>
     </select>
     <input type="submit" />
   </form>
-
-
 </section>
 <section>
-  <div data-markdown>
-    <textarea data-template>
-            ## File upload
-
-You can upload files with the input tag but we need to switch the POST
-encoding.
-
-````
-<form action="http://buttercup.cs.ualberta.ca:9000/"
-      enctype="multipart/form-data"
-      method="get">
+  <h2>File upload</h2>
+  <p>
+    You can upload files with the input tag but we need to switch the POST
+    encoding.
+  </p>
+  <code><pre>&lt;form action=&quot;http://buttercup.cs.ualberta.ca:9000/&quot;
+  enctype=&quot;multipart/form-data&quot;
+  method=&quot;get&quot;&gt;
   Choose a file to upload!
-  <input name="uploadFile" type="file" />
-  <input type="submit"/>
-</form>
-````
-</textarea>
-  </div>
-
+  &lt;input name=&quot;uploadFile&quot; type=&quot;file&quot; /&gt;
+  &lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;</pre></code>
   <form action="http://buttercup.cs.ualberta.ca:9000/" enctype="multipart/form-data" method="post">
     Choose a file to upload!
     <input name="uploadFile" type="file" />
     <input type="submit" />
   </form>
-
-
 </section>
 <section>
-  <div data-markdown>
-    <textarea data-template>
-            ## Now onto Javascript!
-
-Modern UIs are now part HTML and CSS and part Javascript.
-
-Javascript tends to smooth over the rough edges and fill in the gaps
-that HTML, HTML Forms and CSS leave.
-
-</textarea>
-  </div>
+  <h2>Next: Onto Javascript!</h2>
+  <p>
+    Modern UIs are now part HTML and CSS and part Javascript.
+  </p>
+  <p>
+    Javascript tends to smooth over the rough edges and fill in the gaps
+    that HTML, HTML Forms and CSS leave.
+  </p>
 </section>
 
                           <section style="font-size: 90%">
