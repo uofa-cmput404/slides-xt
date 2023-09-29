@@ -2,4 +2,4 @@
 
 Refreshed reveal.js slides for CMPUT 404
 
-Uses yarn, webpack, reveal.js, nunjucks, and gh-pages.
+Uses webpack, reveal.js, nunjucks, and gh-pages.
