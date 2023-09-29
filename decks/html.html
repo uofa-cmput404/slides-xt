@@ -275,33 +275,30 @@
   <img src="../images/plasma.png" alt="Plasma Pattern" width="30" height="60">
 </section>
 <section style="font-size: 80%">
-  <div data-markdown>
-    <textarea data-template>
-## `<a>`: The Anchor Tag
-
-We wouldn't have hypertext without hyperlinks!
-
-Anchor tags let us link to other documents or locations. The href
-attribute links to a URL. The URL can be relative to the location of
-the current page. Anchor tags used to place anchors on pages, but in
-HTML 5 they just navigate to ID'd sections now.
-
-`````
-<a href="http://slashdot.org">Slashdot.org: News for Nerds Stuff that
-  Matters</a><br>
-<a href="http://cnn.com">T</a><a href="http://msn.com">a</a>
-<a href="http://softwareprocess.es/">g</a><a href="http://ualberta.ca">s</a>
-don't have to be very long.<br>
-<a href="../">The a directory down!</a> Relative Link
-`````
-</textarea>
-  </div>
-  <a href="http://slashdot.org">Slashdot.org: News for Nerds Stuff that
-    Matters</a><br>
-  <a href="http://cnn.com">T</a><a href="http://msn.com">a</a>
-  <a href="http://softwareprocess.es/">g</a><a href="http://ualberta.ca">s</a>
-  don't have to be very long.<br>
-  <a href="../">The parent directory!</a> Relative Link
+  <h2><code>&lt;a></code>: The Anchor Tag</h2>
+  <p>
+    We wouldn't have hypertext without hyperlinks!
+  </p>
+  <p>
+    Anchor tags let us link to other documents or locations. The href
+    attribute links to a URL. The URL can be relative to the location of
+    the current page. Anchor tags used to place anchors on pages, but in
+    HTML 5 they just navigate to ID'd sections now.
+  </p>
+  <pre><code class="html">&lt;a href=&quot;http://slashdot.org&quot;&gt;Slashdot.org: News for Nerds Stuff that
+  Matters&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;http://cnn.com&quot;&gt;T&lt;/a&gt;&lt;a href=&quot;http://msn.com&quot;&gt;a&lt;/a&gt;
+&lt;a href=&quot;http://softwareprocess.es/&quot;&gt;g&lt;/a&gt;&lt;a href=&quot;http://ualberta.ca&quot;&gt;s&lt;/a&gt;
+don&#39;t have to be very long.&lt;br&gt;
+&lt;a href=&quot;../&quot;&gt;The a directory down!&lt;/a&gt; Relative Link</code></pre>
+  <p>
+    <a href="http://slashdot.org">Slashdot.org: News for Nerds Stuff that
+      Matters</a><br>
+    <a href="http://cnn.com">T</a><a href="http://msn.com">a</a>
+    <a href="http://softwareprocess.es/">g</a><a href="http://ualberta.ca">s</a>
+    don't have to be very long.<br>
+    <a href="../">The parent directory!</a> Relative Link
+  </p>
 </section>
 <section>
   <h3>Text Layout Philosophy</h3>
@@ -320,12 +317,12 @@ don't have to be very long.<br>
     <li>&lt;span&gt; will be inlined.</li>
   </ul>
   <pre><code class="html">&lt;div&gt;
-&lt;span&gt;Now bears us onward one of the hard margins,&lt;/span&gt;&lt;br&gt;
+  &lt;span&gt;Now bears us onward one of the hard margins,&lt;/span&gt;&lt;br&gt;
   And so the brooklet&#39;s mist o&#39;ershadows it,&lt;br&gt;
   From fire it saves the water and the dikes.&lt;br&gt;
 &lt;/div&gt;
 &lt;div&gt;
-Even &lt;span&gt;as the Flemings&lt;/span&gt;, &#39;twixt Cadsand and Bruges,&lt;br&gt;
+  Even &lt;span&gt;as the Flemings&lt;/span&gt;, &#39;twixt Cadsand and Bruges,&lt;br&gt;
   Fearing the flood that tow&#39;rds them hurls itself,&lt;br&gt;
   Their bulwarks build to put the sea to flight;&lt;br&gt;
 &lt;/div&gt;</code></pre>
@@ -356,17 +353,17 @@ Even &lt;span&gt;as the Flemings&lt;/span&gt;, &#39;twixt Cadsand and Bruges,&lt
   <ul>
     <li>We can add a style attribute to these tags</li>
   </ul>
-  <pre><code class="html">&lt;div>
-&lt;span style="background-color:#AAAAAA;font-weight:bold">
-  Now bears us onward one of the hard margins,&lt;/span>&lt;br>
-  And so the brooklet's mist o'ershadows it,&lt;br>
-  From fire it saves the water and the dikes.&lt;br>
-&lt;/div>
-&lt;div style="font-size:150%">
-Even &lt;span style="color:red">as the Flemings&lt;/span>, 'twixt Cadsand and Bruges,&lt;br>
-  Fearing the flood that tow'rds them hurls itself,&lt;br>
-  Their bulwarks build to put the sea to flight;&lt;br>
-&lt;/div></pre></code>
+  <pre><code class="html">&lt;div&gt;
+  &lt;span style=&quot;background-color:#AAAAAA;font-weight:bold&quot;&gt;
+  Now bears us onward one of the hard margins,&lt;/span&gt;&lt;br&gt;
+  And so the brooklet&#39;s mist o&#39;ershadows it,&lt;br&gt;
+  From fire it saves the water and the dikes.&lt;br&gt;
+&lt;/div&gt;
+&lt;div style=&quot;font-size:150%&quot;&gt;
+  Even &lt;span style=&quot;color:red&quot;&gt;as the Flemings&lt;/span&gt;, &#39;twixt Cadsand and Bruges,&lt;br&gt;
+  Fearing the flood that tow&#39;rds them hurls itself,&lt;br&gt;
+  Their bulwarks build to put the sea to flight;&lt;br&gt;
+&lt;/div&gt;</pre></code>
 </section>
 <section style="font-size: 65%;">
   <h2>&lt;div&gt; and &lt;span&gt; tags: With Style</h2>
@@ -387,19 +384,14 @@ Even &lt;span style="color:red">as the Flemings&lt;/span>, 'twixt Cadsand and Br
     </div>
   </blockquote>
 </section>
-<section data-markdown>
-  <textarea data-template>
-          ## Style
-
-I showed how to modify the style properties of tags. Tags can have
-attributes defined liked so:
-````
-<tag attribute1="value1" attribute2="val2">
-````
-
-We added style attributes. The style attributes are Cascading Style
-Sheet properties.
-</textarea>
+<section>
+  <h2>Style</h2>
+  <p>I showed how to modify the style properties of tags. Tags can have
+    attributes defined liked so:</p>
+  <pre><code class="html">&lt;tag attribute1=&quot;value1&quot; attribute2=&quot;val2&quot;&gt;</code></pre>
+  <p>We added style attributes. The style attributes are Cascading Style
+    Sheet properties.</p>
+  </textarea>
 </section>
 <section>
   <h3>Cascading</h3>
