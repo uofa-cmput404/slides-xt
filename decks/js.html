@@ -271,23 +271,40 @@ f.call(
 );</code></pre>
 </section>
 <section>
-    <h3>Arrow Functions</h3>
-    <p>Like anonymous functions but they always keep the <var>this</var> from when they were created. Closures again!</p>
-    <pre><code class="javascript">var outer = function(text) {
-    console.log(&quot;in outer: &quot; + this);
-    return (x) =&gt; {
-        console.log(&quot;in inner: &quot; + this);
-        alert(text);
+    <h3>Arrow Functions: Why?</h3>
+    <p>This does <strong>not</strong> work!</p>
+    <pre><code class="javascript">class MyClass {
+    constructor() {
+        this.state = 1;
+    }
+    getIncrementer() {
+        return function() { // this does NOT work
+            this.state += 1;
+        }
     }
 }
-var f = outer.call(
-    &quot;this string is outer&#39;s this&quot;,
-    &quot;Hi mom I&#39;m on the projector&quot;
-);
-f.call(
-    &quot;ignored, because it&#39;s an arrow fn&quot;,
-    &quot;this string does nothing&quot;
-);</code></pre>
+var i = new MyClass();
+var f = i.getIncrementer();
+f();
+console.log(i.state);</code></pre>
+</section>
+<section>
+    <h3>Arrow Functions: Why?</h3>
+    <p>This does work!</p>
+    <pre><code class="javascript">class MyClass {
+    constructor() {
+        this.state = 1;
+    }
+    getIncrementer() {
+        return () =&gt; { // fixed
+            this.state += 1;
+        }
+    }
+}
+var i = new MyClass();
+var f = i.getIncrementer();
+f();
+console.log(i.state);</code></pre>
 </section>
 <section>
     <h3>Names</h3>
@@ -329,20 +346,18 @@ Math.trunc(0.7)</code></pre>
     <ul>
         <li>Getting a float</li>
     </ul>
-    <pre><code class="javascript">parseFloat("127")
-Number("0x7F")
-+"0x7F" // Unary plus is the same as Number</code></pre>
+    <pre><code class="javascript">parseFloat(&quot;127&quot;)
+Number(&quot;0x7F&quot;)
++&quot;0x7F&quot; // Unary plus is the same as Number</code></pre>
 </section>
-</section>
-
 <section>
     <h4>Rounding Errors</h4>
     <p>Since everything's a double, you get rounding errors...</p>
     <pre><code class="javascript">function horse(b) {
-var c = b;
-return function() {
-  return 1/c;
-};
+    var c = b;
+    return function() {
+        return 1/c;
+    };
 }
 f = horse(101);
 g = horse(102);
@@ -352,7 +367,6 @@ console.log(1/g()==102);
 console.log(1/h()==103);</code></pre>
     <button type="button" onclick="alert(1/(1/103))">1/(1/103)</button>
 </section>
-
 <section>
     <h3>Strings</h3>
     <ul>
@@ -361,15 +375,14 @@ console.log(1/h()==103);</code></pre>
         <li>Any characters except control characters and \, " or '</li>
     </ul>
     <pre><code class="javascript">var aNumber = 10;
-var aString = "";
-var anotherString ="Hi how are you";
-var escapesString = "\r\n\t\f\b\/\\\\'\"";
-var snowMan = "\u2603";
+var aString = &quot;&quot;;
+var anotherString =&quot;Hi how are you&quot;;
+var escapesString = &quot;&#92;r&#92;n&#92;t&#92;f&#92;b&#92;/&#92;&#92;&#92;&#92;&#39;&#92;&quot;&quot;;
+var snowMan = &quot;&#92;u2603&quot;;
 snowMan.length === 1;
 aString.length === 0;</code></pre>
     <button type="button" onclick="alert('\u2603')">&#9731;</button>
 </section>
-
 <section>
     <h3>Casting Strings</h3>
     <ul>
