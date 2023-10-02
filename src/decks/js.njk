@@ -290,24 +290,43 @@
     {% endfilter %}</code></pre>
 </section>
 <section>
-    <h3>Arrow Functions</h3>
-    <p>Like anonymous functions but they always keep the <var>this</var> from when they were created. Closures again!</p>
+    <h3>Arrow Functions: Why?</h3>
+    <p>This does <strong>not</strong> work!</p>
     <pre><code class="javascript">{% filter prexample %}
-        var outer = function(text) {
-            console.log("in outer: " + this);
-            return (x) => {
-                console.log("in inner: " + this);
-                alert(text);
+        class MyClass {
+            constructor() {
+                this.state = 1;
+            }
+            getIncrementer() {
+                return function() { // this does NOT work
+                    this.state += 1;
+                }
             }
         }
-        var f = outer.call(
-            "this string is outer's this",
-            "Hi mom I'm on the projector"
-        );
-        f.call(
-            "ignored, because it's an arrow fn",
-            "this string does nothing"
-        );
+        var i = new MyClass();
+        var f = i.getIncrementer();
+        f();
+        console.log(i.state);
+    {% endfilter %}</code></pre>
+</section>
+<section>
+    <h3>Arrow Functions: Why?</h3>
+    <p>This does work!</p>
+    <pre><code class="javascript">{% filter prexample %}
+        class MyClass {
+            constructor() {
+                this.state = 1;
+            }
+            getIncrementer() {
+                return () => { // fixed
+                    this.state += 1;
+                }
+            }
+        }
+        var i = new MyClass();
+        var f = i.getIncrementer();
+        f();
+        console.log(i.state);
     {% endfilter %}</code></pre>
 </section>
 <section>
@@ -331,13 +350,15 @@
         <li>Everything is a double :(</li>
         <li>Write integers, decimals, or decimals with an exponent</li>
     </ul>
-    <pre><code class="javascript">var aNumber = 10;
-var aNumber = 11.11;
-var aNumber = 1e-100;
-var aNumber = 1E+100;
-var nan = NaN;
-var inf = Infinity;
-var negativeInfinity = -Infinity;</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        var aNumber = 10;
+        var aNumber = 11.11;
+        var aNumber = 1e-100;
+        var aNumber = 1E+100;
+        var nan = NaN;
+        var inf = Infinity;
+        var negativeInfinity = -Infinity;
+    {% endfilter %}</code></pre>
 </section>
 
 <section>
@@ -345,37 +366,40 @@ var negativeInfinity = -Infinity;</code></pre>
     <ul>
         <li>Getting an "integer"</li>
     </ul>
-    <pre><code class="javascript">Math.floor(0.7)
-Math.ceil(0.7)
-Math.round(0.7)
-Math.trunc(0.7)</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        Math.floor(0.7)
+        Math.ceil(0.7)
+        Math.round(0.7)
+        Math.trunc(0.7)
+    {% endfilter %}</code></pre>
     <ul>
         <li>Getting a float</li>
     </ul>
-    <pre><code class="javascript">parseFloat("127")
-Number("0x7F")
-+"0x7F" // Unary plus is the same as Number</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        parseFloat("127")
+        Number("0x7F")
+        +"0x7F" // Unary plus is the same as Number
+    {% endfilter %}</code></pre>
 </section>
-</section>
-
 <section>
     <h4>Rounding Errors</h4>
     <p>Since everything's a double, you get rounding errors...</p>
-    <pre><code class="javascript">function horse(b) {
-var c = b;
-return function() {
-  return 1/c;
-};
-}
-f = horse(101);
-g = horse(102);
-h = horse(103);
-console.log(1/f()==101);
-console.log(1/g()==102);
-console.log(1/h()==103);</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        function horse(b) {
+            var c = b;
+            return function() {
+                return 1/c;
+            };
+        }
+        f = horse(101);
+        g = horse(102);
+        h = horse(103);
+        console.log(1/f()==101);
+        console.log(1/g()==102);
+        console.log(1/h()==103);
+    {% endfilter %}</code></pre>
     <button type="button" onclick="alert(1/(1/103))">1/(1/103)</button>
 </section>
-
 <section>
     <h3>Strings</h3>
     <ul>
@@ -383,16 +407,17 @@ console.log(1/h()==103);</code></pre>
         <li>Use ' ' or " "</li>
         <li>Any characters except control characters and \, " or '</li>
     </ul>
-    <pre><code class="javascript">var aNumber = 10;
-var aString = "";
-var anotherString ="Hi how are you";
-var escapesString = "\r\n\t\f\b\/\\\\'\"";
-var snowMan = "\u2603";
-snowMan.length === 1;
-aString.length === 0;</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        var aNumber = 10;
+        var aString = "";
+        var anotherString ="Hi how are you";
+        var escapesString = "\r\n\t\f\b\/\\\\'\"";
+        var snowMan = "\u2603";
+        snowMan.length === 1;
+        aString.length === 0;
+    {% endfilter %}</code></pre>
     <button type="button" onclick="alert('\u2603')">&#9731;</button>
 </section>
-
 <section>
     <h3>Casting Strings</h3>
     <ul>
