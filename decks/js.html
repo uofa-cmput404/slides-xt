@@ -319,6 +319,40 @@ f();
 console.log(i.state);</code></pre>
 </section>
 <section>
+    <h3>This Example 2</h3>
+    <p>What happens?</p>
+    <pre><code class="javascript">name = &quot;W for Window!&quot;;
+var a = {
+    name: &quot;Awesome A!&quot;,
+    getName: function() {
+        return this.name;
+    }
+};
+var b = {
+    name: &quot;Beautiful B!&quot;
+};
+b.getName = a.getName;
+console.log(b.getName());
+console.log(a.getName());</code></pre>
+</section>
+<section>
+    <h3>This Example 2</h3>
+    <p>What happens?</p>
+    <pre><code class="javascript">name = &quot;W for Window!&quot;;
+var a = {
+    name: &quot;Awesome A!&quot;,
+    getName: () =&gt; {
+        return this.name;
+    }
+};
+var b = {
+    name: &quot;Beautiful B!&quot;
+};
+b.getName = a.getName;
+console.log(b.getName());
+console.log(a.getName());</code></pre>
+</section>
+<section>
     <h3>Names</h3>
     <ul>
         <li>Start with a letter followed by underscores, letters or numbers.</li>
