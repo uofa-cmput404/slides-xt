@@ -1,6 +1,17 @@
 {% extends "base.njk" %}
 
 {% block slides %}
+<section>
+    <h1>CMPUT 404</h1>
+    <h3>Web Applications and Architecture</h3>
+    <h2>Part 06: JavaScript</h2>
+    <p>
+        <small>Created by <br>
+            <a href="http://softwareprocess.es">Abram Hindle</a>
+            (<a href="mailto:abram.hindle@ualberta.ca">abram.hindle@ualberta.ca</a>) <br> and Hazel Campbell (<a href="mailto:hazel.campbell@ualberta.ca">hazel.campbell@ualberta.ca</a>).<br> Copyright 2014-2023.
+        </small>
+    </p>
+</section>
 <section style="font-size: 80%">
     <h3>Resources</h3>
     <p>Good resources for JavaScript:</p>
@@ -77,7 +88,7 @@
     <p>Put the JavaScript within <var>&lt;script></var> tags.</p>
     <pre><code class="html">{% filter prexample %}
         <script>
-            var someJS = "JS in a &lt;script> tag!";
+            var someJS = "JS in a <script> tag!";
         </script>
         <!-- you can embed oneliners within HTML! -->
         <button onClick="alert('Stuck in JS factory, send help!');">
@@ -263,7 +274,8 @@
                 x();
                 // Quiz.write doesnt work in JS
             {% endfilter %}</code></pre>
-            <p>In JavaScript the <code>x</code> function isn't bound to <em>anything</em> unless we call it explicitly like
+            <p>In JavaScript the <code>x</code> function isn't bound to <em>anything</em> unless we call it explicitly
+                like
                 <code>i.write</code>, <code>x.call(i)</code> or bind it with <code>x.bind(i)</code>
             </p>
         </div>
@@ -423,15 +435,15 @@
     <ul>
         <li>Convert to string</li>
     </ul>
-    <pre><code class="javascript">
-"" + 1;
-1 + "";
-String(1); 
-(1).toString();
-String(null); // "null"
-null.toString(); // Error
-(127).toString(16); // "7F"
-</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        "" + 1;
+        1 + "";
+        String(1); 
+        (1).toString();
+        String(null); // "null"
+        null.toString(); // Error
+        (127).toString(16); // "7F"
+    {% endfilter %}</code></pre>
 </section>
 
 <section>
@@ -441,12 +453,14 @@ null.toString(); // Error
         <li>Unfortunately conditional expressions have lot of truthy and falsey values</li>
         <li>False values:</li>
     </ul>
-    <pre><code class="javascript">false
-null
-undefined
-''
-0
-NaN</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        false
+        null
+        undefined
+        ''
+        0
+        NaN
+    {% endfilter %}</code></pre>
     <ul>
         <li>True values are <var>true</var> and everything else.</li>
     </ul>
@@ -458,15 +472,17 @@ NaN</code></pre>
         <li><var>==</var> the <em>abstract</em> equality operator</li>
         <li><var>===</var> the <em>strict</em> equality operator</li>
     </ul>
-    <pre><code class="javascript">3=="3" // true
-3==="3" // false
-1==true // true
-1===true // false
-undefined == null // true
-undefined === null // false
-NaN==NaN // false
-NaN===NaN // false
-isNaN(NaN) // true</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        3=="3" // true
+        3==="3" // false
+        1==true // true
+        1===true // false
+        undefined == null // true
+        undefined === null // false
+        NaN==NaN // false
+        NaN===NaN // false
+        isNaN(NaN) // true
+    {% endfilter %}</code></pre>
     <ul>
         <li>In general you should always use <var>===</var></li>
     </ul>
@@ -478,25 +494,29 @@ isNaN(NaN) // true</code></pre>
         <li>Object-oriented and full of methods</li>
         <li>0-indexed</li>
     </ul>
-    <pre><code class="javascript">var empty = [];
-var arrayInitialized = [1,2,3,4,'5'];//mixed!
-var arr = new Array(10);
-arr[0] === undefined;
-arr[0] = 'Assigned';
-'Assigned' === arr[0];
-arrayInitialized[4] === '5';
-arrayInitialized.length === 5;
-arrayInitialized.splice(3,1); // delete 4 from the array (slow)</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        var empty = [];
+        var arrayInitialized = [1,2,3,4,'5'];//mixed!
+        var arr = new Array(10);
+        arr[0] === undefined;
+        arr[0] = 'Assigned';
+        'Assigned' === arr[0];
+        arrayInitialized[4] === '5';
+        arrayInitialized.length === 5;
+        arrayInitialized.splice(3,1); // delete 4 from the array (slow)
+    {% endfilter %}</code></pre>
 </section>
 
 <section>
     <ul>
         <li>loop over arrays with <var>for ... of</var></li>
     </ul>
-    <pre><code class="javascript">let a = [1, 2, 3, 4, 5];
-for (let i of a) {
-console.log(i);
-}</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        let a = [1, 2, 3, 4, 5];
+        for (let i of a) {
+            console.log(i);
+        }
+    {% endfilter %}</code></pre>
 </section>
 
 <section>
@@ -514,55 +534,61 @@ console.log(i);
 
 <section>
     <h4>Objects</h4>
-    <pre><code class="javascript">var empty = {};
-var abram = {
-"name":"Abram Hindle",
-"job":"Throwing Down JS",
-"favorite tea":"puerh"
-};
-var dog = {
-paws: 4 // note I didn't quote paws
-};
-dog.paws === 4;
-abram["favorite tea"] === "puerh";
-abram.name === "Abram Hindle";
-abram["favorite tea"] = "oolong";</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        var empty = {};
+        var abram = {
+            "name":"Abram Hindle",
+            "job":"Throwing Down JS",
+            "favorite tea":"puerh"
+        };
+        var dog = {
+            paws: 4 // note I didn't quote paws
+        };
+        dog.paws === 4;
+        abram["favorite tea"] === "puerh";
+        abram.name === "Abram Hindle";
+        abram["favorite tea"] = "oolong";
+    {% endfilter %}</code></pre>
 </section>
 
 <section>
     <h4>Objects</h4>
-    <pre><code class="javascript">undefined.property; // Throws a type error
-undefined && undefined.property // returns undefined
-var empty = {};
-empty.property === undefined;
-var abram = {
-"name":"Abram Hindle",
-"job":"Throwing Down JS",
-"favorite tea":"puerh"
-};
-keys(abram); // produces ["name","job","favorite tea"]
-//prototype!
-var abramChild = Object.create(abram)
-keys(abramChild); // produces []
-abramChild.name === "Abram Hindle"; // inherits keys from abram</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        undefined.property; // Throws a type error
+        undefined && undefined.property // returns undefined
+        var empty = {};
+        empty.property === undefined;
+        var abram = {
+            "name":"Abram Hindle",
+            "job":"Throwing Down JS",
+            "favorite tea":"puerh"
+        };
+        keys(abram); // produces ["name","job","favorite tea"]
+        //prototype!
+        var abramChild = Object.create(abram)
+        keys(abramChild); // produces []
+        abramChild.name === "Abram Hindle"; // inherits keys from abram
+    {% endfilter %}</code></pre>
 </section>
 
 <section>
     <h4>Prototypes</h4>
-    <pre><code class="javascript">var abram = {
-"name":"Abram Hindle",
-"job":"Throwing Down JS",
-"favorite tea":"puerh",
-"sayName": function() {
-alert(this.name);
-}
-};
-abramChild = Object.create(abram);
-abramChild.name = "Child";
-function doit() {
-abram.sayName();
-abramChild.sayName();
-}</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        var abram = {
+            "name":"Abram Hindle",
+            "job":"Throwing Down JS",
+            "favorite tea":"puerh",
+            "sayName": function() {
+                alert(this.name);
+            }
+        };
+        abramChild = Object.create(abram);
+        abramChild.name = "Child";
+        function doit() {
+            abram.sayName();
+            abramChild.sayName();
+        }
+    {% endfilter %}</code></pre>
 </section>
 
 <section>
@@ -570,20 +596,33 @@ abramChild.sayName();
     <ul>
         <li>Use the <var>for ... in</var> syntax</li>
     </ul>
-    <pre><code class="javascript">let author = {
-"name":"Unknown Slide Author",
-"job":"Making Slides",
-"sayName": function() {
-alert(this.name);
-}
-};
-let hazel = Object.create(author);
-hazel.name = "Hazel Campbell";
-for (let property in hazel) {
-alert(property + ": " + hazel[property]);
-}</code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        let author = {
+            "name":"Unknown Slide Author",
+            "job":"Making Slides",
+            "sayName": function() {
+                alert(this.name);
+            }
+        };
+        let hazel = Object.create(author);
+        hazel.name = "Hazel Campbell";
+        for (let property in hazel) {
+            alert(property + ": " + hazel[property]);
+        }
+    {% endfilter %}</code></pre>
     <ul>
         <li><var>for ... in</var> includes properties from the prototype!</li>
+    </ul>
+</section>
+<section>
+    <h3>Remember!</h3>
+    <ul>
+        <li>for value of iterable (array)</li>
+        <li>for key in object</li>
+        <li>Hazel's mnenonic: <i>I have an <b>array of</b> finely crafted <b>objects in</b> my gallery.</i></li>
+        <li><a href="https://maximorlov.com/forof-vs-forin-memory-trick/">Maxim Orlov's mnemonic:</a> <i>UF<b>O</b>
+                Al<b>i</b>e<b>n</b>s</i></li>
+        <li><a href="https://stackoverflow.com/a/29286412">Some more mnemonics from StackOverflow</a></li>
     </ul>
 </section>
 <section>
@@ -600,76 +639,96 @@ alert(property + ": " + hazel[property]);
     <ul>
         <li>Recommended</li>
     </ul>
-    <pre><code class="javascript">
-    class Pokemon {
-      constructor(name, level) {
-        this.name = name;
-        this.level = level;
-      }
-      levelUp() {
-        this.level += 1;
-      }
-    }
-    pikachu = new Pokemon("Pikachu", 1);
-    pikachu.levelUp();
-  </code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        class Pokemon {
+            constructor(name, level) {
+                this.name = name;
+                this.level = level;
+            }
+            levelUp() {
+                this.level += 1;
+            }
+        }
+        pikachu = new Pokemon("Pikachu", 1);
+        pikachu.levelUp();
+    {% endfilter %}</code></pre>
+</section>
+<section>
+    <h3>ECMAScript 2022 Classes</h3>
+    <ul>
+        <li>Supports <code>static</code> methods & fields</li>
+        <li>Private methods & fields start with a <code>#</code></li>
+    </ul>
+    <pre><code class="javascript">{% filter prexample %}
+        class Something extends Superthing {
+            static count = 0;
+            constructor(param) {
+                super(param); // must call before we can use this
+                this.#private = Math.random();
+            }
+            static someMethod() {
+            }
+            #privateMethod() {
+            }
+        }
+    {% endfilter %}</code></pre>
 </section>
 <section>
     <h3>Constructor Function</h3>
     <ul>
         <li>You might see this in old code</li>
     </ul>
-    <pre><code class="javascript">
-     // classes start with a capital letter by convention
-    function Pokemon(name,level) {
-      this.name = name;
-      this.level = level;
-      this.levelUp = function() {
-        this.level += 1;
-      }
-    }
-    pikachu = new Pokemon("Pikachu", 1);
-    pikachu.levelUp();
-  </code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        // classes start with a capital letter by convention
+        function Pokemon(name,level) {
+            this.name = name;
+            this.level = level;
+            this.levelUp = function() {
+                this.level += 1;
+            }
+        }
+        pikachu = new Pokemon("Pikachu", 1);
+        pikachu.levelUp();
+    {% endfilter %}</code></pre>
 </section>
 <section>
     <h4>Constructor Function</h4>
     <ul>
         <li>You might also see the methods added to the prototype later</li>
     </ul>
-    <pre><code class="javascript">
-     // classes start with a capital letter by convention
-    function Pokemon(name,level) {
-      this.name = name;
-      this.level = level;
-    }
-    // have to include "prototype" here so "this" works in the method
-    Pokemon.prototype.levelUp = function() {
-      this.level += 1;
-    }
-    pikachu = new Pokemon("Pikachu", 1);
-    pikachu.levelUp();
-  </code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        // classes start with a capital letter by convention
+        function Pokemon(name,level) {
+            this.name = name;
+            this.level = level;
+        }
+        // have to include "prototype" here so "this" works in the method
+        Pokemon.prototype.levelUp = function() {
+            this.level += 1;
+        }
+        pikachu = new Pokemon("Pikachu", 1);
+        pikachu.levelUp();
+    {% endfilter %}</code></pre>
 </section>
 <section>
-    <h4><var>Object.create(prototype)</var></h4>
+    <h3><var>Object.create(prototype)</var></h3>
     <ul>
         <li>Awkward and rarely used</li>
     </ul>
-    <pre><code class="javascript">
-     // classes start with a capital letter by convention
-    var Pokemon = {
-      name: null,
-      level: null,
-      levelUp: function() {
-        this.level += 1;
-      }
-    }
-    pikachu = Object.create(Pokemon);
-    pikachu.name = "Pikachu";
-    pikachu.level = 1;
-    pikachu.levelUp();
-  </code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        // classes start with a capital letter by convention
+        var Pokemon = {
+            name: null,
+            level: null,
+            levelUp: function() {
+                this.level += 1;
+            }
+        }
+        pikachu = Object.create(Pokemon);
+        pikachu.name = "Pikachu";
+        pikachu.level = 1;
+        pikachu.levelUp();
+    {% endfilter %}</code></pre>
 </section>
 <section>
     <h3>Manipulating the DOM</h3>
@@ -683,7 +742,7 @@ alert(property + ": " + hazel[property]);
                 <li>Model: it's a tree with children nodes</li>
             </ul>
         </li>
-        <li><a href="https://www.w3schools.com/js/js_htmldom.asp">JS HTML DOM Tutorial</a>
+        <li>Take the <a href="https://www.w3schools.com/js/js_htmldom.asp">JS HTML DOM Tutorial</a></li>
     </ul>
 </section>
 <section>
@@ -703,7 +762,7 @@ alert(property + ": " + hazel[property]);
         </div>
     </blockquote>
 </section>
-<section style="font-size: 90%">
+<section style="font-size: 80%">
     <h3>Top of the DOM</h3>
     <ul>
         <li>Document (it's a tree with children nodes!)<ul>
@@ -711,7 +770,7 @@ alert(property + ": " + hazel[property]);
                         <li>Element: Head ( document.children[0].children[0] )</li>
                         <li>Element: Body ( document.children[0].children[1] )<ul>
                                 <li>Element: p ( document.children[0].children[1].children[0] )<ul>
-                                        <li>#text: A paragrah</li>
+                                        <li>Text: A paragrah</li>
                                     </ul>
                                 </li>
                                 <li>Element: div<ul>
@@ -737,9 +796,6 @@ alert(property + ": " + hazel[property]);
             var start = document.querySelector("#domexample");
             alert(domRecurse(start, 0));
         }
-    </script>
-    <pre><code class="javascript">
-    <script>
         function domRecurse(start, depth) {
             var out = "";
             for (child of start.childNodes) {
@@ -754,7 +810,21 @@ alert(property + ": " + hazel[property]);
             return out;
         }
     </script>
-  </code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        function domRecurse(start, depth) {
+            var out = "";
+            for (child of start.childNodes) {
+                indent = "    ".repeat(depth);
+                out += indent + "* " + child.nodeName;
+                if (child.nodeName === "#text") {
+                    out += " " + JSON.stringify(child.wholeText);
+                }
+                out += "\n";
+                out += domRecurse(child, depth + 1);
+            }
+            return out;
+        }
+    {% endfilter %}</code></pre>
     <button type="button" onclick="domRecurseExample()">Try it!</button>
 </section>
 <section>
@@ -764,40 +834,44 @@ alert(property + ": " + hazel[property]);
         <li>Use CSS-style selectors</li>
         <li>You don't need jQuery</li>
     </ul>
-    <pre><code class="javascript">
-    function domRecurseExample() {
-      var start = document.querySelector("#domexample");
-      alert(domRecurse(start, 0));
-    }
-  </code></pre>
-    <pre><code class="html">
-    &lt;blockquote id="domexample">
-      ...
-    &lt;/blockquote>
-    &lt;button type="button" onclick="domRecurseExample()">Try it!&lt;/button>
-  </code></pre>
-    <button type="button" onclick="domRecurseExample()">Try it!</button>
+    <script>
+        function domRecurseExample2() {
+            var start = document.querySelector("#domexample2");
+            alert(domRecurse(start, 0));
+        }
+    </script>
+    <pre><code class="javascript">{% filter prexample %}
+        function domRecurseExample2() {
+            var start = document.querySelector("#domexample2");
+            alert(domRecurse(start, 0));
+        }
+    {%endfilter%}</code></pre>
+    <pre><code class="html">{% filter prexample %}
+        <p id="domexample2">The paragraph we're looking for.</p>
+        <button type="button" onclick="domRecurseExample2()">Try it!</button>
+    {% endfilter %}</code></pre>
+    <p id="domexample2">The paragraph we're looking for.</p>
+    <button type="button" onclick="domRecurseExample2()">Try it!</button>
 </section>
 <section>
     <h3>Finding DOM Elements</h3>
     <ul>
         <li>Other than <var>querySelector</var></li>
     </ul>
-    <pre><code class="javascript">
-    // Get all DIVs
-    var divs = document.getElementsByTagName("div"); 
-    // gets all elements with class divider
-    var dividers = document.getElementsByClassName("divider"); 
-    // get the element with the ID main
-    var main = document.getElementById('main');
-    // get the element by name
-    var ups = document.getElementsByName('up');
-  </code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        // Get all DIVs
+        var divs = document.getElementsByTagName("div"); 
+        // gets all elements with class divider
+        var dividers = document.getElementsByClassName("divider"); 
+        // get the element with the ID main
+        var main = document.getElementById('main');
+        // get the element by name
+        var ups = document.getElementsByName('up');
+    {% endfilter %}</code></pre>
 </section>
 <section>
     <h3>jQuery?</h3>
-    <p>jQuery's functionality is now available from
-        APIs built-in to browsers.</p>
+    <p>jQuery's functionality is now available from APIs built-in to browsers.</p>
     <ul>
         <li>Old projects that need backwards-compatibility or already use jQuery:
             <ul>
@@ -814,10 +888,9 @@ alert(property + ": " + hazel[property]);
 <section>
     <h3>Changing Document Content</h3>
     <p>Changing the DOM</p>
-    <pre><code class="html">
-    &lt;div id="fillme">&lt;/div>
-  </pre></code>
-    <pre><code class="javascript">
+    <pre><code class="html">{% filter prexample %}
+        <div id="fillme"></div>
+    {% endfilter %}</pre></code>
     <script>
         function fillExample() {
             fillme = document.getElementById("fillme");
@@ -828,7 +901,16 @@ alert(property + ": " + hazel[property]);
             fillme.appendChild(a);
         }
     </script>
-  </pre></code>
+    <pre><code class="javascript">{% filter prexample %}
+        function fillExample() {
+            fillme = document.getElementById("fillme");
+            fillme.textContent = "Here's some text in that div! ";
+            a = document.createElement("a"); // create an a element
+            a.textContent = "Let's make a link too!";
+            a.href = "https://google.ca/";
+            fillme.appendChild(a);
+        }
+    {% endfilter %}</pre></code>
     <blockquote>
         <div id="fillme"></div>
     </blockquote>
@@ -836,11 +918,10 @@ alert(property + ": " + hazel[property]);
 </section>
 <section style="font-size: 90%">
     <h3>Changing Document Style</h3>
-    <pre><code class="html">
-    &lt;div class="styleme">I'm text in a div!&lt;/div>
-    &lt;div class="styleme">I'm text in another div!&lt;/div>
-  </pre></code>
-    <pre><code class="javascript">
+    <pre><code class="html">{% filter prexample %}
+        <div class="styleme">I'm text in a div!</div>
+        <div class="styleme">I'm text in another div!</div>
+    {% endfilter %}</pre></code>
     <script>
         function styleExample() {
             var divs = document.getElementsByClassName("styleme");
@@ -854,7 +935,19 @@ alert(property + ": " + hazel[property]);
             });
         }
     </script>
-  </pre></code>
+    <pre><code class="javascript">{% filter prexample %}
+        function styleExample() {
+            var divs = document.getElementsByClassName("styleme");
+            divs = Array.prototype.slice.call(divs); // convert HTMLCollection to Array
+            divs.map((div) => {
+                console.log(div);
+                div.style.border = "5px solid";
+                div.style.borderColor = "rgb(" + (256 * Math.random())
+                    + ", " + (256 * Math.random())
+                    + ", " + (256 * Math.random()) + ")";
+            });
+        }
+    {% endfilter %}</pre></code>
     <blockquote>
         <div class="styleme">I'm text in a div!</div>
         <div class="styleme">I'm text in another div!</div>
@@ -863,11 +956,6 @@ alert(property + ": " + hazel[property]);
 </section>
 <section style="font-size: 90%">
     <h3>Changing Document Style</h3>
-    <!--<pre><code class="html">
-    &lt;div class="styleme2">I'm text in a div!&lt;/div>
-    &lt;div class="styleme2">I'm text in another div!&lt;/div>
-  </pre></code>-->
-    <pre><code class="javascript">
     <script>
         function styleExample2() {
             old = document.getElementById("styleme2sheet");
@@ -885,7 +973,23 @@ alert(property + ": " + hazel[property]);
             document.head.appendChild(style);
         }
     </script>
-  </pre></code>
+    <pre><code class="javascript">{% filter prexample %}
+        function styleExample2() {
+            old = document.getElementById("styleme2sheet");
+            if (old) {
+                old.parentNode.removeChild(old);
+            }
+            var css = "div.styleme2 { border: 5px solid "
+                + "rgb(" + (256 * Math.random())
+                + ", " + (256 * Math.random())
+                + ", " + (256 * Math.random()) + "); }";
+            style = document.createElement('style');
+            style.type = "text/css";
+            style.id = "styleme2sheet";
+            style.textContent = css;
+            document.head.appendChild(style);
+        }
+    {% endfilter %}</pre></code>
     <blockquote>
         <div class="styleme2">I'm text in a div!</div>
         <div class="styleme2">I'm text in another div!</div>
@@ -896,10 +1000,10 @@ alert(property + ": " + hazel[property]);
     <h3>Explore The DOM</h3>
     <ul>
         <li>Right-click -> Inspect Element</li>
-        <li>Experiment with a page like <a href="https://metafilter.com/">https://metafilter.com/</a>
         <li>Change DOM elements and Style!</li>
         <li>Copy parts of the HTML out to the clipboard!</li>
-        <li>Remove annoying elements! <a href="https://pintrest.com/"></a></li>
+        <li>Remove annoying elements!</li>
+        <li>Of course, websites that use lots of divs, custom tags, or FE frameworks that create lots of divs like React make this annoying...</li>
     </ul>
 </section>
 <section>
