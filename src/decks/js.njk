@@ -342,6 +342,44 @@
     {% endfilter %}</code></pre>
 </section>
 <section>
+    <h3>This Example 2</h3>
+    <p>What happens?</p>
+    <pre><code class="javascript">{% filter prexample %}
+        name = "W for Window!";
+        var a = {
+            name: "Awesome A!",
+            getName: function() {
+                return this.name;
+            }
+        };
+        var b = {
+            name: "Beautiful B!"
+        };
+        b.getName = a.getName;
+        console.log(b.getName());
+        console.log(a.getName());
+    {% endfilter %}</code></pre>
+</section>
+<section>
+    <h3>This Example 2</h3>
+    <p>What happens?</p>
+    <pre><code class="javascript">{% filter prexample %}
+        name = "W for Window!";
+        var a = {
+            name: "Awesome A!",
+            getName: () => {
+                return this.name;
+            }
+        };
+        var b = {
+            name: "Beautiful B!"
+        };
+        b.getName = a.getName;
+        console.log(b.getName());
+        console.log(a.getName());
+    {% endfilter %}</code></pre>
+</section>
+<section>
     <h3>Names</h3>
     <ul>
         <li>Start with a letter followed by underscores, letters or numbers.</li>
