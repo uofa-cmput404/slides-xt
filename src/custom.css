@@ -32,3 +32,7 @@ body {
 cite {
     font-size: 50%;
 }
+section a {
+    overflow-wrap: break-word;
+    word-break: break-all;
+}
