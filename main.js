@@ -2117,7 +2117,10 @@ body {
 cite {
     font-size: 50%;
 }
-`, ""]);
+section a {
+    overflow-wrap: break-word;
+    word-break: break-all;
+}`, ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
