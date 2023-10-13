@@ -19,6 +19,7 @@
         <li><a href="decks/more-http.html">More HTTP</a></li>
         <li><a href="decks/html.html">HTML</a></li>
         <li><a href="decks/js.html">JavaScript</a></li>
+        <li><a href="decks/ajax.html">AJAX</a></li>
     </ul>
     <p class="little">Want to contribute? <a href="https://github.com/uofa-cmput404/slides-xt/">Source Code</a></p>
 </section>
@@ -65,18 +66,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
             </div>
           </div>
     </body>    
-    <script>
-        if ("serviceWorker" in navigator) {
-            window.addEventListener("load", () => {
-                navigator.serviceWorker
-                    .register("service-worker.js")
-                    .then((registration) => {
-                        console.log("Service Worker registered: ", registration);
-                    })
-                    .catch((registrationError) => {
-                        console.error("Service Worker registration failed: ", registrationError);
-                    });
-            });
-        }
-    </script>
 </html>
