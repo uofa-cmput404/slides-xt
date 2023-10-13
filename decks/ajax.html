@@ -223,7 +223,7 @@ fetch(request).then(function(response) {
           getterID = window.setInterval(() => { // callback
             var now = new Date();
             var s = 1 + (now.getSeconds() % 4); // remainder
-            var url = s + ".json" // 1.json 2.json 3.json...
+            var url = '../' + s + ".json" // 1.json 2.json 3.json...
             fetchJSON(url).then((json) => { // another callback
               console.log(json); // browser turned the JSON into an object
               text = json.message; // it has properties
@@ -275,8 +275,7 @@ function stopGetting() {
     </ul>
   </section>
   <section>
-    <pre><code class="javascript">
-      <script>
+    <script>
         function stringifyExample() {
           var obj = { "food":"hotdog", 
                       "condiments":["ketchup","mustard","cheese"],
@@ -291,7 +290,19 @@ function stopGetting() {
           document.querySelector("#sausage").innerText = newObj.sausage;
         }
       </script>
-    </code></pre>
+    <pre><code class="javascript">function stringifyExample() {
+    var obj = { &quot;food&quot;:&quot;hotdog&quot;, 
+                &quot;condiments&quot;:[&quot;ketchup&quot;,&quot;mustard&quot;,&quot;cheese&quot;],
+                &quot;sausage&quot;:&quot;weiner&quot;
+    };
+    document.querySelector(&quot;#hotdog&quot;).value = 
+      JSON.stringify(obj, null, &quot; &quot;); // pretty print
+  }
+  function parseExample() {
+    text = document.querySelector(&quot;#hotdog&quot;).value;
+    var newObj = JSON.parse(text); 
+    document.querySelector(&quot;#sausage&quot;).innerText = newObj.sausage;
+  }</code></pre>
     <button type="button" onclick="stringifyExample()">stringifyExample()</button>
     <button type="parse" onclick="parseExample()">parseExample()</button><br>
     <textarea id="hotdog" rows="10" cols="80"></textarea>
@@ -323,7 +334,6 @@ function stopGetting() {
       <li>Content oriented?</li>
       <li>Messages?</li>
       <li>Multimedia?</li>
-      <li>Read-based <a href="http://www.reddit.com/r/programming/">(reddit)</a></li>
     </ul>
   </section>
   <section>
@@ -335,7 +345,7 @@ function stopGetting() {
   </section>
   <section>
     <h4>AJAX Observer Pattern</h4>
-    <img class="centered noborder" src="images/observer.svg" alt="Observer UML Diagram">
+    <img class="centered noborder" src="../images/observer.svg" alt="Observer UML Diagram">
   </section>
   <section>
     <h4>AJAX Observer Pattern</h4>
@@ -344,7 +354,7 @@ function stopGetting() {
       <li>Due to the lack of a client-side HTTP server it is problematic to do the observer pattern with client side observers.</li>
     </ul>
   </section>
-  <section>
+  <section style="font-size: 90%;">
     <h3>Observing the Server</h3>
       <ul>
         <li>HTTP is stateless, so a client needs to communicate somehow all of
@@ -379,7 +389,7 @@ function stopGetting() {
     <p>Solutions?</p>
     <ul>
       <li>Polling: the most common</li>
-      <li>Push API: not supported in all browsers</li>
+      <li>Service Workers + Push API: <a href="https://caniuse.com/?search=push%20api">not supported in all browsers</a></li>
       <li>Comet "long polling": difficult server-side support</li>
       <li>Websockets: need to make a websocket server</li>
     </ul>
@@ -429,13 +439,12 @@ function stopGetting() {
   </section>
   <section style="font-size: 75%">
     <h3>Async Await Example</h3>
-    <pre><code class="javascript">
-      <script>
+    <script>
         var getterID; // global
         async function get2() {
           var now = new Date();
           var s = 1 + (now.getSeconds() % 4); // remainder
-          var url = s + ".json" // 1.json 2.json 3.json...
+          var url = "../" + s + ".json" // 1.json 2.json 3.json...
           var json = await fetchJSON(url);
           console.log(json); // browser turned the JSON into an object
           var text = json.message; // it has properties
@@ -448,12 +457,25 @@ function stopGetting() {
           window.clearInterval(getterID2);
         }
       </script>
-    </code></pre>
-    <pre><code class="html">
-      <button type="button" onclick="startGetting2()">Start Getting</button>
-      <button type="button" onclick="stopGetting2()">Stop Getting</button>
-      <blockquote id="ajaxy2"></blockquote>
-    </code></pre>
+    <pre><code class="javascript">var getterID; // global
+async function get2() {
+  var now = new Date();
+  var s = 1 + (now.getSeconds() % 4); // remainder
+  var url = &quot;../&quot; + s + &quot;.json&quot; // 1.json 2.json 3.json...
+  var json = await fetchJSON(url);
+  console.log(json); // browser turned the JSON into an object
+  var text = json.message; // it has properties
+  document.querySelector(&quot;#ajaxy2&quot;).innerText = text;
+}
+function startGetting2() {
+  getterID2 = window.setInterval(get2, 1000); // 1 second or 1000ms
+}
+function stopGetting2() {
+  window.clearInterval(getterID2);
+}</code></pre>
+    <pre><code class="html">&lt;button type=&quot;button&quot; onclick=&quot;startGetting2()&quot;&gt;Start Getting&lt;/button&gt;
+&lt;button type=&quot;button&quot; onclick=&quot;stopGetting2()&quot;&gt;Stop Getting&lt;/button&gt;
+&lt;blockquote id=&quot;ajaxy2&quot;&gt;&lt;/blockquote&gt;</code></pre>
     <button type="button" onclick="startGetting2()">Start Getting</button><button type="button" onclick="stopGetting2()">Stop Getting</button>
     <blockquote id="ajaxy2"></blockquote>
   </section>
