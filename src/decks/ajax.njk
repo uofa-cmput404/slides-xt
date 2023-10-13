@@ -228,7 +228,7 @@
           getterID = window.setInterval(() => { // callback
             var now = new Date();
             var s = 1 + (now.getSeconds() % 4); // remainder
-            var url = s + ".json" // 1.json 2.json 3.json...
+            var url = '../' + s + ".json" // 1.json 2.json 3.json...
             fetchJSON(url).then((json) => { // another callback
               console.log(json); // browser turned the JSON into an object
               text = json.message; // it has properties
@@ -284,8 +284,7 @@
     </ul>
   </section>
   <section>
-    <pre><code class="javascript">
-      <script>
+    <script>
         function stringifyExample() {
           var obj = { "food":"hotdog", 
                       "condiments":["ketchup","mustard","cheese"],
@@ -300,7 +299,21 @@
           document.querySelector("#sausage").innerText = newObj.sausage;
         }
       </script>
-    </code></pre>
+    <pre><code class="javascript">{% filter prexample %}
+        function stringifyExample() {
+            var obj = { "food":"hotdog", 
+                        "condiments":["ketchup","mustard","cheese"],
+                        "sausage":"weiner"
+            };
+            document.querySelector("#hotdog").value = 
+              JSON.stringify(obj, null, " "); // pretty print
+          }
+          function parseExample() {
+            text = document.querySelector("#hotdog").value;
+            var newObj = JSON.parse(text); 
+            document.querySelector("#sausage").innerText = newObj.sausage;
+          }
+      {% endfilter %}</code></pre>
     <button type="button" onclick="stringifyExample()">stringifyExample()</button>
     <button type="parse" onclick="parseExample()">parseExample()</button><br>
     <textarea id="hotdog" rows="10" cols="80"></textarea>
@@ -332,7 +345,6 @@
       <li>Content oriented?</li>
       <li>Messages?</li>
       <li>Multimedia?</li>
-      <li>Read-based <a href="http://www.reddit.com/r/programming/">(reddit)</a></li>
     </ul>
   </section>
   <section>
@@ -344,7 +356,7 @@
   </section>
   <section>
     <h4>AJAX Observer Pattern</h4>
-    <img class="centered noborder" src="images/observer.svg" alt="Observer UML Diagram">
+    <img class="centered noborder" src="../images/observer.svg" alt="Observer UML Diagram">
   </section>
   <section>
     <h4>AJAX Observer Pattern</h4>
@@ -353,7 +365,7 @@
       <li>Due to the lack of a client-side HTTP server it is problematic to do the observer pattern with client side observers.</li>
     </ul>
   </section>
-  <section>
+  <section style="font-size: 90%;">
     <h3>Observing the Server</h3>
       <ul>
         <li>HTTP is stateless, so a client needs to communicate somehow all of
@@ -388,7 +400,7 @@
     <p>Solutions?</p>
     <ul>
       <li>Polling: the most common</li>
-      <li>Push API: not supported in all browsers</li>
+      <li>Service Workers + Push API: <a href="https://caniuse.com/?search=push%20api">not supported in all browsers</a></li>
       <li>Comet "long polling": difficult server-side support</li>
       <li>Websockets: need to make a websocket server</li>
     </ul>
@@ -438,13 +450,12 @@
   </section>
   <section style="font-size: 75%">
     <h3>Async Await Example</h3>
-    <pre><code class="javascript">
-      <script>
+    <script>
         var getterID; // global
         async function get2() {
           var now = new Date();
           var s = 1 + (now.getSeconds() % 4); // remainder
-          var url = s + ".json" // 1.json 2.json 3.json...
+          var url = "../" + s + ".json" // 1.json 2.json 3.json...
           var json = await fetchJSON(url);
           console.log(json); // browser turned the JSON into an object
           var text = json.message; // it has properties
@@ -457,12 +468,29 @@
           window.clearInterval(getterID2);
         }
       </script>
-    </code></pre>
-    <pre><code class="html">
+    <pre><code class="javascript">{% filter prexample %}
+        var getterID; // global
+        async function get2() {
+          var now = new Date();
+          var s = 1 + (now.getSeconds() % 4); // remainder
+          var url = "../" + s + ".json" // 1.json 2.json 3.json...
+          var json = await fetchJSON(url);
+          console.log(json); // browser turned the JSON into an object
+          var text = json.message; // it has properties
+          document.querySelector("#ajaxy2").innerText = text;
+        }
+        function startGetting2() {
+          getterID2 = window.setInterval(get2, 1000); // 1 second or 1000ms
+        }
+        function stopGetting2() {
+          window.clearInterval(getterID2);
+        }
+    {% endfilter %}</code></pre>
+    <pre><code class="html">{% filter prexample %}
       <button type="button" onclick="startGetting2()">Start Getting</button>
       <button type="button" onclick="stopGetting2()">Stop Getting</button>
       <blockquote id="ajaxy2"></blockquote>
-    </code></pre>
+    {% endfilter %}</code></pre>
     <button type="button" onclick="startGetting2()">Start Getting</button><button type="button" onclick="stopGetting2()">Stop Getting</button>
     <blockquote id="ajaxy2"></blockquote>
   </section>

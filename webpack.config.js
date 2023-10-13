@@ -76,7 +76,7 @@ const config = {
                 type: 'asset',
             },
             {
-                test: /.nojekyll/,
+                test: /\.nojekyll|\.json/,
                 type: 'asset/resource',
                 generator: {
                     filename: '[base]',
