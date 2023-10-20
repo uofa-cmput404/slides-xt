@@ -189,7 +189,7 @@
         </ul>
       </li>
     </ul>
-    <pre><code type="plaintext">
+    <pre><code type="plaintext">{% filter prexample %}
       $ echo -en dGhlIHNhbXBsZSBub25jZQ==258EAFA5-E914-47DA-95CA-C5AB0DC85B11 \
       | sha1sum
       b37a4f2cc0624f1690f64606cf385945b2bec4ea -
@@ -198,7 +198,7 @@
       00000000 b3 7a 4f 2c c0 62 4f 16 90 f6 46 06 cf 38 59 45 |.zO,.bO...F..8YE|
       00000010 b2 be c4 ea                                     |....|
       00000014
-    </code></pre>
+    {% endfilter %}</code></pre>
   </section>
   <section>
     <h3>In WebSocket Protocol</h3>
@@ -235,7 +235,7 @@
   </section>
   <section>
     <h3>Frames</h3>
-    <pre><code class="plaintext">
+    <pre stle="font-size: 80%;"><code class="plaintext">{% filter prexample %}
         0                   1                   2                   3
         0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
       +-+-+-+-+-------+-+-------------+-------------------------------+
@@ -254,7 +254,7 @@
       + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
       |                     Payload Data continued ...                |
       +---------------------------------------------------------------+
-    </code></pre>
+    {% endfilter %}</code></pre>
     <ul>
       <li><var>FIN</var> is final fragment in a single message</var></li>
     </ul>
@@ -308,10 +308,10 @@
       </li>
     </ul>
   </section>
-  <section style="font-size: 85%">
+  <section style="font-size: 80%;">
     <p>Why "mask"?</p>
     <ul>
-      <li>Not for privacy (encryption)</li>
+      <li><em>Not</em> for privacy (encryption)</li>
       <li>Prevent accidentally being parsed as HTTP!</li>
       <li>Websockets are supposed to work with existing infrastructure</li>
       <li>Maintainers worried about cache poisoning by sending fake looking
@@ -379,7 +379,7 @@
   </section>
   <section>
     <h3>WebSocket in JS</h3>
-    <pre><code class="javascript">
+    <pre><code class="javascript">{% filter prexample %}
       var ws = new WebSocket("ws://www.example.com/socketserver");
       var ws = new WebSocket("ws://www.example.com/socketserver", [“proto1”, “proto2”]);
       
@@ -390,7 +390,7 @@
       websocketInstance.send( int32View ); // send binary
       
       ws.close();
-    </code></pre>
+    {% endfilter %}</code></pre>
   </section>
   <section>
     <h3>Examples</h3>
