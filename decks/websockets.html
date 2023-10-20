@@ -196,16 +196,14 @@
         </ul>
       </li>
     </ul>
-    <pre><code type="plaintext">
-      $ echo -en dGhlIHNhbXBsZSBub25jZQ==258EAFA5-E914-47DA-95CA-C5AB0DC85B11 \
-      | sha1sum
-      b37a4f2cc0624f1690f64606cf385945b2bec4ea -
-      $ base64 -d | hexdump -C
-      s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
-      00000000 b3 7a 4f 2c c0 62 4f 16 90 f6 46 06 cf 38 59 45 |.zO,.bO...F..8YE|
-      00000010 b2 be c4 ea                                     |....|
-      00000014
-    </code></pre>
+    <pre><code type="plaintext">$ echo -en dGhlIHNhbXBsZSBub25jZQ==258EAFA5-E914-47DA-95CA-C5AB0DC85B11 &#92;
+| sha1sum
+b37a4f2cc0624f1690f64606cf385945b2bec4ea -
+$ base64 -d | hexdump -C
+s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+00000000 b3 7a 4f 2c c0 62 4f 16 90 f6 46 06 cf 38 59 45 |.zO,.bO...F..8YE|
+00000010 b2 be c4 ea                                     |....|
+00000014</code></pre>
   </section>
   <section>
     <h3>In WebSocket Protocol</h3>
@@ -242,26 +240,24 @@
   </section>
   <section>
     <h3>Frames</h3>
-    <pre><code class="plaintext">
-        0                   1                   2                   3
-        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-------+-+-------------+-------------------------------+
-      |F|R|R|R| opcode|M| Payload len |    Extended payload length    |
-      |I|S|S|S|  (4)  |A|     (7)     |             (16/64)           |
-      |N|V|V|V|       |S|             |   (if payload len==126/127)   |
-      | |1|2|3|       |K|             |                               |
-      +-+-+-+-+-------+-+-------------+ - - - - - - - - - - - - - - - +
-      |     Extended payload length continued, if payload len == 127  |
-      + - - - - - - - - - - - - - - - +-------------------------------+
-      |                               |Masking-key, if MASK set to 1  |
-      +-------------------------------+-------------------------------+
-      | Masking-key (continued)       |          Payload Data         |
-      +-------------------------------- - - - - - - - - - - - - - - - +
-      :                     Payload Data continued ...                :
-      + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
-      |                     Payload Data continued ...                |
-      +---------------------------------------------------------------+
-    </code></pre>
+    <pre stle="font-size: 80%;"><code class="plaintext">  0                   1                   2                   3
+  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-------+-+-------------+-------------------------------+
+|F|R|R|R| opcode|M| Payload len |    Extended payload length    |
+|I|S|S|S|  (4)  |A|     (7)     |             (16/64)           |
+|N|V|V|V|       |S|             |   (if payload len==126/127)   |
+| |1|2|3|       |K|             |                               |
++-+-+-+-+-------+-+-------------+ - - - - - - - - - - - - - - - +
+|     Extended payload length continued, if payload len == 127  |
++ - - - - - - - - - - - - - - - +-------------------------------+
+|                               |Masking-key, if MASK set to 1  |
++-------------------------------+-------------------------------+
+| Masking-key (continued)       |          Payload Data         |
++-------------------------------- - - - - - - - - - - - - - - - +
+:                     Payload Data continued ...                :
++ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+|                     Payload Data continued ...                |
++---------------------------------------------------------------+</code></pre>
     <ul>
       <li><var>FIN</var> is final fragment in a single message</var></li>
     </ul>
@@ -315,10 +311,10 @@
       </li>
     </ul>
   </section>
-  <section style="font-size: 85%">
+  <section style="font-size: 80%;">
     <p>Why "mask"?</p>
     <ul>
-      <li>Not for privacy (encryption)</li>
+      <li><em>Not</em> for privacy (encryption)</li>
       <li>Prevent accidentally being parsed as HTTP!</li>
       <li>Websockets are supposed to work with existing infrastructure</li>
       <li>Maintainers worried about cache poisoning by sending fake looking
@@ -386,18 +382,16 @@
   </section>
   <section>
     <h3>WebSocket in JS</h3>
-    <pre><code class="javascript">
-      var ws = new WebSocket("ws://www.example.com/socketserver");
-      var ws = new WebSocket("ws://www.example.com/socketserver", [“proto1”, “proto2”]);
-      
-      ws.send("A string");
-      
-      var buffer = new ArrayBuffer(16);
-      var int32View = new Int32Array(buffer);
-      websocketInstance.send( int32View ); // send binary
-      
-      ws.close();
-    </code></pre>
+    <pre><code class="javascript">var ws = new WebSocket(&quot;ws://www.example.com/socketserver&quot;);
+var ws = new WebSocket(&quot;ws://www.example.com/socketserver&quot;, [“proto1”, “proto2”]);
+
+ws.send(&quot;A string&quot;);
+
+var buffer = new ArrayBuffer(16);
+var int32View = new Int32Array(buffer);
+websocketInstance.send( int32View ); // send binary
+
+ws.close();</code></pre>
   </section>
   <section>
     <h3>Examples</h3>
