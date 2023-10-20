@@ -1,0 +1,440 @@
+{% extends "base.njk" %}
+
+{% block slides %}
+<section>
+    <h1>CMPUT 404</h1>
+    <h3>Web Applications and Architecture</h3>
+    <h2>Part 09: Websockets</h2>
+    <p>
+      <small>Created by <br>
+        <a href="http://softwareprocess.es">Abram Hindle</a>
+        (<a href="mailto:abram.hindle@ualberta.ca">abram.hindle@ualberta.ca</a>) <br>
+        and Hazel Campbell (<a href="mailto:hazel.campbell@ualberta.ca">hazel.campbell@ualberta.ca</a>).<br>
+        Copyright 2014-2023.
+      </small>
+    </p>
+  </section>
+  <section>
+    <h3>Websockets</h3>
+    <ul>
+      <li>TCP: Stream-based communcation</li>
+      <li>UDP: Message-based communication</li>
+      <li>JavaScript in the browser: Can't do TCP or UDP, but it can do HTTP
+        <ul>
+          <li>Maybe that's a good thing... (security)</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>HTTP</h3>
+    <ul>
+      <li>Traditionally, you make a request and get a response</li>
+      <li>Problem: Not nearly as flexible as UDP and TCP</li>
+      <li>Workarounds:
+        <ul>
+          <li>Polling</li>
+          <li>Long-polling (Comet)</li>
+          <li>Other tricks</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>We want to send messages either way whenever</li>
+      <li>We want them to arrive in order</li>
+      <li>Solutions:
+        <ul>
+          <li>Websockets!</li>
+          <li>WebRTC</li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events">Sever-sent Events</a> / <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource">EventSource</a></li>
+          <li>ServiceWorker + <a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API">Push API</a></li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <section style="font-size: 80%;">
+    <h3>Newer technologies</h3>
+    <ul>
+      <li>Websockets!
+        <ul>
+          <li>Messages</li>
+          <li>Full duplex</li>
+        </ul>
+      </li>
+      <li>WebRTC
+        <ul>
+          <li>Streaming Media</li>
+          <li>Messages (same API as Websockets)</li>
+        </ul>
+      </li>
+      <li>EventSource
+        <ul>
+          <li>Sever-generated events</li>
+          <li>Just HTTP</li>
+        </ul>
+      </li>
+      <li>Push API
+        <ul>
+          <li>Can run when page is closed (if user allowes)</li>
+          <li>Throttled/limited</li>
+          <li>HTTP/2</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>Websockets</h3>
+    <ul>
+      <li>Upgrade existing HTTP connections to a websocket
+        <ul>
+          <li>Operate on the same port</li>
+          <li>Use HTTP to start</li>
+          <li>Try to be compatible with HTTP proxies</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <section style="font-size: 90%;">
+    <h4>Why Websockets</h4>
+    <ul>
+      <li>Full-duplex message-based communication
+        <ul>
+          <li>Server can push whenever, client can push whenever</li>
+          <li>Both sides can send data at the same time</li>
+          <li>Connection stays open</li>
+          <li>Don't need to poll</li>
+          <li>Avoid big HTTP headers for each message</li>
+          <li>Reuse existing technologies as much as possible</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>RFC 6455</h3>
+    <ul>
+      <li>Many examples taken from Fette et al. 2011 <a href="https://tools.ietf.org/html/rfc6455">https://tools.ietf.org/html/rfc6455</a></li>
+    </ul>
+  </section>
+  <section style="font-size:90%">
+    <h3>Websocket Handshake</h3>
+    <p>Client makes a HTTP request:</p>
+    <pre><code class="plaintext">
+      GET /chat HTTP/1.1
+      Host: server.example.com
+      Upgrade: websocket
+      Connection: Upgrade
+      Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+      Origin: http://example.com
+      Sec-WebSocket-Protocol: soap, wamp
+      Sec-WebSocket-Version: 13
+    </code></pre>
+    <p>Server responds:</p>
+    <pre><code class="plaintext">
+      HTTP/1.1 101 Switching Protocols
+      Upgrade: websocket
+      Connection: Upgrade
+      Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+      Sec-WebSocket-Protocol: wamp
+    </code></pre>
+  </section>
+  <section style="font-size: 90%">
+    <h3>No Ports</h3>
+    <ul>
+      <li>Use GET to specify which Websocket
+        <ul><li>1 webserver can service multiple websocket services</li>
+          <li><var>wss://server.example.com/mysocket</var></li>
+        </ul>
+      </li>
+      <li><var>Connection: Upgrade</var> 
+        <ul><li>not <var>keep-alive</var></li></ul>
+      </li>
+      <li><var>Upgrade: websocket</var> 
+        <ul><li>Specify the protocol we're upgrading to</li></ul>
+      </li>
+      <li>Optional <var>Sec-WebSocket-Protocol: wamp</var> 
+        <ul><li>Specify the <em>sub-</em>protocol: there are some pre-made subprotocols if you don't want to use raw websockets</li></ul>
+      </li>
+    </ul>
+  </section>
+  <section style="font-size: 90%">
+    <h3>Key and Accept</h3>
+    <ul>
+      <li>Brown M&amp;M test</li>
+      <li>Client sends <var>Sec-WebSocket-Key</var> with a random string</li>
+      <li>Server</li>
+        <ul>
+          <li>takes the key, appends <var>258EAFA5-E914-47DA-95CA-C5AB0DC85B11</var></li>
+          <li>Takes the SHA1 SUM</li>
+          <li>Base64-encodes the SHA1 SUM</li>
+          <li>Sends that with the <var>Sec-WebSocket-Accept</var> header</li>
+        </ul>
+      </li>
+      <li>Client knows for sure the server's ready for websocket</li>
+    </ul>
+  </section>
+  <section style="font-size: 90%">
+    <ul>
+      <li>Request:
+        <ul>
+          <li><var>Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==</var></li>
+        </ul>
+      </li>
+      <li>Response:
+        <ul>
+          <li><var>Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=</var></li>
+          <li>Magic string: <var>258EAFA5-E914-47DA-95CA-C5AB0DC85B11</var></li>
+          <li><var>base64(sha1SumBinary(key+guid))</var></li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code type="plaintext">
+      $ echo -en dGhlIHNhbXBsZSBub25jZQ==258EAFA5-E914-47DA-95CA-C5AB0DC85B11 \
+      | sha1sum
+      b37a4f2cc0624f1690f64606cf385945b2bec4ea -
+      $ base64 -d | hexdump -C
+      s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+      00000000 b3 7a 4f 2c c0 62 4f 16 90 f6 46 06 cf 38 59 45 |.zO,.bO...F..8YE|
+      00000010 b2 be c4 ea                                     |....|
+      00000014
+    </code></pre>
+  </section>
+  <section>
+    <h3>In WebSocket Protocol</h3>
+    <ul>
+      <li>Client and server exchange "frames"
+        <ul>
+          <li>Control frames (out of band)
+            <ul>
+              <li>Close connection <var>0x8</var></li>
+              <li>Ping <var>0x9</var> and Pong <var>0xA</var></li>
+            </ul>
+          </li>
+          <li>Data frames
+            <ul>
+              <li>These are the messages, updates, events, RPCs, whatever you're exchanging with the server</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>Messages</h3>
+    <ul>
+      <li>Sent in data frames</li>
+      <li>Could be text or binary</li>
+      <li>Size is known ahead of time
+        <ul>
+          <li>efficent buffering</li>
+        </ul>
+      </li>
+      <li>Can be fragmented into multiple data frames</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Frames</h3>
+    <pre><code class="plaintext">
+        0                   1                   2                   3
+        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-------+-+-------------+-------------------------------+
+      |F|R|R|R| opcode|M| Payload len |    Extended payload length    |
+      |I|S|S|S|  (4)  |A|     (7)     |             (16/64)           |
+      |N|V|V|V|       |S|             |   (if payload len==126/127)   |
+      | |1|2|3|       |K|             |                               |
+      +-+-+-+-+-------+-+-------------+ - - - - - - - - - - - - - - - +
+      |     Extended payload length continued, if payload len == 127  |
+      + - - - - - - - - - - - - - - - +-------------------------------+
+      |                               |Masking-key, if MASK set to 1  |
+      +-------------------------------+-------------------------------+
+      | Masking-key (continued)       |          Payload Data         |
+      +-------------------------------- - - - - - - - - - - - - - - - +
+      :                     Payload Data continued ...                :
+      + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+      |                     Payload Data continued ...                |
+      +---------------------------------------------------------------+
+    </code></pre>
+    <ul>
+      <li><var>FIN</var> is final fragment in a single message</var></li>
+    </ul>
+  </section>
+  <section>
+    <h3>Compact binary header</h3>
+    <ul>
+      <li>Byte 1: FIN bit, 3 reserved bits, 4-bit opcode</li>
+      <li>Byte 2: Mask (enables XOR "encryption" mask) and payload len</li>
+      <li>If payload len = 126, 16-bit payload len follows</li>
+      <li>If payload len = 127, 64-bit payload len follows</li>
+      <li>If maks is set, the masking key follows</li>
+      <li>Finally the data</li>
+    </ul>
+  </section>
+  <section>
+    <ul>
+      <li>Smallest fragment: 1byte message, no mask = 4 bytes!</li>
+      <li>Largest possible header: 14 bytes</li>
+      <li>Each message: just send fragments until FIN</li>
+      <li>Don't need to worry about ordering: TCP is handling that</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Opcodes</h3>
+    <ul>
+      <li><var>0x1</var> UTF-8 text</var> (don't break characters)</li>
+      <li><var>0x2</var> binary</var></li>
+      <li><var>0x8</var> close</var></li>
+      <li><var>0x9</var> ping</var></li>
+      <li><var>0xA</var> pong</var></li>
+    </ul>
+  </section>
+  <section>
+<!--        <p>First byte?</var>
+    <ul>
+      <li><var>0x81</var> final fragment of a text message</var></li>
+      <li><var>0x02</var> binary message to be continued in another fragment</var></li>
+    </ul>-->
+    <p>Example:</p>
+    <ul>
+      <li><var>0x01 0x03 0x48 0x65 0x6c</var> "Hel"...</var>
+        <ul>
+          <li>What does <var>0x01</var> mean?</li>
+        </ul>
+      </li>
+      <li><var>0x80 0x02 0x6c 0x6f</var> ..."lo"</var>
+        <ul>
+          <li>What does <var>0x80</var> mean?</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <section style="font-size: 85%">
+    <p>Why "mask"?</p>
+    <ul>
+      <li>Not for privacy (encryption)</li>
+      <li>Prevent accidentally being parsed as HTTP!</li>
+      <li>Websockets are supposed to work with existing infrastructure</li>
+      <li>Maintainers worried about cache poisoning by sending fake looking
+          GET requests over websockets. – Bad proxy servers etc.</li>
+      <li>Masking encodes and garbles a frame with a mask so that you can't
+          send a GET request in the plain</li>
+      <li>Allows <em>browsers</em> to protect against malicious pages doing
+        bad things they shouldn't
+        <ul>
+          <li>Of course we can't do anything about custom clients, which can send whatever they want over TCP</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>WebSocket URIs</h3>
+    <ul>
+      <li>You can use <var>ws://yourserver.com:9090/websockethandler/</var></li>
+      <li><var>wss:</var> is websocket secure
+        <ul>
+          <li>Inherits TLS from the HTTPS connection used intially</li>
+        </ul>
+      </li>
+      <li>Same format as HTTP URI
+        <ul>
+          <li>GET only</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>Performance</h3>
+    <ul>
+      <li>Better two-way communcation</li>
+      <li>Missing out on client side caching</li>
+      <li>Reinvent the wheel (AKA TCP/UDP)</li>
+      <li>Beat the firewall</li>
+      <li>Doesn't fully replace XHR/fetch AJAX</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Errors</h3>
+    <ul>
+      <li>Bad UTF-8 encoding → close connection</li>
+      <li>No real prescription other than to close the connection</li>
+      <li>Closing is done by control frame, TLS, and TCP close</li>
+    </ul>
+  </section>
+  <section>
+    <h3>In the Browser</h3>
+    <ul>
+      <li>JS code in the browser won't have access to fragments, masking, etc.</li>
+      <li>Simple browser API:
+        <ul>
+          <li>Open</li>
+          <li>Send and recieve messages</li>
+          <li>Close</li>
+        </ul>
+      </li>
+      <li>Browser sanitizes everything, is in control to prevent malicious
+        web pages from exploiting your browser to do things like poison
+        proxies
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>WebSocket in JS</h3>
+    <pre><code class="javascript">
+      var ws = new WebSocket("ws://www.example.com/socketserver");
+      var ws = new WebSocket("ws://www.example.com/socketserver", [“proto1”, “proto2”]);
+      
+      ws.send("A string");
+      
+      var buffer = new ArrayBuffer(16);
+      var int32View = new Int32Array(buffer);
+      websocketInstance.send( int32View ); // send binary
+      
+      ws.close();
+    </code></pre>
+  </section>
+  <section>
+    <h3>Examples</h3>
+    <ul>
+      <li>in <var>examples/WebSocketsExamples</var>
+      </li>
+      <li><a href="https://github.com/uofa-cmput404/cmput404-slides/tree/master/examples/WebSocketsExamples">https://github.com/uofa-cmput404/cmput404-slides/tree/master/examples/WebSocketsExamples</a></li>
+      <li>Example chat app from Mozilla: <a href="https://github.com/mdn/samples-server/tree/master/s/websocket-chat">https://github.com/mdn/samples-server/tree/master/s/websocket-chat</a></li>
+    </ul>
+    <cite>Examples from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays</a>
+and <a href="https://developer.mozilla.org/en/docs/WebSockets/Writing_WebSocket_client_applications">https://developer.mozilla.org/en/docs/WebSockets/Writing_WebSocket_client_applications</a></cite>
+  </section>
+  <section>
+    <h3>Examples</h3>
+    <ul>
+      <li><a href="http://www.websocket.org/demos.html">http://www.websocket.org/demos.html</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/demos/detail/websocket-chat">https://developer.mozilla.org/en-US/demos/detail/websocket-chat</a></li>
+      <li><a href="https://www.youtube.com/watch?v=Ua-PcbC5xMI">https://www.youtube.com/watch?v=Ua-PcbC5xMI</a></li>
+      <li><a href="https://crawl.develz.org/play.htm">https://crawl.develz.org/play.htm</a></li>
+    </ul>
+  </section>
+  <section style="font-size: 75%">
+    <h3>Resources</h3>
+    <ul>
+      <li>Mozilla WebSocket dev guide
+        <ul>
+          <li><a href="https://developer.mozilla.org/en/docs/WebSockets/Writing_WebSocket_client_applications">https://developer.mozilla.org/en/docs/WebSockets/Writing_WebSocket_client_applications</a></li>
+        </ul>
+      </li>
+      <li>ByteArrays/Typed Arrays in JS
+        <ul>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays</a></li>
+        </ul>
+      </li>
+      <li>Async Interactions Server Side
+        <ul>
+          <li><a href="https://github.com/abramhindle/html5-audio-streaming-via-webaudio-and-raw-encoding/blob/master/jack-spammer.pl">https://github.com/abramhindle/html5-audio-streaming-via-webaudio-and-raw-encoding/blob/master/jack-spammer.pl</a></li>
+        </ul>
+      </li>
+      <li>Javascript Example using WebAudio
+        <ul>
+          <li><a href="https://github.com/abramhindle/html5-audio-streaming-via-webaudio-and-raw-encoding/blob/616ddc42bd4303fdb7dfe01147588eb205a445ef/jack-spammer.pl">https://github.com/abramhindle/html5-audio-streaming-via-webaudio-and-raw-encoding/blob/616ddc42bd4303fdb7dfe01147588eb205a445ef/jack-spammer.pl</a></li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+{% endblock %}
