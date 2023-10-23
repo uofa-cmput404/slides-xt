@@ -136,6 +136,19 @@
 <section>
     <h3>REST is not RPC</h3>
     <ul>
+        <li>Stateless</li>
+        <li>Server maintains only state relevant to core DATA MODEL objects</li>
+        <li>Client maintains state like
+            <ul>
+                <li>Position in a sequence (UI flow)</li>
+                <li>Logged in & identity</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>REST is not RPC</h3>
+    <ul>
         <li>Uses a generic interface with standard semantics: HTTP</li>
         <li>GET always gets the state of an object</li>
         <li>PUT always sets the state of an object
@@ -190,6 +203,19 @@
     </ul>
 </section>
 <section>
+    <h3>Types of requests</h3>
+    <ul>
+        <li>Repeatable - doing it twice in a row is same as doing it once
+            <ul>
+                <li>Idempotent</li>
+            </ul>
+        </li>
+        <li>Stateless - the request/response itself contains all necessary state information</li>
+        <li>Cacheable - the results are the saeme for some period of time</li>
+        <li>Safe - doesn't cause any change</li>
+    </ul>
+</section>
+<section>
     <h3>HTTP Methods in REST</h3>
     <table>
         <thead>
@@ -232,5 +258,41 @@
             </tr>
         </tbody>
     </table>
+</section>
+<section>
+    <h3>Example: Search Query</h3>
+    <ul>
+        <li>Is it Repeatable?</li>
+        <li>Is it Stateless?</li>
+        <li>Is it Cacheable?</li>
+        <li>Is it Safe?</li>
+    </ul>
+</section>
+<section>
+    <h3>Example: Check the weather</h3>
+    <ul>
+        <li>Is it Repeatable?</li>
+        <li>Is it Stateless?</li>
+        <li>Is it Cacheable?</li>
+        <li>Is it Safe?</li>
+    </ul>
+</section>
+<section>
+    <h3>Example: Add a photo to gallery</h3>
+    <ul>
+        <li>Is it Repeatable?</li>
+        <li>Is it Stateless?</li>
+        <li>Is it Cacheable?</li>
+        <li>Is it Safe?</li>
+    </ul>
+</section>
+<section>
+    <h3>Example: Make a payment to a shop</h3>
+    <ul>
+        <li>Is it Repeatable?</li>
+        <li>Is it Stateless?</li>
+        <li>Is it Cacheable?</li>
+        <li>Is it Safe?</li>
+    </ul>
 </section>
 {% endblock %}
