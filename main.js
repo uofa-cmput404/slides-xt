@@ -2120,6 +2120,9 @@ cite {
 section a {
     overflow-wrap: break-word;
     word-break: break-all;
+}
+h3>b {
+    font-size: 133%;
 }`, ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
