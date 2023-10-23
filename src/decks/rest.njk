@@ -1,0 +1,236 @@
+{% extends "base.njk" %}
+
+{% block slides %}
+<section>
+    <h1>CMPUT 404</h1>
+    <h3>Web Applications and Architecture</h3>
+    <h2>REST</h2>
+    <p>
+        <small>Created by <br>
+            <a href="http://softwareprocess.es">Abram Hindle</a>
+            (<a href="mailto:abram.hindle@ualberta.ca">abram.hindle@ualberta.ca</a>) <br> and Hazel Campbell (<a
+                href="mailto:hazel.campbell@ualberta.ca">hazel.campbell@ualberta.ca</a>).<br> Copyright 2014-2023.
+        </small>
+    </p>
+</section>
+<section style="font-size: 80%;">
+    <h3><b>RE</b>presentational <b>S</b>tate <b>T</b>ransfer</h3>
+    <ul>
+        <li>Representational
+            <ul>
+                <li>
+                    Describe, name, show
+                </li>
+            </ul>
+        </li>
+        <li>
+            State
+            <ul>
+                <li>
+                    The current values of variables, properties, fields
+                </li>
+                <li>
+                    Accumulation of the results of past changes
+                </li>
+            </ul>
+        </li>
+        <li>
+            Transfer
+            <ul>
+                <li>
+                    Sent from computer to computer, or from service to service
+                </li>
+                <li>
+                    Communication
+                </li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>REST</h3>
+    <ul>
+        <li>
+            Architectural style
+            <ul>
+                <li>Think design patterns for a software system architecture</li>
+            </ul>
+        </li>
+        <li>
+            Introduced by Fielding's <a href="https://ics.uci.edu/~fielding/pubs/dissertation/top.htm">Dissertation</a>
+        </li>
+        <li>
+            Now so common, it's usually just implied and not discussed explicitly
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>REST Architecture</h3>
+    <ul>
+        <li>Client/Server</li>
+        <li>Stateless
+            <ul>
+                <li>The server does not need to track the state of the client</li>
+            </ul>
+        </li>
+        <li>Cacheable</li>
+        <li>Uniform interface</li>
+        <li>Layered</li>
+    </ul>
+</section>
+<section>
+    <h3>REST Basics</h3>
+    <ul>
+        <li>
+            Use URIs (URLs) to "name" objects
+            <ul>
+                <li>Java/JS/Python/database objects!</li>
+            </ul>
+        </li>
+        <li>
+            Use HTTP methods as verbs to manipulate them
+            <ul>
+                <li>GET - get the state of an object</li>
+                <li>PUT - set the (entire) state of an object</li>
+                <li>PUT - create an object</li>
+                <li>DELETE - delete an object</li>
+                <li>POST - manipulate an object some other way</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>REST is not RPC</h3>
+    <ul>
+        <li>RPC - Remote Procedure Calls</li>
+        <li>Call a procudure (function/method) over the network</li>
+        <li>Same semantics as calling a function!
+            <ul>
+                <li>Inputs</li>
+                <li>Outputs</li>
+            </ul>
+        </li>
+        <li>But, that function runs on a different computer.</li>
+        <li>Rest thinks about <em>objects not functions</em></li>
+    </ul>
+</section>
+<section>
+    <h3>REST is not RPC</h3>
+    <ul>
+        <li>Stateless</li>
+        <li>Client maintains its own state</li>
+        <li>Server does not track clients at all</li>
+        <li>Request are big
+            <ul>
+                <li>Lots of context</li>
+                <li>All the fields/properties
+                    <ul>
+                        <li>Maybe recursively!</li>
+                    </ul>
+                </li>
+                <li>Client must send all relevant state</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>REST is not RPC</h3>
+    <ul>
+        <li>Uses a generic interface with standard semantics: HTTP</li>
+        <li>GET always gets the state of an object</li>
+        <li>PUT always sets the state of an object
+            <ul>
+                <li>Create it if it doesn't exist</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>REST is not RPC</h3>
+    <ul>
+        <li>Transformable: You can stick proxies in between the client/server
+            <ul>
+                <li>Caches</li>
+                <li>Load balancers</li>
+                <li>Failover</li>
+                <li>...</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Caching REST</h3>
+    <ul>
+        <li>Client can cache responses</li>
+        <li>Can also insert a caching reverse proxy</li>
+        <li>If the entity doesn't change, why request it again?</li>
+        <li>What methods are cachable?
+            <ul>
+                <li>GET? Yes!</li>
+                <li>POST? No :(</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>
+        Layering REST
+    </h3>
+    <img src="../images/rest_layers.svg">
+</section>
+<section>
+    <h3>Layering REST</h3>
+    <ul>
+        <li>
+            Your application may not be multi-machine
+        </li>
+        <li>But it can still have layering that uses HTTP</li>
+        <li>Example: Seperate layer that just handles and validates authentication, before passing it off to the next layer</li>
+        <li>Example: Stateless routing some requests to a different process (db1, db2)</li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP Methods in REST</h3>
+    <table>
+        <thead>
+            <tr>
+                <td></td>
+                <td>GET</td>
+                <td>PUT</td>
+                <td>DELETE</td>
+                <td>POST</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Repeatable</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>Maybe</td>
+            </tr>
+            <tr>
+                <td>Stateless</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>Maybe</td>
+            </tr>
+            <tr>
+                <td>Cacheable</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>Safe</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>No</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+{% endblock %}

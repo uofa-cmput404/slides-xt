@@ -36,3 +36,6 @@ section a {
     overflow-wrap: break-word;
     word-break: break-all;
 }
+h3>b {
+    font-size: 133%;
+}
