@@ -302,6 +302,91 @@
         <li>Is it Safe?</li>
     </ul>
 </section>
+<section>
+    <h3 style="font-size: 90%;">
+        Session Cookie Authentication: is it REST?
+    </h3>
+    <img src="../images/sessionauth.svg" class="stretch">
+</section>
+<section>
+    <h3 style="font-size: 90%;">
+        Signed Token Authentication: is it REST?
+    </h3>
+    <img src="../images/token_auth.svg" class="stretch">
+</section>
+<section>
+    <h3>Why REST?</h3>
+    <ul>
+        <li>Reliability</li>
+        <li>Scalability</li>
+        <li>Latencies</li>
+        <li>Efficiency</li>
+        <li>Distributed</li>
+    </ul>
+</section>
+<section>
+    <h3>REST Reliability</h3>
+    <ul>
+        <li>Allow more than 1 machine to handle the same task
+            <ul>
+                <li>If 1 machine dies, we can send requests to another</li>
+            </ul>
+        </li>
+        <li>
+            Server doesn't have to track client state
+            <ul>
+                <li>Can't get out of sync</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>REST Scalability</h3>
+    <ul>
+        <li>Sharding 
+            <ul>
+                <li>Split data across multiple machines</li>
+                <li>More capacity + more performance</li>
+            </ul>
+        </li>
+    </ul>
+    <img class="stretch" src="../images/shards.svg">
+</section>
+<section>
+    <h3>REST Latency</h3>
+    <ul>
+        <li>Caching decreases latency
+            <ul>
+                <li>Every layer can have caching</li>
+            </ul>
+        </li>
+        <li>Multiple layers increases latency</li>
+    </ul>
+    <img class="stretch" src="../images/rest_layers_caches.svg">
+</section>
+<section>
+    <h3>REST Efficiency</h3>
+    <ul>
+        <li>Higher bandwidth
+            <ul>
+                <li>Every request needs contain all relevant state & context</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>REST Distributed</h3>
+    <ul>
+        <li>Seperate concerns -> seperate servers
+            <ul>
+                <li>"Microservices"</li>
+            </ul>
+        </li>
+        <li>
+            State distrubted between server and client
+        </li>
+    </ul>
+</section>
 
                           <section style="font-size: 90%">
                 <h4>License</h4>
