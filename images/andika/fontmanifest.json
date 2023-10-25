@@ -1,0 +1,25 @@
+{
+"andika": {
+    "defaults": {
+        "ttf": "Andika-Regular.ttf",
+        "woff": "Andika-Regular.woff",
+        "woff2": "Andika-Regular.woff2"
+    },
+    "family": "Andika",
+    "files": {
+        "Andika-Bold.ttf": { "axes": { "ital": 0, "wght": 700.0 }, "packagepath": "Andika-Bold.ttf" },
+        "Andika-Bold.woff": { "axes": { "ital": 0, "wght": 700.0 }, "packagepath": "web/Andika-Bold.woff" },
+        "Andika-Bold.woff2": { "axes": { "ital": 0, "wght": 700.0 }, "packagepath": "web/Andika-Bold.woff2" },
+        "Andika-BoldItalic.ttf": { "axes": { "ital": 1, "wght": 700.0 }, "packagepath": "Andika-BoldItalic.ttf" },
+        "Andika-BoldItalic.woff": { "axes": { "ital": 1, "wght": 700.0 }, "packagepath": "web/Andika-BoldItalic.woff" },
+        "Andika-BoldItalic.woff2": { "axes": { "ital": 1, "wght": 700.0 }, "packagepath": "web/Andika-BoldItalic.woff2" },
+        "Andika-Italic.ttf": { "axes": { "ital": 1, "wght": 400.0 }, "packagepath": "Andika-Italic.ttf" },
+        "Andika-Italic.woff": { "axes": { "ital": 1, "wght": 400.0 }, "packagepath": "web/Andika-Italic.woff" },
+        "Andika-Italic.woff2": { "axes": { "ital": 1, "wght": 400.0 }, "packagepath": "web/Andika-Italic.woff2" },
+        "Andika-Regular.ttf": { "axes": { "ital": 0, "wght": 400.0 }, "packagepath": "Andika-Regular.ttf" },
+        "Andika-Regular.woff": { "axes": { "ital": 0, "wght": 400.0 }, "packagepath": "web/Andika-Regular.woff" },
+        "Andika-Regular.woff2": { "axes": { "ital": 0, "wght": 400.0 }, "packagepath": "web/Andika-Regular.woff2" }
+    },
+    "version": "6.200"
+}
+}

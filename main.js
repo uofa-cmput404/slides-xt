@@ -2078,12 +2078,48 @@ section.has-dark-background, section.has-dark-background h1, section.has-dark-ba
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(705);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(742);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__);
 // Imports
 
 
+
+var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(532), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(741), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_2___ = new URL(/* asset import */ __webpack_require__(968), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_3___ = new URL(/* asset import */ __webpack_require__(755), __webpack_require__.b);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
+var ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_1___);
+var ___CSS_LOADER_URL_REPLACEMENT_2___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_2___);
+var ___CSS_LOADER_URL_REPLACEMENT_3___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_3___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, `.twoColumn {
+___CSS_LOADER_EXPORT___.push([module.id, `/* use Andika - Regular in .woff format */
+@font-face {
+    font-family: AndikaW;
+    src: url(${___CSS_LOADER_URL_REPLACEMENT_0___});
+  }
+  /* use Andika - Italic in .woff2 format */
+  @font-face {
+    font-family: AndikaW;
+    font-style: italic;
+    src: url(${___CSS_LOADER_URL_REPLACEMENT_1___});
+  }
+  /* use Andika - Bold in .woff2 format */
+  @font-face {
+      font-family: AndikaW;
+      font-weight: bold;
+      src: url(${___CSS_LOADER_URL_REPLACEMENT_2___});
+  }
+  /* use Andika - Bold Italic in .woff2 format */
+  @font-face {
+      font-family: AndikaW;
+      font-weight: bold;
+      font-style: italic;
+      src: url(${___CSS_LOADER_URL_REPLACEMENT_3___});
+  }
+  
+.twoColumn {
     columns: 2;
 }
 .twoColumn>li {
@@ -2110,12 +2146,17 @@ table.wikitable td, table.wikitable th {
     flex: 1;
 }
 body {
-    --r-main-font: 'Lexend Deca Variable', 'Source Sans Pro', 'Helvetica', sans-serif;
-    --r-heading-font: 'Lexend Deca Variable', 'Source Sans Pro', 'Helvetica', sans-serif;
+    --r-main-font: 'AndikaW', 'Source Sans Pro', 'Helvetica', sans-serif;
+    --r-heading-font: 'AndikaW', 'Source Sans Pro', 'Helvetica', sans-serif;
     --r-background-color: #ffe;
+    letter-spacing: 0.1rem;
+    font-feature-settings: "cv10" 1, "cv39" 1; 
+    line-height: 1.1;
 }
 cite {
     font-size: 50%;
+    line-height: normal;
+    display: block;
 }
 section a {
     overflow-wrap: break-word;
@@ -2406,6 +2447,38 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABz
 
 "use strict";
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABkklEQVRYR8WX4VHDMAxG6wnoJrABZQPYBCaBTWAD2g1gE5gg6OOsXuxIlr40d81dfrSJ9V4c2VLK7spHuTJ/5wpM07QXuXc5X0opX2tEJcadjHuV80li/FgxTIEK/5QBCICBD6xEhSMGHgQPgBgLiYVAB1dpSqKDawxTohFw4JSEA3clzgIBPCURwE2JucBR7rhPJJv5OpJwDX+SfDjgx1wACQeJG1aChP9K/IMmdZ8DtESV1WyP3Bt4MwM6sj4NMxMYiqUWHQu4KYA/SYkIjOsm3BXYWMKFDwU2khjCQ4ELJUJ4SmClRArOCmSXGuKma0fYD5CbzHxFpCSGAhfAVSSUGDUk2BWZaff2g6GE15BsBQ9nwmpIGDiyHQddwNTMKkbZaf9fajXQca1EX44puJZUsnY0ObGmITE3GVLCbEhQUjGVt146j6oasWN+49Vph2w1pZ5EansNZqKBm1txbU57iRRcZ86RWMDdWtBJUHBHwoQPi1GV+JCbntmvok7iTX4/Up9mgyTc/FJYDTcndgH/AA5A/CHsyEkVAAAAAElFTkSuQmCC";
+
+/***/ }),
+
+/***/ 968:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "images/andika/web/Andika-Bold.8ed4f89b642f30ed389e.woff2";
+
+/***/ }),
+
+/***/ 755:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "images/andika/web/Andika-BoldItalic.fe73b0113dcdab831ec3.woff2";
+
+/***/ }),
+
+/***/ 741:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "images/andika/web/Andika-Italic.96a6071ebac399d89c49.woff2";
+
+/***/ }),
+
+/***/ 532:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "images/andika/web/Andika-Regular.5b2024f13ab6eca55952.woff2";
 
 /***/ }),
 

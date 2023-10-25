@@ -1,0 +1,17 @@
+/*
+This file is from the Andika project (https://software.sil.org/andika/).
+Copyright (c) 2004-2023 SIL International (http://www.sil.org/) with Reserved
+Font Names "Andika" and "SIL". This Font Software is licensed under the SIL
+Open Font License, Version 1.1 (http://scripts.sil.org/OFL).
+*/
+@font-face {
+    font-family: Andika-R;
+    src: url("../../../results/Andika-Regular.ttf") format("truetype");
+}
+@font-face {
+    font-family: Andika-I;
+    src: url("../../../results/Andika-Italic.ttf") format("truetype");
+}
+
+.andika-R { font-family: Andika-R; }
+.andika-I { font-family: Andika-I; }
