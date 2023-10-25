@@ -1,3 +1,28 @@
+/* use Andika - Regular in .woff format */
+@font-face {
+    font-family: AndikaW;
+    src: url(../images/andika/web/Andika-Regular.woff2);
+  }
+  /* use Andika - Italic in .woff2 format */
+  @font-face {
+    font-family: AndikaW;
+    font-style: italic;
+    src: url(../images/andika/web/Andika-Italic.woff2);
+  }
+  /* use Andika - Bold in .woff2 format */
+  @font-face {
+      font-family: AndikaW;
+      font-weight: bold;
+      src: url(../images/andika/web/Andika-Bold.woff2);
+  }
+  /* use Andika - Bold Italic in .woff2 format */
+  @font-face {
+      font-family: AndikaW;
+      font-weight: bold;
+      font-style: italic;
+      src: url(../images/andika/web/Andika-BoldItalic.woff2);
+  }
+  
 .twoColumn {
     columns: 2;
 }
@@ -25,12 +50,17 @@ table.wikitable td, table.wikitable th {
     flex: 1;
 }
 body {
-    --r-main-font: 'Lexend Deca Variable', 'Source Sans Pro', 'Helvetica', sans-serif;
-    --r-heading-font: 'Lexend Deca Variable', 'Source Sans Pro', 'Helvetica', sans-serif;
+    --r-main-font: 'AndikaW', 'Source Sans Pro', 'Helvetica', sans-serif;
+    --r-heading-font: 'AndikaW', 'Source Sans Pro', 'Helvetica', sans-serif;
     --r-background-color: #ffe;
+    letter-spacing: 0.1rem;
+    font-feature-settings: "cv10" 1, "cv39" 1; 
+    line-height: 1.1;
 }
 cite {
     font-size: 50%;
+    line-height: normal;
+    display: block;
 }
 section a {
     overflow-wrap: break-word;
