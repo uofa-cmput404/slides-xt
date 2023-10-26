@@ -387,6 +387,99 @@
         </li>
     </ul>
 </section>
+<section>
+    <h3>Designing REST</h3>
+    <ul>
+        <li>What is read-only vs read-write</li>
+        <li>What is public vs needs to be authenticated</li>
+        <li>What relationships can become URIs?</li>
+    </ul>
+</section>
+<section>
+    <h3>Designing REST</h3>
+    <ul>
+        <li>Take advantage of caching
+            <ul>
+                <li>Prefer GET & Avoid POST</li>
+            </ul>
+        </li>
+        <li>Can a single object be split up into seperate objects with seperate URLs?</li>
+        <li>Can something be stored client-side instead of on the server?
+            <ul>
+                <li>Remember: the client side is the fastest side!</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <p>Use nouns for paths, not verbs!</p>
+    <ul>
+        <li><code>getRecipeInstructions()</code> → GET <code>api/v1/recipes/1234</code></li>
+    </ul>
+</section>
+<section>
+    <p>Plural nouns for paths if its a Collection</p>
+    <ul>
+        <li>Arrays/Lists/Vectors</li>
+        <li>Mappings/Dictionaries</li>
+        <li>Sets</li>
+        <li><code>getAllRecipes()</code> → <code>GET api/v1/recipes/</code></li>
+    </ul>
+</section>
+<section>
+    <p>Sub-directories (sub-folders) for heirarchies</p>
+    <ul>
+        <li><code>api/v1/recipes/1243/versions/2</code></li>
+    </ul>
+</section>
+<section style="font-size: 90%;">
+    <p>Use HTTP error codes</p>
+    <ul>
+        <li>GET → 200 OK</li>
+        <li>New object via PUT or POST → 201 Created</li>
+        <li>DELETE → 204 No Content</li>
+        <li>Needs authentication → 401 Unauthorized</li>
+        <li>Bad JSON or missing/extra properties or bad value → 400 Bad Request</li>
+        <li>POST to an endpoint that only understands GET & PUT → 405 Method Not Allowed</li>
+    </ul>
+</section>
+<section>
+    <h3>HATEOAS</h3>
+    <ul>
+        <li><b>H</b>ypermedia <b>A</b>s <b>T</b>he <b>E</b>ngine of <b>A</b>pplication <b>S</b>tate</li>
+        <li>Include <b>hyperlinks</b> in your REST API responses!</li>
+    </ul>
+    <pre><code>GET api/v1/recipes/1243/versions/2</code></pre>
+    <pre><code>{
+    &quot;ingredients&quot;: [
+        {
+            &quot;name&quot;: &quot;Flour&quot;,
+            &quot;link&quot;: &quot;/api/v1/ingredients/27&quot;
+        },
+        ...
+    ],
+    ...
+}</code></pre>
+</section>
+<section>
+    <h3>More REST tips</h3>
+    <ul>
+        <li>Vinay Sahni's <a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api">Best Practices for Designing a Pragmatic RESTful API</a></li>
+        <li>StackOverflow's <a href="https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design/">Best practices for REST API design</a></li>
+        <li>Richardson's <a href="https://go.oreilly.com/university-of-alberta/library/view/-/9781449359713/?ar">RESTful Web APIs</a> Book</li>
+        <li>Richardson & Ruby's <a href="https://go.oreilly.com/university-of-alberta/library/view/-/9780596529260/?ar">RESTful Web Services</a> Book</li>
+        <li>Allamaraju's <a href="https://learning.oreilly.com/library/view/restful-web-services/9780596809140/?sso_link=yes&sso_link_from=university-of-alberta">RESTful Web Services Cookbook</a></li>
+    </ul>
+</section>
+<section>
+    <h3>More REST tips</h3>
+    <ul>
+        <li>SOAP vs REST <a href="http://www.youtube.com/watch?v=v3OMEAU_4HI">Video</a></li>
+        <li>Fredrich's Intro to REST <a href="http://www.youtube.com/watch?v=llpr5924N7E">Video</a></li>
+        <li>Gregorio's Intro to REST <a href="https://www.youtube.com/watch?v=YCcAE2SCQ6k">Video</a></li>
+        <li>Apigee's HATEOAS <a href="https://www.youtube.com/watch?v=6UXc71O7htc">Video</a> and <a href="https://pages.apigee.com/web-api-design-ebook-sr-register.html">Book</a></li>
+    </ul>
+</section>
 
                           <section style="font-size: 90%">
                 <h4>License</h4>

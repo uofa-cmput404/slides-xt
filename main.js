@@ -2149,7 +2149,7 @@ body {
     --r-main-font: 'AndikaW', 'Source Sans Pro', 'Helvetica', sans-serif;
     --r-heading-font: 'AndikaW', 'Source Sans Pro', 'Helvetica', sans-serif;
     --r-background-color: #ffe;
-    letter-spacing: 0.05rem;
+    letter-spacing: 0.033rem;
     word-spacing: 110%;
     font-feature-settings: "cv10" 1, "cv39" 1; 
     line-height: 1.3;
