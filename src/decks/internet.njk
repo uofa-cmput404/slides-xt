@@ -37,7 +37,7 @@
     </ul>
     <img class="noborder stretch" src="../images/web-server-plus-more.svg">
   </section>
-  <section>
+  <section style="font-size: 90%;">
     <h3>Ethernet</h3>
     <ul>
       <li>1 Ethernet frame is 64 to 1526 bytes</li>
@@ -1039,8 +1039,8 @@ received 70 bytes from 8.8.8.8#53 in 152 ms
     </li>
   </ul>
 </section>
-<section>
-  <samp>
+<section style="font-size: 90%;">
+  <code>
     <pre>
 $ python3
 python 3.7.2 (default, jan  3 2019, 02:55:40) 
@@ -1050,7 +1050,7 @@ type "help", "copyright", "credits" or "license" for more information.
 >>> requests.get("http://slashdot.org")
 &lt;response [200]&gt;
 >>> 
-        </samp></pre>
+    </code></pre>
     <ul style="font-size: 70%">
       <li>Python
         <var>requests</var>
@@ -1172,23 +1172,21 @@ type "help", "copyright", "credits" or "license" for more information.
 </section>
 <section>
   How did we get routed to slashdot?
-  <samp>
-    <pre>
-hindle1@piggy:~$ sudo traceroute slashdot.org
-traceroute to slashdot.org (216.34.181.45), 30 hops max, 60 byte packets
-1 192.168.0.1 (192.168.0.1) 0.171 ms
-2 * * *
-3 xxxxxxxxxxxx.ed.shawcable.net (64.59.184.245) 33.812 ms
-4 rc3sc-tge0-0-0-10.wp.shawcable.net (66.163.74.226) 44.058 ms
-5 rc2so-tge0-4-0-1.cg.shawcable.net (66.163.77.98) 77.525 ms
-6 ix-3-3-2-0.tcore1.ct8-chicago.as6453.net (66.110.14.13) 74.733 ms
-7 64.86.78.10 (64.86.78.10) 70.375 ms
-8 hr1-te-9-0-0.elkgrovech3.savvis.net (204.70.196.14) 74.230 ms
-9 das5-v3032.ch3.savvis.net (64.37.207.158) 71.660 ms
-10 64.27.160.194 (64.27.160.194) 83.311 ms
-11 slashdot.org (216.34.181.45) 73.920 ms
-        </pre>
-  </samp>
+    <pre><code>{% filter prexample %}
+      hindle1@piggy:~$ sudo traceroute slashdot.org
+      traceroute to slashdot.org (216.34.181.45), 30 hops max, 60 byte packets
+      1 192.168.0.1 (192.168.0.1) 0.171 ms
+      2 * * *
+      3 xxxxxxxxxxxx.ed.shawcable.net (64.59.184.245) 33.812 ms
+      4 rc3sc-tge0-0-0-10.wp.shawcable.net (66.163.74.226) 44.058 ms
+      5 rc2so-tge0-4-0-1.cg.shawcable.net (66.163.77.98) 77.525 ms
+      6 ix-3-3-2-0.tcore1.ct8-chicago.as6453.net (66.110.14.13) 74.733 ms
+      7 64.86.78.10 (64.86.78.10) 70.375 ms
+      8 hr1-te-9-0-0.elkgrovech3.savvis.net (204.70.196.14) 74.230 ms
+      9 das5-v3032.ch3.savvis.net (64.37.207.158) 71.660 ms
+      10 64.27.160.194 (64.27.160.194) 83.311 ms
+      11 slashdot.org (216.34.181.45) 73.920 ms
+    {% endfilter %}</code></pre>
 </section>
 <section>
   <h3>Takeaways</h3>

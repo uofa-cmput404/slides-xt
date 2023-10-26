@@ -1168,7 +1168,7 @@ What is your favorite colour? <input name="colour"/></br>
 </section>
 <section>
   <h2>&lt;input> tag</h2>
-  <code><pre>{% filter prexample %}
+  <pre><code>{% filter prexample %}
     <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
       Do you like cake? <input name="cakeliker" type="checkbox" checked/><br/>
       How much do you like cake? <input min="0" max="15" value="10"
@@ -1179,7 +1179,7 @@ What is your favorite colour? <input name="colour"/></br>
       Vanilla: <input name="filling" value="vanilla" type="radio"/><br/>
       <input type="submit"/>
     </form>
-{% endfilter %}</pre></code>
+{% endfilter %}</code></pre>
   <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
     Do you like cake? <input name="cakeliker" type="checkbox" checked /><br />
     How much do you like cake? <input min="0" max="15" value="10" type="range" /><br />
@@ -1194,7 +1194,7 @@ What is your favorite colour? <input name="colour"/></br>
   <h2>&lt;select> tag</h2>
   <p>Select tag is for a dropdown box of options
   </p>
-  <code><pre>{% filter prexample %}
+  <pre><code>{% filter prexample %}
     <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
       What kind of cake shall we have?<br>
       <select name="caketype">
@@ -1204,7 +1204,7 @@ What is your favorite colour? <input name="colour"/></br>
       </select>
       <input type="submit"/>
     </form>
-  {% endfilter %}</pre></code>
+  {% endfilter %}</code></pre>
   <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
     What kind of cake shall we have?</br>
     <select name="caketype">
@@ -1221,7 +1221,7 @@ What is your favorite colour? <input name="colour"/></br>
     You can upload files with the input tag but we need to switch the POST
     encoding.
   </p>
-  <code><pre>{% filter prexample %}
+  <pre><code>{% filter prexample %}
     <form action="http://buttercup.cs.ualberta.ca:9000/"
       enctype="multipart/form-data"
       method="get">
@@ -1229,7 +1229,7 @@ What is your favorite colour? <input name="colour"/></br>
       <input name="uploadFile" type="file" />
       <input type="submit"/>
     </form>
-  {% endfilter %}</pre></code>
+  {% endfilter %}</code></pre>
   <form action="http://buttercup.cs.ualberta.ca:9000/" enctype="multipart/form-data" method="post">
     Choose a file to upload!
     <input name="uploadFile" type="file" />
