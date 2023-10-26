@@ -1148,7 +1148,7 @@ What is your favorite colour? <input name="colour"/></br>
 </section>
 <section>
   <h2>&lt;input> tag</h2>
-  <code><pre>&lt;form action=&quot;http://buttercup.cs.ualberta.ca:9000/&quot; method=&quot;get&quot;&gt;
+  <pre><code>&lt;form action=&quot;http://buttercup.cs.ualberta.ca:9000/&quot; method=&quot;get&quot;&gt;
   Do you like cake? &lt;input name=&quot;cakeliker&quot; type=&quot;checkbox&quot; checked/&gt;&lt;br/&gt;
   How much do you like cake? &lt;input min=&quot;0&quot; max=&quot;15&quot; value=&quot;10&quot;
                                     type=&quot;range&quot;/&gt;&lt;br/&gt;
@@ -1157,7 +1157,7 @@ What is your favorite colour? <input name="colour"/></br>
   Chocolate: &lt;input name=&quot;filling&quot; value=&quot;chocolate&quot; type=&quot;radio&quot;/&gt;
   Vanilla: &lt;input name=&quot;filling&quot; value=&quot;vanilla&quot; type=&quot;radio&quot;/&gt;&lt;br/&gt;
   &lt;input type=&quot;submit&quot;/&gt;
-&lt;/form&gt;</pre></code>
+&lt;/form&gt;</code></pre>
   <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
     Do you like cake? <input name="cakeliker" type="checkbox" checked /><br />
     How much do you like cake? <input min="0" max="15" value="10" type="range" /><br />
@@ -1172,7 +1172,7 @@ What is your favorite colour? <input name="colour"/></br>
   <h2>&lt;select> tag</h2>
   <p>Select tag is for a dropdown box of options
   </p>
-  <code><pre>&lt;form action=&quot;http://buttercup.cs.ualberta.ca:9000/&quot; method=&quot;get&quot;&gt;
+  <pre><code>&lt;form action=&quot;http://buttercup.cs.ualberta.ca:9000/&quot; method=&quot;get&quot;&gt;
   What kind of cake shall we have?&lt;br&gt;
   &lt;select name=&quot;caketype&quot;&gt;
     &lt;option value=&quot;angel&quot;&gt;Angel Food Cake&lt;/option&gt;
@@ -1180,7 +1180,7 @@ What is your favorite colour? <input name="colour"/></br>
     &lt;option value=&quot;cowpatty&quot;&gt;Marie Antionette&#39;s Cake&lt;/option&gt;
   &lt;/select&gt;
   &lt;input type=&quot;submit&quot;/&gt;
-&lt;/form&gt;</pre></code>
+&lt;/form&gt;</code></pre>
   <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
     What kind of cake shall we have?</br>
     <select name="caketype">
@@ -1197,13 +1197,13 @@ What is your favorite colour? <input name="colour"/></br>
     You can upload files with the input tag but we need to switch the POST
     encoding.
   </p>
-  <code><pre>&lt;form action=&quot;http://buttercup.cs.ualberta.ca:9000/&quot;
+  <pre><code>&lt;form action=&quot;http://buttercup.cs.ualberta.ca:9000/&quot;
   enctype=&quot;multipart/form-data&quot;
   method=&quot;get&quot;&gt;
   Choose a file to upload!
   &lt;input name=&quot;uploadFile&quot; type=&quot;file&quot; /&gt;
   &lt;input type=&quot;submit&quot;/&gt;
-&lt;/form&gt;</pre></code>
+&lt;/form&gt;</code></pre>
   <form action="http://buttercup.cs.ualberta.ca:9000/" enctype="multipart/form-data" method="post">
     Choose a file to upload!
     <input name="uploadFile" type="file" />

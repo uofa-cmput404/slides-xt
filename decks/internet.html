@@ -44,7 +44,7 @@
     </ul>
     <img class="noborder stretch" src="../images/web-server-plus-more.svg">
   </section>
-  <section>
+  <section style="font-size: 90%;">
     <h3>Ethernet</h3>
     <ul>
       <li>1 Ethernet frame is 64 to 1526 bytes</li>
@@ -1046,8 +1046,8 @@ received 70 bytes from 8.8.8.8#53 in 152 ms
     </li>
   </ul>
 </section>
-<section>
-  <samp>
+<section style="font-size: 90%;">
+  <code>
     <pre>
 $ python3
 python 3.7.2 (default, jan  3 2019, 02:55:40) 
@@ -1057,7 +1057,7 @@ type "help", "copyright", "credits" or "license" for more information.
 >>> requests.get("http://slashdot.org")
 &lt;response [200]&gt;
 >>> 
-        </samp></pre>
+    </code></pre>
     <ul style="font-size: 70%">
       <li>Python
         <var>requests</var>
@@ -1179,9 +1179,7 @@ type "help", "copyright", "credits" or "license" for more information.
 </section>
 <section>
   How did we get routed to slashdot?
-  <samp>
-    <pre>
-hindle1@piggy:~$ sudo traceroute slashdot.org
+    <pre><code>hindle1@piggy:~$ sudo traceroute slashdot.org
 traceroute to slashdot.org (216.34.181.45), 30 hops max, 60 byte packets
 1 192.168.0.1 (192.168.0.1) 0.171 ms
 2 * * *
@@ -1193,9 +1191,7 @@ traceroute to slashdot.org (216.34.181.45), 30 hops max, 60 byte packets
 8 hr1-te-9-0-0.elkgrovech3.savvis.net (204.70.196.14) 74.230 ms
 9 das5-v3032.ch3.savvis.net (64.37.207.158) 71.660 ms
 10 64.27.160.194 (64.27.160.194) 83.311 ms
-11 slashdot.org (216.34.181.45) 73.920 ms
-        </pre>
-  </samp>
+11 slashdot.org (216.34.181.45) 73.920 ms</code></pre>
 </section>
 <section>
   <h3>Takeaways</h3>
