@@ -22,6 +22,26 @@
       font-style: italic;
       src: url(../images/andika/web/Andika-BoldItalic.woff2);
   }
+@font-face {
+    font-family: AnonymousPro;
+    src: url(../images/AnonymousPro/Anonymous\ Pro.ttf);
+  }
+  @font-face {
+    font-family: AnonymousPro;
+    font-style: italic;
+    src: url(../images/AnonymousPro/Anonymous\ Pro\ I.ttf);
+  }
+  @font-face {
+      font-family: AnonymousPro;
+      font-weight: bold;
+      src: url(../images/AnonymousPro/Anonymous\ Pro\ B.ttf);
+    }
+  @font-face {
+      font-family: AnonymousPro;
+      font-weight: bold;
+      font-style: italic;
+      src: url(../images/AnonymousPro/Anonymous\ Pro\ BI.ttf);
+  }
   
 .twoColumn {
     columns: 2;
@@ -50,8 +70,9 @@ table.wikitable td, table.wikitable th {
     flex: 1;
 }
 body {
-    --r-main-font: 'AndikaW', 'Source Sans Pro', 'Helvetica', sans-serif;
-    --r-heading-font: 'AndikaW', 'Source Sans Pro', 'Helvetica', sans-serif;
+    --r-main-font: 'AndikaW', 'Arial', sans-serif;
+    --r-code-font: 'AnonymousPro', 'Consolas', monospace;
+    --r-heading-font: 'AndikaW', 'Arial', sans-serif;
     --r-background-color: #ffe;
     letter-spacing: 0.033rem;
     word-spacing: 110%;
@@ -73,4 +94,13 @@ h3>b {
 code>pre {
     background-color: red;
     color: yellow;
+}
+body code {
+    letter-spacing: 0;
+}
+body pre {
+    letter-spacing: 0;
+}
+body .reveal pre {
+    font-size: 50%;
 }
