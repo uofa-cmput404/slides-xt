@@ -2201,12 +2201,15 @@ code>pre {
 }
 body code {
     letter-spacing: 0;
+    font-size: 67.8%;
 }
 body pre {
     letter-spacing: 0;
+    word-spacing: normal;
 }
 body .reveal pre {
-    font-size: 50%;
+    font-size: 67.8%;
+    line-height: normal;
 }`, ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
