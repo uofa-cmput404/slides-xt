@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="115.11038mm"
+   height="70.541512mm"
+   viewBox="0 0 115.11038 70.541512"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="basic_auth.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="2.1543544"
+     inkscape:cx="215.14566"
+     inkscape:cy="168.72804"
+     inkscape:window-width="1443"
+     inkscape:window-height="1231"
+     inkscape:window-x="3946"
+     inkscape:window-y="321"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="2"
+       markerHeight="2"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-12.720339,-32.867709)">
+    <rect
+       style="fill:none;stroke:#0000ff;stroke-width:0.264583"
+       id="rect1"
+       width="20.828773"
+       height="5.8161173"
+       x="12.852631"
+       y="33" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Arial;-inkscape-font-specification:Arial;fill:#0000ff;stroke:none;stroke-width:0.264583"
+       x="17.306917"
+       y="37.025822"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial;fill:#0000ff;stroke:none;stroke-width:0.264583"
+         x="17.306917"
+         y="37.025822">Browser</tspan></text>
+    <path
+       style="fill:#0000ff;stroke:#0000ff;stroke-width:0.264583;stroke-opacity:1"
+       d="M 23.267017,38.816115 V 56.248482"
+       id="path1" />
+    <path
+       style="fill:none;stroke:#0000ff;stroke-width:0.265;stroke-dasharray:0.265, 0.265;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 23.267017,56.248482 V 66.564798"
+       id="path2" />
+    <path
+       style="fill:none;stroke:#0000ff;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 23.267017,66.564798 V 103.40878"
+       id="path3"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="fill:none;stroke:#aa0000;stroke-width:0.264583"
+       id="rect3"
+       width="20.828773"
+       height="5.8161173"
+       x="72.908325"
+       y="33" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Arial;-inkscape-font-specification:Arial;fill:#800000;stroke:none;stroke-width:0.264583"
+       x="78.554008"
+       y="37.044422"
+       id="text3"><tspan
+         sodipodi:role="line"
+         id="tspan3"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial;fill:#800000;stroke:none;stroke-width:0.264583"
+         x="78.554008"
+         y="37.044422">Server</tspan></text>
+    <path
+       style="fill:#0000ff;stroke:#aa0000;stroke-width:0.264583;stroke-opacity:1"
+       d="M 83.322712,38.816115 V 56.248482"
+       id="path4" />
+    <path
+       style="fill:none;stroke:#aa0000;stroke-width:0.265;stroke-dasharray:0.265, 0.265;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 83.322712,56.248482 V 66.564798"
+       id="path5" />
+    <path
+       style="fill:none;stroke:#aa0000;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 83.322712,66.564798 83.199899,103.40878"
+       id="path6"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Triangle)"
+       d="M 23.399308,42.861835 H 83.322712"
+       id="path7" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke:none;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       x="44.219452"
+       y="40.493782"
+       id="text7"><tspan
+         sodipodi:role="line"
+         id="tspan7"
+         style="fill:#000000;stroke:none;stroke-width:0.265"
+         x="44.219452"
+         y="40.493782">Any Request</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Triangle)"
+       d="M 83.322712,50.291812 H 23.399308"
+       id="path8" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke:none;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       x="42.247768"
+       y="48.660641"
+       id="text8"><tspan
+         sodipodi:role="line"
+         id="tspan8"
+         style="fill:#000000;stroke:none;stroke-width:0.265"
+         x="42.247768"
+         y="48.660641">Public Content</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Triangle)"
+       d="M 23.134517,70.740449 H 83.057921"
+       id="path9" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;line-height:0.9;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke:none;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       x="30.935251"
+       y="68.723938"
+       id="text9"><tspan
+         sodipodi:role="line"
+         id="tspan9"
+         style="line-height:0.9;fill:#000000;stroke:none;stroke-width:0.265"
+         x="30.935251"
+         y="68.723938">Request <tspan
+   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.9;font-family:Arial;-inkscape-font-specification:'Arial Italic'"
+   id="tspan19">somepath</tspan> Requires Auth</tspan><tspan
+         sodipodi:role="line"
+         style="line-height:0.9;fill:#000000;stroke:none;stroke-width:0.265"
+         x="30.935251"
+         y="71.581436"
+         id="tspan2" /></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Triangle)"
+       d="M 83.322712,79.111399 H 23.399308"
+       id="path10" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke:none;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       x="35.634964"
+       y="74.302002"
+       id="text10"><tspan
+         sodipodi:role="line"
+         id="tspan10"
+         style="fill:#000000;stroke:none;stroke-width:0.265"
+         x="35.634964"
+         y="74.302002">401 Authorization Required</tspan><tspan
+         sodipodi:role="line"
+         style="fill:#000000;stroke:none;stroke-width:0.265"
+         x="35.634964"
+         y="78.270752"
+         id="tspan21">WWW-Authenticate: Basic</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Triangle)"
+       d="M 23.267017,91.061673 H 83.190421"
+       id="path11" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke:none;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       x="37.026226"
+       y="90.43071"
+       id="text11"><tspan
+         sodipodi:role="line"
+         id="tspan11"
+         style="fill:#000000;stroke:none;stroke-width:0.265"
+         x="37.026226"
+         y="90.43071">Authorization: Basic QXp...</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke:none;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       x="93.966415"
+       y="92.198044"
+       id="text16"><tspan
+         sodipodi:role="line"
+         style="stroke-width:0.265"
+         x="93.966415"
+         y="92.198044"
+         id="tspan18">Check Password </tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Triangle)"
+       d="M 83.322712,98.619063 H 23.399308"
+       id="path21" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke:none;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       x="43.378246"
+       y="96.956467"
+       id="text23"><tspan
+         sodipodi:role="line"
+         id="tspan23"
+         style="fill:#000000;stroke:none;stroke-width:0.265"
+         x="43.378246"
+         y="96.956467">Serve content</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;line-height:0.9;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke:none;stroke-width:0.264999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       x="32.276722"
+       y="86.847397"
+       id="text6"><tspan
+         sodipodi:role="line"
+         id="tspan5"
+         style="line-height:0.9;fill:#000000;stroke:none;stroke-width:0.265"
+         x="32.276722"
+         y="86.847397">Request <tspan
+   style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.9;font-family:Arial;-inkscape-font-specification:'Arial Italic'"
+   id="tspan4">somepath</tspan> Requires Auth</tspan><tspan
+         sodipodi:role="line"
+         style="line-height:0.9;fill:#000000;stroke:none;stroke-width:0.265"
+         x="32.276722"
+         y="89.704895"
+         id="tspan6" /></text>
+  </g>
+</svg>

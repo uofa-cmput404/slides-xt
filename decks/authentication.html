@@ -3,32 +3,69 @@
     <head>
         <meta charset="utf-8" />
         <title>Refreshed reveal.js slides for CMPUT 404</title>
-    <script defer src="main.js"></script></head>
+    <script defer src="../main.js"></script></head>
     <body>
         <div class="reveal">
             <div class="slides">
             
-<section style="font-size: 80%;">
+<section>
     <h1>CMPUT 404</h1>
-    <h2>Slide Decks XT</h2>
-    <ul class="twoColumn">
-        <li><a href="decks/intro.html">Introduction</a></li>
-        <li><a href="decks/overview.html">Overview</a></li>
-        <li><a href="decks/internet.html">Internet</a></li>
-        <li><a href="decks/http.html">HTTP</a></li>
-        <li><a href="decks/more-http.html">More HTTP</a></li>
-        <li><a href="decks/html.html">HTML</a></li>
-        <li><a href="decks/js.html">JavaScript</a></li>
-        <li><a href="decks/ajax.html">AJAX</a></li>
-        <li><a href="decks/websockets.html">Websockets</a></li>
-        <li><a href="decks/rest.html">REST</a></li>
-        <li><a href="decks/authentication.html">Authentication</a></li>
-    </ul>
-    <p class="little">Want to contribute? <a href="https://github.com/uofa-cmput404/slides-xt/">Source Code</a></p>
+    <h3>Web Applications and Architecture</h3>
+    <h2>Authentication</h2>
+    <p>
+      <small>Created by <br>
+        <a href="http://softwareprocess.es">Abram Hindle</a>
+        (<a href="mailto:abram.hindle@ualberta.ca">abram.hindle@ualberta.ca</a>) <br>
+        and Hazel Campbell (<a href="mailto:hazel.campbell@ualberta.ca">hazel.campbell@ualberta.ca</a>).<br>
+        Copyright 2014-2023.
+      </small>
+    </p>
 </section>
 <section>
-    <p>Why "XT"? I don't know, they just always put that after things to make them sound better.
-    </p>
+    <h3>Web Authentication</h3>
+    <ul>
+        <li>Authentication methods supported by Web Standards</li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP Basic Auth</h3>
+    <ul>
+        <li>Created by Ari Luotonen in <b>1993</b>.</li>
+        <li>Username and password not hidden by HTTP</li>
+        <li>You must use another encryption layer (TLS) below HTTP (HTTPS) for security!</li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP Basic Auth</h3>
+    <ul>
+        <li>Easiest to implement</li>
+        <li>Stateless</li>
+        <li>Response: <code>401 Unauthorized</code> & <code>WWW-Authenticate</code> header.</li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP Digest Auth</h3>
+    <ul>
+        <li>Defined in RFC 2069, Franks et al, <b>1997</b>.</li>
+        <li>Uses cryptographic hashes, designed to hide username & password...
+            <ul>
+                <li>But it uses MD5 which is broken.</li>
+            </ul>
+        </li>
+        <li>So... You must use another encryption layer (TLS) below HTTP (HTTPS) for security!</li>
+    </ul>
+</section>
+<section>
+    <h3 style="font-size: 90%;">
+        Session Cookie Authentication: is it REST?
+    </h3>
+    <img src="../images/sessionauth.svg" class="stretch">
+</section>
+<section>
+    <h3 style="font-size: 90%;">
+        Signed Token Authentication: is it REST?
+    </h3>
+    <img src="../images/token_auth.svg" class="stretch">
 </section>
 
                           <section style="font-size: 90%">
