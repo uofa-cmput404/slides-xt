@@ -40,32 +40,80 @@
     <ul>
         <li>Easiest to implement</li>
         <li>Stateless</li>
-        <li>Response: <code>401 Unauthorized</code> & <code>WWW-Authenticate</code> header.</li>
+        <li>Response: <code>401 Unauthorized</code> & <code>WWW-Authenticate: Basic</code> header.</li>
+        <li>Request: <code>Authorization: Basic</code> header</li>
     </ul>
 </section>
 <section>
+    <h3>HTTP Basic Auth</h3>
+    <ul>
+        <li>The username and password are <em>encoded</em> but not <em>encrypted</em></li>
+    </ul>
+    <pre><code>function encodeBasic(username, password) {
+    utf8bytes = new TextEncoder().encode(username + &quot;:&quot; + password);
+    binaryString = String.fromCodePoint(...utf8bytes);
+    return btoa(binaryString);
+}
+function decodeBasic(base64String) {
+    binaryString = atob(base64String);
+    utf8bytes = Uint8Array.from(binaryString, (c) =&gt; c.codePointAt(0));
+    both = new TextDecoder().decode(utf8bytes);
+    seperator = both.indexOf(&#39;:&#39;);
+    return [both.slice(0,seperator), both.slice(seperator+1)];
+}</code></pre>
+</section>
+<section style="font-size: 90%;">
+    <h3>HTTP Basic Auth</h3>
+    <ul>
+        <li>Cannot customize username/password prompt</li>
+        <li>Browser will remember to keep sending auth</li>
+        <li>All files an subdirs <em>at</em> or <em>below</em> will be considered authenticated
+            <ul>
+                <li>If we authenticate at <code>/stuff/private/index.html</code>:</li>
+                <li><code>/stuff/private/1</code> browser will assume is authenticated</li>
+                <li><code>/stuff/private/folder/banana.html</code> browser will assume is authenticated</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section style="font-size: 90%;">
     <h3>HTTP Digest Auth</h3>
     <ul>
         <li>Defined in RFC 2069, Franks et al, <b>1997</b>.</li>
         <li>Uses cryptographic hashes, designed to hide username & password...
             <ul>
                 <li>But it uses MD5 which is broken.</li>
+                <li>Secure SHA-256 hash added only in 2021 (firefox) and 2023 (chrome)</li>
             </ul>
         </li>
         <li>So... You must use another encryption layer (TLS) below HTTP (HTTPS) for security!</li>
+        <li>Not really used...</li>
     </ul>
 </section>
 <section>
     <h3 style="font-size: 90%;">
-        Session Cookie Authentication: is it REST?
+        Session Cookie Authentication
     </h3>
     <img src="../images/sessionauth.svg" class="stretch">
 </section>
 <section>
     <h3 style="font-size: 90%;">
-        Signed Token Authentication: is it REST?
+        Signed Token Authentication
     </h3>
     <img src="../images/token_auth.svg" class="stretch">
+</section>
+<section>
+    <h3>Signed Token Authentication</h3>
+    <ul>
+        <li>Response: <code>401 Unauthorized</code> & <code>WWW-Authenticate: Bearer</code> header.</li>
+        <li>Request: <code>Authorization: Bearer</code> header</li>
+        <li>Can use <code>Set-Cookie</code> and <code>Cookie</code> to transfer token
+            <ul>
+                <li>But... it can be tripped up by CORS rules!</li>
+                <li><code>Access-Control-Allow-Origin: </code> and friends.</li>
+            </ul>
+        </li>
+    </ul>
 </section>
 
                           <section style="font-size: 90%">
