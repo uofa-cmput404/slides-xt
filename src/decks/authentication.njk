@@ -209,16 +209,25 @@
             </ul>
         </li>
         <li>
-            Use OAuth 2.0 authorization to get a JWT from the IDP for the RP, obviously.
+            Use OAuth 2.0 authorization to get a JWT from the IDP, which we then give to the RP as proof of who we are.
             <ul>
-                <li>The thing we are AUTHORIZING the client/RP to do is know who we are, according to the IDP/authorization server.</li>
+                <li>The thing we are AUTHORIZING the client/RP to do is request information about who we are, according to the IDP/authorization server.</li>
             </ul>
         </li>
     </ol>
 </section>
 <section>
     <h3 style="font-size: 80%;">OpenID Connect</h3>
-    <img class="stretch" src="../images/oidc.svg">
-    <cite style="font-size: 50%;"><a href="https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc">https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc</a>Richards et al., 2023, Microsoft</cite>
+    <img src="../images/oidc.svg" height="500px">
+    <cite style="font-size: 50%;"><a href="https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc">https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc</a> Richards et al., 2023, Microsoft</cite>
+</section>
+<section style="font-size: 80%;">
+    <h3>SAML</h3>
+    <ul>
+        <li>Like OpenID Connect but doesn't use OAuth or JWT, instead uses XML and its own thing</li>
+        <li>Mostly used by academic institutions (such as the Unversity of Alberta)</li>
+    </ul>
+    <img class="stretch" src="../images/saml2flow.png">
+    <cite style="font-size: 50%;"><a href="https://commons.wikimedia.org/wiki/File:Saml2-browser-sso-redirect-post.png">https://commons.wikimedia.org/wiki/File:Saml2-browser-sso-redirect-post.png</a> Ayungn, 2021, Wikimedia Commons</cite>
 </section>
 {% endblock %}
