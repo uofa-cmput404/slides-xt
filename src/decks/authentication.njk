@@ -71,6 +71,12 @@
         </li>
     </ul>
 </section>
+<section>
+    <h3 style="font-size: 90%;">
+        HTTP Basic Authentication
+    </h3>
+    <img src="../images/basic_auth.svg" class="stretch">
+</section>
 <section style="font-size: 90%;">
     <h3>HTTP Digest Auth</h3>
     <ul>
@@ -83,6 +89,13 @@
         </li>
         <li>So... You must use another encryption layer (TLS) below HTTP (HTTPS) for security!</li>
         <li>Not really used...</li>
+    </ul>
+</section>
+<section style="font-size: 90%;">
+    <h3>HTTP Digest Auth</h3>
+    <ul>
+        <li>Doesn't prevent tampering with content, headers, paths, ...</li>
+        <li>Just use TLS!</li>
     </ul>
 </section>
 <section>
@@ -109,5 +122,103 @@
             </ul>
         </li>
     </ul>
+</section>
+<section>
+    <h3>JSON Web Tokens</h3>
+    <pre><code>{% filter prexample %}
+        {
+            "alg": "HS256",
+            "typ": "JWT"
+        }{
+            "sub": "user_id=1234567890",
+            "custom": "whatever",
+            "iat": 1698689742
+        }
+    {% endfilter %}</code></pre>
+    <ul>
+        <li>Base64 Encoded + "." + Base64 cryptographic signature</li>
+    </ul>
+    <p><a href="https://jwt.io/">JWT Demo</a></p>
+</section>
+<section style="font-size: 90%;">
+    <h3>The OAuths</h3>
+    <ul>
+        <li>Allows a user to tell <em>authorization</em> server it's ok to allow a <em>client</em> (which can be a server) to access <em>resource</em> server API on their behalf.</li>
+        <li>Example: User allows their email application to access gmail on their behalf.
+            <ul>
+                <li>Client: email application</li>
+                <li>Authorization server: accounts.google.com</li>
+                <li>Resource server: gmail.com</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section style="font-size: 90%;">
+    <h3>The OAuths</h3>
+    <ul>
+        <li>Allows a user to tell <em>authorization</em> server it's ok to allow a <em>client</em> (which can be a server) to access <em>resourc</em> server API on their behalf.</li>
+        <li>Example: User allows their email application to access gmail on their behalf.
+            <ul>
+                <li>Client: super powered mail manager service $100/month guaranteed success (also a website/server, actually)</li>
+                <li>Authorization server: accounts.google.com</li>
+                <li>Resource server: gmail.com</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3 style="font-size: 80%;">OAuth 1</h3>
+    <img class="stretch" src="../images/oauth1.png">
+    <cite style="font-size: 50%;"><a href="https://commandlinefanatic.com/cgi-bin/showarticle.cgi?article=art014">https://commandlinefanatic.com/cgi-bin/showarticle.cgi?article=art014</a> Joshua Davies, 2012</cite>
+</section>
+<section>
+    <h3 style="font-size: 80%;">OAuth 2</h3>
+    <img class="stretch" src="../images/oauth2flow.png">
+    <cite style="font-size: 50%;"><a href="https://www.soapui.org/docs/oauth2/oauth2-overview/">https://www.soapui.org/docs/oauth2/oauth2-overview/</a> Smartbear Software, 2023</cite>
+</section>
+<section>
+    <h3>OAuth 1 vs 2</h3>
+    <div class="columns">
+        <div class="column">
+            <ul>
+                <li>More complicated</li>
+                <li>More secure</li>
+                <li>Slower</li>
+                <li>Should be used over TLS</li>
+                <li>RFC 5849</li>
+            </ul>
+        </div>
+        <div class="column">
+            <ul>
+                <li>Easier to implement</li>
+                <li>Less secure</li>
+                <li>Faster (fewer steps)</li>
+                <li>Must be used over TLS</li>
+                <li>RFC 6749</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section style="font-size: 80%;">
+    <h3>OpenID Connect</h3>
+    <ol>
+        <li>Do OAuth 2.0
+            <ul>
+                <li>The site you are logging <b>into</b> is the client, AKA <em>Relying Party (RP)</em>.</li>
+                <li>The site you are logging <b>in with</b> is the authorization server and resource server, AKA <em>Identity Provider (IDP)</em>.</li>
+            </ul>
+        </li>
+        <li>
+            Use OAuth 2.0 authorization to get a JWT from the IDP for the RP, obviously.
+            <ul>
+                <li>The thing we are AUTHORIZING the client/RP to do is know who we are, according to the IDP/authorization server.</li>
+            </ul>
+        </li>
+    </ol>
+</section>
+<section>
+    <h3 style="font-size: 80%;">OpenID Connect</h3>
+    <img class="stretch" src="../images/oidc.svg">
+    <cite style="font-size: 50%;"><a href="https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc">https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc</a>Richards et al., 2023, Microsoft</cite>
 </section>
 {% endblock %}
