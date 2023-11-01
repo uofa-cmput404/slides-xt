@@ -2210,7 +2210,40 @@ body pre {
 body .reveal pre {
     font-size: 67.8%;
     line-height: normal;
-}`, ""]);
+}
+dl, body .reveal section>dl,
+ol, body .reveal section>ol,
+ul,body .reveal section>ul {
+    margin: 0;
+    display: block;
+}
+dl, body .reveal section>dl {
+    display: flow-root;
+}
+dl>dt, body .reveal dl>dt {
+    float: inline-start;
+    clear: inline-start;
+    display: block;
+    min-width: 0;
+    max-width: 50%;
+}
+dl>dd, body .reveal dl>dd {
+    display: block;
+    clear: none;
+    float: none;
+    margin: 0;
+    padding: 0;
+}
+dt::after {
+    content: "—";
+}
+dd>ul, body .reveal dd>ul {
+    display: block;
+    clear: left;
+    float: none;
+    font-size: 90%;
+}
+`, ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
