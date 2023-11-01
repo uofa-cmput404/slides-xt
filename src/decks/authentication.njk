@@ -230,4 +230,26 @@
     <img class="stretch" src="../images/saml2flow.png">
     <cite style="font-size: 50%;"><a href="https://commons.wikimedia.org/wiki/File:Saml2-browser-sso-redirect-post.png">https://commons.wikimedia.org/wiki/File:Saml2-browser-sso-redirect-post.png</a> Ayungn, 2021, Wikimedia Commons</cite>
 </section>
+<section>
+    <h3>Cookie: vs Authorization: Bearer</h3>
+    <ul>
+        <li>Both headers sent by the client</li>
+    </ul>
+    <div class="columns">
+        <div class="column">
+            <ul>
+                <li>Automatically sent by browser</li>
+                <li>Can run afoul of CORS rules</li>
+                <li>Less control by your code</li>
+            </ul>
+        </div>
+        <div class="column">
+            <ul>
+                <li>Only sent with AJAX when specified</li>
+                <li>Less likely to run afoul of CORS rules</li>
+                <li>Requires more code to use</li>
+            </ul>
+        </div>
+    </div>
+</section>
 {% endblock %}
