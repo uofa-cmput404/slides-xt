@@ -100,13 +100,8 @@
     <ul>
         <li>Doesn't need to come from another site</li>
         <li>Inclusion of unauthorized HTML/CSS/JavaScript in page.</li>
-    </ul>
-</section>
-<section>
-    <h3>XSS (Cross-Site Scripting)</h3>
-    <ul>
-        <li>Doesn't need to come from another site</li>
-        <li>Inclusion of unauthorized HTML/CSS/JavaScript in page.</li>
+        <li>Malicious code that runs in the <em>browser</em>.</li>
+        <li>Malicous code that runs on the server is not XSS, it's RCE.</li>
     </ul>
 </section>
 <section>
@@ -172,8 +167,15 @@
         <li>User profile page on server allows user to enter a description or bio for themselves.</li>
         <li>Bio is stored on server.</li>
         <li>Anyone navigating to the page sees the user's custom bio.</li>
-        <li>Someone sets their bio to contain HTML/CSS/JS code.</li>
+        <li>Someone sets their bio to contain HTML/CSS/JS.</li>
     </ol>
+</section>
+<section>
+    <h3>XSS and URLs</h3>
+    <pre><code>{% filter prexample %}
+        someAElement.href = "http://mysite.com/?q=" + searchQuery
+    {% endfilter %}</code></pre>
+    <p>What if it is changed to something like...</p>
 </section>
 <section>
     <h3>Server XSS Prevention</h3>
@@ -183,11 +185,217 @@
                 <li>Should a user be able to enter their name as <code>&lt;script></code>?</li>
             </ul>
         </li>
-        <li>Apply HTML/CSS/JS escaping to anything filled in.
+        <li>Apply HTML/CSS/JS <em>escaping</em> to anything filled in.
             <ul>
-                <li>Use built-in library functions to change <code>&lt;</code> to <code>&amp;lt;</code>.</li>
+                <li>Example: Use built-in library functions to change <code>&lt;</code> to <code>&amp;lt;</code> in HTML.</li>
             </ul>
         </li>
+    </ul>
+</section>
+<section>
+    <h3>XSS Prevention</h3>
+    <ul>
+        <li>Avoid "unsafe sinks"
+            <ul>
+                <li><code>.innerHTML</code> (react: <code>dangerouslySetInnerHTML</code>)</li>
+                <li><code>document.write()</code></li>
+                <li><code>.onevent</code></li>
+                <li><code>eval()</code></li>
+                <li><code>setTimeout(string)/setInterval(string)</code></li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>XSS Prevention</h3>
+    <ul>
+        <li>Use safe sinks instead
+            <ul>
+                <li><code>.innerHTML</code> → <code>.textContent</code></li>
+                <li><code>document.write()</code> → create elements the OO way</li>
+                <li><code>.onevent</code> → <code>addEventListener</code></li>
+                <li><code>eval()</code> → Just don't.</li>
+                <li><code>setTimeout(string)/setInterval(string)</code> →</li>
+            </ul>
+        </li>
+        <pre><code>{% filter prexample %}
+            if (typeof somecode === 'function') {
+                setTimeout(somecode);
+            } else { throw new Error("Possible XSS?"); }
+        {% endfilter %}</code></pre>
+    </ul>
+</section>
+<section>
+    <h3>Apply Escaping EVERYWHERE</h3>
+    <ul>
+        <li>Any time something is inserted by interpolation, templating, AJAX, etc. consider it could possbly be exploited.</li>
+        <li>If its a <b>URL</b>, apply percent encoding to variables.
+            <pre><code>{% filter prexample %}
+                # Python example:
+                dest = base_url + item_name + '?t=' + tracking_id
+                # Instead:
+                import quote from urllib.parse
+                dest = base_url + quote(item_name) + '?t=' + quote(tracking_id)
+            {% endfilter %}</code></pre>
+        </li>
+        <li>If it's being added to <b>HTML</b>, apply <em>entity encoding</em> to <code>&amp;&lt;&gt;&quot;&apos;</code> → <code>&amp;amp;&amp;lt;&amp;gt;&amp;quot;&amp;apos;</code></li>
+    </ul>
+</section>
+<section>
+    <h3>Apply Escaping EVERYWHERE</h3>
+    <ul>
+        <li>CSS
+            <ul>
+                <li>Make sure you only put variables into css values.</li>
+                <li>Make sure values are quoted and escaped.
+                    <pre><code>{% filter prexample %}
+                        // JS Example
+                        customized_style = "body { background-color: " + user_color + "}";
+                        # Instead:
+                        customized_style = "body { background-color: \"" + CSS.escape(user_color) + "\"}";
+                    {% endfilter %}</code></pre>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Apply Escaping EVERYWHERE</h3>
+    <ul>
+        <li>JavaScript
+            <ul>
+                <li>Best to just avoid ever interpolating something into JavaScript.</li>
+                <li>Use an <a href="https://github.com/OWASP/owasp-java-encoder/blob/main/core/src/main/java/org/owasp/encoder/JavaScriptEncoder.java">encoder library.</a></li>
+                <li>Place value in single quotes and convert every character to a hex code or unicode code.
+                    <pre><code>{% filter prexample %}
+                        # Python example
+                        output_js = "someFunction('" + some_string + "');"
+                        # should be changed to something like
+                        output_js = "someFunction('" + ''.join(['\\u' + hex(ord(c)) for c in some_string]) +"');"
+                    {% endfilter %}</code></pre>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Lock it down!</h3>
+    <ul>
+        <li>HTTP: <code>Content-Security-Policy: default-src: 'self'; img-src https://*;</code></li>
+        <li>HTML: <code>&lt;meta http-equiv="Content-Security-Policy" content="default-src: 'self'; img-src https://*;"></code></li>
+        <li>Unlock inline CSS: <code>style-src: 'unsafe-inline';</code></li>
+        <li><code>'self'</code> value means only other URLs on the same source (domain, http/https & port number) can be used.</li>
+        <li>Only listing <code>'self'</code> prevents use of inline data.</li>
+    </ul>
+</section>
+<section>
+    <h3>CSP</h3>
+    <ul>
+        <li>Example <code>script-src: 'self'</code>:</li>
+        <pre><code>{% filter prexample %}
+            <script src="/scripts/banana.js"></script><!-- this one loads ok -->
+            <script src="https://some.cdn.com/somelibrary.js"></script><!-- not allowed, different origin -->
+            <script>
+                alert("This one doesn't load, it's unsafe inline.");
+            </script>
+            <button onclick='alert("this one doesnt load either, unsafe inline")'>
+        {% endfilter %}</code></pre>
+    </ul>
+</section>
+<section>
+    <h3>CSP</h3>
+    <ul>
+        <li>General approach
+            <ol>
+                <li>Set <code>'default-src: self;'</code> and see what breaks.</li>
+                <li>Add exceptions as needed<br>or<br>move things out of inline.</li>
+            </ol>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Cross-Site Request Forgery (CSRF)</h3>
+    <ul>
+        <li>Trick a user or user-agent into executing malicious requests.</li>
+        <li>Hijack weak authentication measures.</li>
+        <li>Repeat actions unnecessarily.</li>
+    </ul>
+</section>
+<section>
+    <h3>Cross-Site Request Forgery (CSRF)</h3>
+    <ul>
+        <li>Server-side ("Classic") CSRF
+            <ul>
+                <li>Server cannot tell if request is coming from a legitimate client/user or not.</li>
+            </ul>
+        </li>
+        <li>Client-side CSRF
+            <ul>
+                <li>Legitimate Client-side JavaScript running in the authorized user's browser is tricked into sending an unwanted, or malicious request.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Server-Side CSRF Mitigation</h3>
+    <ul>
+        <li>Check <code>Referer</code> header.</li>
+        <li>Request tokens
+            <ul>
+                <li>Most Frameworks come with this! For example, Django!</li>
+                <li>Generate unique token with each GET of a HTML form.
+                </li>
+                <li>Send token by using a 
+                    <pre><code>{% filter prexample %}
+                        <input type="hidden" name="csrfToken" value="4399b92a-7a75-11ee-b962-0242ac120002">
+                    {% endfilter %}</code></pre>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Server-Side CSRF Mitigation</h3>
+    <ul>
+        <li>Include bearer auth with AJAX that isn't public GET.</li>
+        <li>Make sure unsafe actions (actions that change state) aren't GET.
+            <ul><li><code>/logout</code> should not be a GET</li></ul>
+        </li>
+        <li>Apply XSS prevention
+            <ul>
+                <li>XSS & CSRF are often combined!</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section style="font-size: 80%;">
+    <h3>CSRF Mitigation</h3>
+    <ul>
+        <li>Naive Double-Submit Cookie
+            <ol>
+                <li>Server sets random cookie on first visit.</li>
+                <li>When any request is made, browser always sends cookie.</li>
+                <li>Also send cookie as a hidden form field or with custom header in AJAX request.
+                    <ul>
+                        <li>Browsers only allow custom headers to be set for same-origin requests!</li>
+                    </ul>
+                </li>
+                <li>Server double-checks they match.</li>
+            </ol>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>CSRF Mitigation</h3>
+    <ul>
+        <li><code>Access-Control-Allow-</code> headers.
+            <pre><code>{% filter prexample %}
+                Access-Control-Allow-Origin: http://mobile.yoursite.com
+                Access-Control-Allow-Credentials: true
+                Access-Control-Allow-Headers: My-Custom-Header
+            {% endfilter %}</code></pre>
+        </li>
+        <li><code>Access-Control-Allow-Origin: *</code> allows any origin but it cannot be sent at the same time as <code>Access-Control-Allow-Credentials: true</code>.</li>
     </ul>
 </section>
 {% endblock %}
