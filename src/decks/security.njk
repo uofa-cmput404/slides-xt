@@ -174,8 +174,8 @@
     <h3>XSS and URLs</h3>
     <pre><code>{% filter prexample %}
         someAElement.href = "http://mysite.com/?q=" + searchQuery
+        someAElement.href = "http://mysite.com/users/" + userName + "/profile"
     {% endfilter %}</code></pre>
-    <p>What if it is changed to something like...</p>
 </section>
 <section>
     <h3>Server XSS Prevention</h3>
@@ -396,6 +396,284 @@
             {% endfilter %}</code></pre>
         </li>
         <li><code>Access-Control-Allow-Origin: *</code> allows any origin but it cannot be sent at the same time as <code>Access-Control-Allow-Credentials: true</code>.</li>
+    </ul>
+</section>
+<section>
+    <h3>Path Travesal Exploit</h3>
+    <ul>
+        <li>Using relative paths like
+            <pre><code>{% filter prexample %}
+                .
+                ..
+                ../..
+                ../../../../../../etc/passwd
+            {% endfilter %}</code></pre>
+        </li>
+
+    </ul>
+</section>
+<section>
+    <h3>Path Travesal Mitigation</h3>
+    <ul>
+        <li>Reject <code>/</code> in things like names in the first place.</li>
+        <li>Reject sequences such as <code>..</code>, <code>/..</code>, <code>./</code></li>
+        <li>Don't use regular expressions to check these 💀</li>
+        <li>Use path library to convert relative path to absolute path, and check that its still in the correct folder</li>
+    </ul>
+</section>
+<section>
+    <h3>SQL Injection</h3>
+    <ul>
+        <li>The famous <a href="https://xkcd.com/327">XKCD Comic</a></li>
+        <li>Example:
+            <pre><code>{% filter prexample %}
+                cursor.execute("select * from user_table where name = " + user_name + ";")
+            {% endfilter %}</code></pre>
+        </li>
+        <li>What's the problem here?</li>
+    </ul>
+</section>
+<section>
+    <h3>SQL Injection</h3>
+    <ul>
+        <li>The famous <a href="https://xkcd.com/327">XKCD Comic</a></li>
+        <li>Example:
+            <pre><code>{% filter prexample %}
+                cursor.execute("select * from user_table where name = " + user_name + ";")
+            {% endfilter %}</code></pre>
+        </li>
+        <li>What's the problem here?
+            <ul>
+                <li><code>user_name = '"oopsie"; drop table user_table;'</code></li>
+                <li><code>user_name = '"oopsie"; update user_table set admin=TRUE where name = "Hazel";'</code></li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Preventing SQL Injection</h3>
+    <ul>
+        <li>Never construct an SQL query from strings!</li>
+        <li>Use placeholders instead!</li>
+    </ul>
+    <pre><code>{% filter prexample %}
+        # Python/sqlite3 example
+        import sqlite3
+        con = sqlite3.connect("mydatabase.db")
+        con.execute("SELECT * FROM user_table WHERE name = " + user_name + ";") # BAD WRONG DO NOT
+        con.execute("SELECT * FROM user_table WHERE name = ?;", (user_name,)) # good yes do do this
+    {% endfilter %}</code></pre>
+</section>
+<section>
+    <h3>Shell Injection</h3>
+    <ul>
+        <li>Like SQL injection</li>
+        <li>But with shell commands (command-line commands)
+            <ul>
+                <li>Unix/Linux/MacOS <code>sh</code></li>
+                <li>Windows <code>cmd</code> & powershell</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Preventing Shell Injection</h3>
+    <ul>
+        <li>Validate paths and names</li>
+        <li>Don't execute commands as shell commands, do direct exec...</li>
+    </ul>
+    <pre><code>{% filter prexample %}
+        import subprocess
+        subprocess.run("program operation --option " + file_name) # BAD, will be run with system shell
+        subprocess.run(["program", "operation", "--option", file_name]) # GOOD, run directly
+    {% endfilter %}</code></pre>
+</section>
+<section>
+    <h3>Poorly Secured Cookies/Tokens</h3>
+    <ul>
+        <li>We want the to go stateless!</li>
+        <li>We want the client/user to remember the state, not us!</li>
+        <li>So lets use cookies or tokens and make the browser/client remember it.</li>
+    </ul>
+</section>
+<section>
+    <h3>Poorly Secured Cookies/Tokens</h3>
+    <ul>
+        <li>What if they forge or tamper with the cookie/token?</li>
+        <li>What if the cookie/token gets stolen?
+            <ul>
+                <li>Does the hacker even have to log in?</li>
+            </ul>
+        </li>
+        <li>What if the cookie/token gets reused?</li>
+        <li>What if the cookie/token gets repeated?</li>
+    </ul>
+</section>
+<section>
+    <ul>
+        <li>Hackers can change data even when its encrypted.
+            <ul>
+                <li>It might not decrypt to something that makes sense anymore, but that's fine if it lets the hacker do what they want!</li>
+            </ul>
+        </li>
+        <li>Integrity must also be protected.
+            <ul>
+                <li>Rely on secure hash functions</li>
+                <li>Salt hashes</li>
+                <li>Key hashes</li>
+                <li>Hash the WHOLE thing (entire message plus important context)</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section style="font-size: 99%;">
+    <ul>
+        <li><b>Single</b> Service creates messages (tokens) that it can verify it created:
+            <ul>
+                <li>Rely on secure hash functions (not your own, not MD5)</li>
+                <li>Salt hashes</li>
+                <li>Key hashes</li>
+                <li>Hash the WHOLE thing (entire message plus important context)</li>
+                <li>Hash the encrypted text if encrypting (EtM)</li>
+                <li>Use different keys for hash and for encryption</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <ul>
+        <li><b>Two</b> services that need to verify the other created messages:
+            <ul>
+                <li>Cryptographic Signatures</li>
+            </ul>
+        </li>
+        <li>Actually it's better to just use a <em>widely-known</em> library...</li>
+        <li>Making your own encyption code that's actually secure, rather than just looking secure, is difficult!</li>
+    </ul>
+</section>
+<section>
+    <h3>Tokens are not that safe...</h3>
+    <ul>
+        <li>Include info in tokens about:
+            <ul>
+                <li>When it was made</li>
+                <li>For who it was made</li>
+                <li>For what IP it was made</li>
+                <li>When its expected to expire</li>
+                <li>What purposes it can be used for</li>
+                <li>What backend version made it</li>
+                <li>What frontend version requested it</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>DoS Denial of Service</h3>
+    <ul>
+        <li>An attacker makes a service unavailable</li>
+        <li>Common methods:
+            <ul>
+                <li>Spamming</li>
+                <li>Flooding</li>
+                <li>Filling queues with large requests</li>
+                <li>Sending useless expensive jobs</li>
+                <li>Using all available Resources
+                    <ul>
+                        <li>CPU</li>
+                        <li>RAM</li>
+                        <li>Disk</li>
+                        <li>Network</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>   
+    </ul>
+</section>
+<section>
+    <h3>DDoS: Distributed DoS</h3>
+    <ul>
+        <li>Same thing as DoS when the attacker has
+            <li>Many computers (lightbulbs)</li>
+            <li>or computers all over the world</li>
+            <li>or computers that will <em>Reflect</em> requests</li>
+            <li>or some way to redirect or reroute legitimate traffic to the target</li>
+        </li>
+    </ul>
+</section>
+<section style="font-size: 85%;">
+    <h3>Non-Distributed DoS Mitigation</h3>
+    <ul>
+        <li>Limit cpu time/ram/disk per request
+            <ul>
+                <li>HTTP 517 Insufficient Storage</li>
+            </ul>
+        </li>
+        <li>Limit request size
+            <ul>
+                <li>HTTP 413 Content Too Large</li>
+            </ul>
+        </li>
+        <li>Limit requests per second per user
+            <ul>
+                <li>HTTP 429 Too Many Requests</li>
+            </ul>
+        </li>
+        <li>Limit users per IP or network</li>
+        <li>Limit clients per user</li>
+        <li>Limit ...</li>
+        <li><s>CAPTCHAs</s>
+            <ul>
+                <li>HTTP 402 Payment Required</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>DDoS Mitigation</h3>
+    <ul>
+        <li>Look for patterns in trafic and filter out that pattern
+            <ul>
+                <li>Specific requests/endpoints/paths?</li>
+                <li>Specific areas of the world?</li>
+                <li>Specific user agents?</li>
+                <li>Specific HTTP headers?</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>DDoS Mitigation</h3>
+    <ul>
+        <li>Maintain white-lists of known-good request sources
+            <ul>
+                <li>Only allow users who were logged-in before the attack started</li>
+                <li>Only allow IPs who accessed before the attack started</li>
+                <li>Use IP "reputation lists"</li>
+                <li>Session cookies from before the attack started</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section style="font-size: 85%;">
+    <h3>DDoS Mitigation</h3>
+    <ul>
+        <li>Pay for cloud-based caching & DDoS defense reverse-proxies
+            <ul>
+                <li>Fastly</li>
+                <li>Akami</li>
+                <li>Cisco Umbrella</li>
+                <li>...</li>
+            </ul>
+        </li>
+        <li>Host your own caching & defense reverse-proxy...
+            <ul>
+                <li>HAProxy</li>
+                <li>BunkerWeb</li>
+                <li>FastNetMon</li>
+                <li>Various HTTP server (nginx, etc.) config and plugins</li>
+                <li>...</li>
+            </ul>
+        </li>
     </ul>
 </section>
 {% endblock %}
