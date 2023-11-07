@@ -1,0 +1,451 @@
+{% extends "base.njk" %}
+
+{% block slides %}
+<section>
+    <h1>CMPUT 404</h1>
+    <h3>Web Applications and Architecture</h3>
+    <h2>Part 14: TLS</h2>
+    <p>
+        <small>Created by <br>
+            <a href="http://softwareprocess.es">Abram Hindle</a>
+            (<a href="mailto:abram.hindle@ualberta.ca">abram.hindle@ualberta.ca</a>) <br>
+            and Hazel Campbell (<a href="mailto:hazel.campbell@ualberta.ca">hazel.campbell@ualberta.ca</a>).<br>
+            Copyright 2014-2023.
+        </small>
+    </p>
+</section>
+<section>
+    <h3>TLS</h3>
+    <ul>
+        <li>Transport Layer Security
+            <ul>
+                <li>Transport Layer: works on top of TCP/UDP</li>
+                <li>Fully integrated with QUIC</li>
+            </ul>
+        </li>
+        <li>Security</li>
+        <li>Formerly called SSL</li>
+        <li>HTTP inside of TLS is called HTTPS</li>
+        <li>Also used for many other protocols besides HTTP</li>
+    </ul>
+</section>
+<section>
+    <h3>TLS versions</h3>
+    <ul>
+        <li>SSL 2.0: 1995-2011</li>
+        <li>SSL 3.0: 1996-2015</li>
+        <li>TLS 1.0: 1999-2020</li>
+        <li>TLS 1.1: 2006-2020</li>
+        <li>TLS 1.2: 2008-</li>
+        <li>TLS 1.3: 2018-</li>
+    </ul>
+</section>
+<section>
+    <h3>Security</h3>
+    <ul>
+        <li>Identity
+            <ul>
+                <li>Who are you talking to?</li>
+            </ul>
+        </li>
+        <li>Privacy
+            <ul>
+                <li>Who can hear what you're saying?</li>
+            </ul>
+        </li>
+        <li>Authenticity
+            <ul>
+                <li>Is what you're hearing really coming from the person you think you're talking to?</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Identity</h3>
+    <ul>
+        <li>If I go to bank.com how do I know that I'm really
+            talking to bank.com?
+        </li>
+        <li>Without TLS, I don't: my connection can be intercepted
+            by IP, TCP, and DNS attacks...
+        </li>
+        <li>Without TLS it's relatively easy to intercept connections
+            meant for a webserver and serve them yourself.
+        </li>
+    </ul>
+</section>
+<section style="font-size: 99%">
+    <ul>
+        <li>Example: Evil WiFi cafe! I could set up an evil WiFi cafe,
+            where people come, sit down, connect to my "secure" WiFi.
+            Then when someone tries to make a connection to someplace
+            interesting like their bank, my WiFi router can redirect
+            their packets to my own web server! I could make it look
+            just like their bank's website, allowing them to enter
+            their username and password.
+        </li>
+        <li>Evil WiFi cafe could also simply intercept DNS requests
+            and respond with the address of a fake bank webserver instead.
+        </li>
+    </ul>
+</section>
+<section>
+    <ul>
+        <li>This is not limited to WiFi: anyone with access to a network
+            where TCP/IP and DNS traffic is going accross, such as one of
+            the many networks that make up the internet, can do the same
+            or similar attacks.
+        </li>
+        <li>It's not limited to routers either: just sitting next to
+            someone at a wifi cafe would allow you to perform similar
+            attacks
+        </li>
+    </ul>
+</section>
+<section>
+    <h4>TLS: Identity</h4>
+    <ul>
+        <li>With TLS I can ensure the server I'm connected to is the
+            server I meant to connect to.
+        </li>
+        <li>This is done with <em>certificates</em>.</li>
+        <li>A certificate works like an ID card.</li>
+        <li>The server sends a certificate with its domain name
+            (called a "Common Name") and a big number called a public key.
+        </li>
+        <li>The certificate also includes other details, such as
+            who made it, for example, "Bank Inc."</li>
+    </ul>
+</section>
+<section>
+    <ul>
+        <li>Okay so the server hands me their certificate, it has
+            a big number and it says it's the bank, but how do I know
+            a fake websitie didn't just make a big number and claim to
+            be the bank?
+        </li>
+        <li>The certificate also has one crucial thing:
+            a <em>cryptographic signature</em>.
+        </li>
+        <li>The signature is produced by someone else, and only
+            matches one public key and domain name.
+        </li>
+    </ul>
+</section>
+<section style="font-size: 90%;">
+    <h3>Signed Certificates</h3>
+    <ul>
+        <li>The certificate's signature is unique to that certificate.</li>
+        <li>If you change the public key or the domain name, the
+            signature won't match anymore.</li>
+        <li>The certificate's signature also comes from a specific
+            entity that made that signature.</li>
+        <li>It tells us who signed it, and only they could have
+            produced that signature.</li>
+        <li>No one else can pretend to have signed the certificate,
+            or the signature won't match.</li>
+    </ul>
+</section>
+<section style="font-size: 85%">
+    <h3>Cryptographic Signatures</h3>
+    <ul>
+        <li>I make a private key and a public key as a part of a
+            cryptographic signature algorithm.
+        </li>
+        <li>I keep my private key secret, known only to me.</li>
+        <li>I give away my public key to the whole world so everyone
+            knows it's my public key.</li>
+        <li>I make signatures by combining my private key and some other
+            information I want to sign. In this case its the banks domain name and the bank's different public key.
+        </li>
+        <li>You can check my signature by using my public key (which I already gave you) and combining it with the
+            signature and information that's been signed to check it.</li>
+    </ul>
+</section>
+<section>
+    <h3>Certificate Authority (CA)</h3>
+    <ul>
+        <li>A certificate authority uses their private key to
+            sign the bank's certificate.</li>
+        <li>The bank sends their certificate to you so you can check
+            it.</li>
+        <li>You have the CA's public key.</li>
+        <li>You combine it with the banks certificate.</li>
+    </ul>
+</section>
+<section>
+    <ul>
+        <li>Now you know:
+            <ul>
+                <li>The bank's domain name</li>
+                <li>The bank's public key</li>
+                <li>That the CA says those are really the bank's
+                    <ul>
+                        <li>But how does the CA know?</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>The bank sends their certificate when you connect.</li>
+        <li>The CA's public key is already on your computer. It came
+            with your OS or your browser when you downloaded it.</li>
+    </ul>
+</section>
+<section style="font-size: 80%">
+    <h3>Identity Problems</h3>
+    <ul>
+        <li>You don't have the CA's public key
+            <ul>
+                <li>There's no way to know if the bank's domain name and public key are correct :(
+                </li>
+            </ul>
+        </li>
+        <li>The CA is evil
+            <ul>
+                <li>There's no way to know if the bank's domain name and public key are correct :(
+                </li>
+            </ul>
+        </li>
+        <li>The CA's private key got leaked
+            <ul>
+                <li>There's no way to know if the bank's domain name and public key are correct :(
+                </li>
+            </ul>
+        </li>
+        <li>The bank didn't send a signature from a CA
+            <ul>
+                <li>There's no way to know if the bank's domain name and public key are correct :(
+                </li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section style="font-size: 90%">
+    <h4>Identity Problems</h4>
+    <ul>
+        <li>Usually these are combatted by the browser makers:
+            <ul>
+                <li>Only allowing trusted CAs</li>
+                <li>Removing bad or leaked CAs</li>
+                <li>Not allowing you to view sites without a valid
+                    signature from a good CA</li>
+                <li>Checking lists of known certificates to make
+                    sure someone didn't get a second certificate to
+                    pretend to be the bank (Certificate Transparency)</li>
+                <li>Checking lists of known bad certificates and
+                    certificates that have been "revoked" (CRLs)</li>
+                <li>Ensuring the public key is the same as the last
+                    time you connected to the site (HPKP)</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <p>Certificate and CA in browser</p>
+    <a href="images/certificate1.png"><img src="images/certificate1.png" height="200" class="noborder"></a>
+    <a href="images/certificate2.png"><img src="images/certificate2.png" height="200" class="noborder"></a>
+    <a href="images/certificate3.png"><img src="images/certificate3.png" height="200" class="noborder"></a>
+</section>
+<section>
+    <h3>Identity to Privacy</h3>
+    <ul>
+        <li>Once the <em>identity</em> of the server is established,
+            and you know the server's public key is really for the
+            server you want to be talking to,</li>
+        <li>TLS can provide <em>privacy</em> and <em>authenticity</em>.
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Privacy</h3>
+    <ul>
+        <li>Hiding the content being transmitted back and forth from
+            eavesdropping, snooping, man-in-the-middle, etc.</li>
+        <li>We want to prevent anyone but us and the server we want
+            to send our information to from being able to read anything
+            exchanged between us and the server</li>
+    </ul>
+</section>
+<section>
+    <ul style="columns: 2">
+        <li>Passwords</li>
+        <li>Credit card numbers</li>
+        <li>Search terms</li>
+        <li>Exact URLs</li>
+        <li>Cookies</li>
+        <li>Conversations</li>
+        <li>Mail</li>
+        <li>Grades</li>
+        <li>Interests</li>
+        <li>Habits</li>
+        <li>Content</li>
+        <li>Uploads</li>
+    </ul>
+    <ul>
+        <li>Most information that gets transmitted either way</li>
+    </ul>
+</section>
+<section>
+    <img src="images/tls.svg" class="full">
+</section>
+<section>
+    <h3>Authenticity</h3>
+    <ul>
+        <li>Seperate from privacy</li>
+        <li>Every message is hashed to ensure it really came from the
+            server (client)</li>
+        <li>Prevents replay attacks, injection attacks,
+            man-in-the-middle attacks, etc.</li>
+        <li>Everything encrypted is also authenticated</li>
+    </ul>
+</section>
+<section>
+    <h3>Handshake</h3>
+    <img src="images/tls-ssl-handshake.png" class="stretch">
+    <cite><a href="https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/">Cloudflare: What happens in
+            a TLS handshake? 2019-04-04</a></cite>
+</section>
+<section>
+    <h4>Handshake</h4>
+    <ol>
+        <li>TCP Handshake</li>
+        <li>Client sends TLS "hello"
+            <ul>
+                <li>TLS version</li>
+                <li>Encryption algorithms</li>
+                <li>ALPN: Application-Layer Protocol Negotiation
+                    <ul>
+                        <li>e.g., select HTTP/2</li>
+                    </ul>
+                </li>
+                <li>SNI: Server Name Identification
+                    <ul>
+                        <li>Equivalent to <var>Host:</var> header
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>Server sends TLS "hello"
+            <ul>
+                <li>Chosen encryption algorithm</li>
+                <li>Certificate</li>
+            </ul>
+        </li>
+    </ol>
+</section>
+<section>
+    <h4>Handshake</h4>
+    <ol start="4">
+        <li>Client verifies server certificate
+            <ul>
+                <li>Using CA</li>
+            </ul>
+        </li>
+        <li>Client and server agree on an encryption key
+            <ul>
+                <li>Either:</li>
+                <ul>
+                    <li>Client sends encryption key encrypted with server's public key
+                    </li>
+                    <li>Client and server agree on encryption key by sending random bytes both directions
+                        (Diffie-Hellman Key Exchange) (more common)
+                    </li>
+                </ul>
+        </li>
+        </ul>
+        </li>
+        <li>Client sends encrypted "ready"
+        </li>
+        <li>Server sends encrypted "ready"
+        </li>
+    </ol>
+</section>
+<section>
+    <h3>Perfect Forward Secrecy</h3>
+    <ul>
+        <li>Newer versions of TLS</li>
+        <li>Data remains private even if the server or client later get hacked</li>
+        <li>Uses <em>Ephemeral</em> Diffie-Hellman Key Exchange</li>
+    </ul>
+</section>
+<section>
+    <h3>Reducing Latency</h3>
+    <ul>
+        <li>Traditional TLS requires at least 2 RTT (round trip time) latency on top of TCP handshake</li>
+        <li>Newer TLS supports 1 RTT handshake protocol</li>
+    </ul>
+</section>
+<section>
+    <h3>Cipher Suites</h3>
+    <a href="images/certificate1.png"><img src="images/certificate1.png" height="200" class="noborder"></a>
+    <ul>
+        <li>Client and server agree on crypto algorithm to use during
+            handshake</li>
+        <li>Many different crypto algorithms are available</li>
+    </ul>
+</section>
+<section style="font-size: 80%">
+    <h4>Cipher Suite Example</h4>
+    <var>TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256</var> 256-bit keys, TLS 1.2
+    <ul>
+        <li>Using TLS 1.2 protocol</li>
+        <li>Using ECDSA (Elliptic Curve Digital Signature Algorithm)</li>
+        <li>Using ECDHE (Ephemeral Elliptic Curve Diffie-Hellman Exchange) to agree on an encryption key</li>
+        <li>Using CHACHA20 encryption algorithm with 256-bit key</li>
+        <li>Using Poly1305 to check authenticity of most messages</li>
+        <li>Using SHA-256 to check authenticity of some message</li>
+    </ul>
+</section>
+<section>
+    <h3>TLS Problems</h3>
+    <ul>
+        <li>TLS has had lots of different security problems over the
+            years, typically with fun names!</li>
+    </ul>
+    <ul style="columns: 2">
+        <li>Renegotiation</li>
+        <li>FREAK</li>
+        <li>Logjam</li>
+        <li>DROWN</li>
+        <li>BEAST</li>
+        <li>CRIME</li>
+        <li>BREACH</li>
+        <li>padding oracle</li>
+        <li>Lucky Thirteen</li>
+        <li>POODLE</li>
+        <li>Old, insecure crypto algorithms</li>
+        <li>Truncation</li>
+        <li>Unholy PAC</li>
+        <li>Sweet32</li>
+        <li>Heartbleed</li>
+        <li>BERserk</li>
+        <li>Cloudbleed</li>
+    </ul>
+</section>
+<section>
+    <h3>Avoiding Security Problems</h3>
+    <ul>
+        <li>TLS <em>everything</em>
+            <ul>
+                <li>Make sure all traffic to/from your web app is running over TLS</li>
+                <li>Example: it may not help if only login is over TLS
+                    because an attacker can replace your TLS-encrypted login page with an unencrypted one by replacing
+                    the link on the unencrypted main site</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Avoiding TLS Security Problems</h3>
+    <ul>
+        <li>Keep software up to date
+            <ul>
+                <li>No Windows XP</li>
+            </ul>
+        </li>
+        <li>Don't communicate with out-of-date software</li>
+        <li>Example: if something on your site is meant to be secret,
+            even one bad client can leak the secret!</li>
+    </ul>
+</section>
+{% endblock %}
