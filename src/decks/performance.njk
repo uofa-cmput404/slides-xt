@@ -1,0 +1,392 @@
+{% extends "base.njk" %}
+
+{% block slides %}
+<section>
+    <h1>CMPUT 404</h1>
+    <h3>Web Applications and Architecture</h3>
+    <h2>Performance</h2>
+    <p>
+        <small>Created by <br>
+            <a href="http://softwareprocess.es">Abram Hindle</a>
+            (<a href="mailto:abram.hindle@ualberta.ca">abram.hindle@ualberta.ca</a>) <br>
+            and Hazel Campbell (<a href="mailto:hazel.campbell@ualberta.ca">hazel.campbell@ualberta.ca</a>).<br>
+            Copyright 2014-2023.
+        </small>
+    </p>
+</section>
+<section>
+    <h3>Performance</h3>
+    <ul>
+        <li>Performance is a <i>non-functional requirement</i>.</li>
+        <li>Measured as...
+            <ul>
+                <li>Concurrency (# of requests or users at once)</li>
+                <li>Latency (ms)</li>
+                <li>Volume (requests/second)</li>
+                <li>Bandwidth (bytes/second)</li>
+                <li>Utilization (percent)</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Before You Optimize</h3>
+    <ol>
+        <li>Measure
+            <ul>
+                <li>Concurrency or Latency or Volume or Bandwidth or Utilization</li>
+            </ul>
+        </li>
+        <li>Record that number!
+            <ul>
+                <li>You need to compare it against future values.</li>
+            </ul>
+        </li>
+        <li>Record and track original settings and changes made!
+            <ul>
+                <li>You need to compare performance wiht your changes!</li>
+            </ul>
+        </li>
+        <li>Run tests more than once!
+            <ul>
+                <li>For basic stats you want more than 10 runs</li>
+                <li>For rigorous stats you want 40+</li>
+            </ul>
+        </li>
+    </ol>
+</section>
+<section>
+    <h3>Techniques</h3>
+    <ul>
+        <li>Caching</li>
+        <li>Reduce # of round trips</li>
+        <li>Reduce download size</li>
+        <li>Asynchronous communication</li>
+    </ul>
+</section>
+<section>
+    <h3>Caching</h3>
+    <ul>
+        <li>Caching increases locality
+            <ul>
+                <li>Content/data is closer to where it is needed</li>
+            </ul>
+        </li>
+        <li>Locality increases <em>available</em> bandwidth</li>
+        <li>Locality decreases latency</li>
+    </ul>
+</section>
+<section>
+    <h3>Levels of cache</h3>
+    <ul>
+        <li>CPU</li>
+        <li>Memory (RAM)</li>
+        <li>Disk</li>
+        <li>Network</li>
+    </ul>
+</section>
+<section>
+    <h3>Levels of HTTP cache</h3>
+    <p>Typically:</p>
+    <ul>
+        <li>Browser cache (memory/disk)</li>
+        <li>Near reverse proxy cache server or CDN (Network)</li>
+        <li>Far reverse proxy cache server (Network, but higher latency and lower bandwidth)</li>
+        <li>Original server</li>
+    </ul>
+</section>
+<section>
+    <h3>Browser Cache</h3>
+    <ul>
+        <li>Fastest</li>
+        <li>Force-refresh with control-shift-R</li>
+        <li>Browser manages balance between RAM and disk</li>
+        <li>Private windows typically won't use disk at all</li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP Caching</h3>
+    <pre><code>
+HTTP/2 200
+server: GitHub.com
+content-type: text/html; charset=utf-8
+permissions-policy: interest-cohort=()
+last-modified: Tue, 24 Oct 2023 22:48:57 GMT <b>← general caching</b>
+access-control-allow-origin: *
+strict-transport-security: max-age=31556952
+etag: "653849d9-2258" <b>← general caching</b>
+expires: Thu, 09 Nov 2023 17:32:01 GMT <b>← general caching</b>
+cache-control: max-age=600 <b>← general caching</b>
+x-proxy-cache: MISS <b>← varnish reverse proxy cache</b>
+x-github-request-id: 142A:6FA6:22706B2:302A4E3:654D1537
+accept-ranges: bytes
+date: Thu, 09 Nov 2023 17:22:07 GMT <b>← general caching</b>
+via: 1.1 varnish <b>← varnish reverse proxy cache</b>
+<i>age: 6</i> <b>← cdn reverse proxy cache</b>
+<i>x-served-by: cache-yyc1430027-YYC</i> <b>← cdn reverse proxy cache</b>
+<i>x-cache: HIT</i> <b>← cdn reverse proxy cache</b>
+<i>x-cache-hits: 1</i> <b>← cdn reverse proxy cache</b>
+x-timer: S1699550528.559036,VS0,VE1
+vary: Accept-Encoding
+x-fastly-request-id: e314eac57fc85817836f68792e20e026d05fd958
+content-length: 8792
+    </code></pre>
+</section>
+<section>
+    <h3>HTTP Caching</h3>
+    <ul>
+        <li>Hasn't been modified for 15 days 18 hours 33 minutes 4 seconds</li>
+        <li>Expires in 10 minutes</li>
+        <li>ETag = "653849d9-2258"</li>
+        <li>Browser (Edmonton) <br>
+            ⮀ Fastly CDN Reverse Proxy (Calgary)<br>
+            ⮀ varnish caching reverse proxy (Github)<br>
+            ⮀ Server (Github)
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Curl Download 1</h3>
+    <pre><code>
+HTTP/2 200
+server: GitHub.com
+content-type: text/html; charset=utf-8
+permissions-policy: interest-cohort=()
+last-modified: Tue, 24 Oct 2023 22:48:57 GMT
+access-control-allow-origin: *
+strict-transport-security: max-age=31556952
+etag: "653849d9-2258"
+expires: Thu, 09 Nov 2023 17:32:01 GMT
+cache-control: max-age=600
+x-proxy-cache: MISS
+x-github-request-id: 142A:6FA6:22706B2:302A4E3:654D1537
+accept-ranges: bytes
+date: Thu, 09 Nov 2023 17:47:04 GMT
+via: 1.1 varnish
+age: 0
+x-served-by: cache-yyc1430027-YYC
+x-cache: HIT
+x-cache-hits: 1
+x-timer: S1699552025.741855,VS0,VE80
+vary: Accept-Encoding
+x-fastly-request-id: 9c31959e0bbdd1340c30b3964a0424d1056d75c3
+content-length: 8792
+    </code></pre>
+</section>
+<section>
+    <h3>Curl Download 2</h3>
+    <pre><code>
+HTTP/2 200
+server: GitHub.com
+content-type: text/html; charset=utf-8
+permissions-policy: interest-cohort=()
+last-modified: Tue, 24 Oct 2023 22:48:57 GMT
+access-control-allow-origin: *
+strict-transport-security: max-age=31556952
+etag: "653849d9-2258"
+expires: Thu, 09 Nov 2023 17:32:01 GMT
+cache-control: max-age=600
+x-proxy-cache: MISS
+x-github-request-id: 142A:6FA6:22706B2:302A4E3:654D1537
+accept-ranges: bytes
+date: Thu, 09 Nov 2023 17:47:29 GMT
+via: 1.1 varnish
+age: 24
+x-served-by: cache-yyc1430034-YYC
+x-cache: HIT
+x-cache-hits: 1
+x-timer: S1699552049.047416,VS0,VE1
+vary: Accept-Encoding
+x-fastly-request-id: a93c5cf45589d939b9673207b5e90e84d8b34126
+content-length: 8792
+    </code></pre>
+</section>
+<section>
+    <h3>What changes?</h3>
+    <ul>
+        <li><code>ETag</code>, <code>Content-Length</code>, & <code>Last-Modified</code>
+            <ul>
+                <li>Changed by server whenever content (file) changes.</li>
+            </ul>
+        </li>
+        <li><code>Expires</code>
+            <ul>
+                <li>Changed by server whenever reverse-proxy gets a new copy.</li>
+            </ul>
+        </li>
+        <li><code>Age</code>, <code>Date</code>, <code>Via</code>, etc...
+            <ul>
+                <li>Set by reverse-proxy on every request.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP Headers For Caching</h3>
+    <ul>
+        <li><code>Last-Modified</code> Response, tells client when the content was last modified.
+            <ul>
+                <li>Browser can use the rule of thumb: check back after 1/10th of the time since it was modified.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section style="font-size: 90%;">
+    <h3>HTTP Headers For Caching</h3>
+    <ul>
+        <li><code>Etag</code> in response & <code>If-None-Match</code> in next request
+            <ul>
+                <li>Rather than sending the content again, server can reply <code>304 Not Modified</code></li>
+                <li>Etag (entity tag) should be a unique identifier
+                    <ul>
+                        <li>Changes when content changes</li>
+                    </ul>
+                </li>
+                <li>Don't have to guess or estimate time content will be valid
+                    <ul>
+                        <li>Useful if content udpates are unpredictable</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section style="font-size: 90%;">
+    <h3>HTTP Headers For <s>Caching</s></h3>
+    <ul>
+        <li><code>Etag</code> in response & <code>If-Match</code> in next request
+            <ul>
+                <li>Used for PUT/PATCH/DELETE
+                    <ul><li>Make sure that content doesn't change between read and write</li>
+                        <li>Similar to a transaction but for only one URL</li>
+                        <li>If the Etag has changed, respond with <code>412 Precondition Failed</code></li>
+                    </ul>
+                </li>
+                <li>Can be used with GET but not really useful</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP Headers For Caching</h3>
+    <ul>
+        <li><code>Last-Modified</code> in response & <code>If-Modified-Since</code> in next request
+            <ul>
+                <li>Rather than sending 200 OK, server can reply 304 not modified</li>
+                <li>If the server would have responded with anything else than 200 OK, it should still proceed with that response
+                    <ul>
+                        <li>A 404 should still be a 404!</li>
+                    </ul>
+                </li>
+                <li>Can be used to compute the 1/10 rule</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP Headers For Caching</h3>
+    <ul>
+        <li><code>Expires</code> in response
+            <ul>
+                <li>Tells user-agent exactly when to stop caching the content</li>
+                <li>Simple</li>
+                <li>Easy to use</li>
+                <li>Can cause problems if someone's clock is set wrong.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP HEAD for Caching</h3>
+    <ul>
+        <li>Like GET, but the server only responds with headers</li>
+        <li>Useful for checking etag, Last-Modified, etc.</li>
+        <li>User-agent will request again if it sees a change.</li>
+        <li>Also useful for checking size before actually requesting something that could be huge.</li>
+    </ul>
+</section>
+<section>
+    <h3>Cache-Control</h3>
+    <ul>
+        <li><code>Cache-Control: max-age=3600, must-revalidate</code>
+            <ul>
+                <li>Cache for 1 hour max</li>
+            </ul>
+        </li>
+        <li><code>Cache-Control: no-cache</code>
+            <ul><li>Do not cache</li></ul>
+        </li>
+        <li><code>Cache-Control: no-store</code>
+            <ul><li>Response should never be stored, only valid once</li></ul>
+        </li>
+        <li><code>Cache-Control: private</code>
+            <ul><li>Only browser's local cache should cache it</li></ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Cache-Control</h3>
+    <ul>
+        <li><code>Cache-Control: public</code>
+            <ul>
+                <li>Allow caching even if responding to <code>Authorization:</code></li>
+            </ul>
+        </li>
+        <li><code>Cache-Control: no-transform</code>
+            <ul><li>Proxies must not recompress images</li></ul>
+        </li>
+        <li><code>Cache-Control: immutable</code>
+            <ul><li>Promise that response won't change until <code>max-age</code></li></ul>
+        </li>
+        <li><code>Cache-Control: stale-if-error</code>
+            <ul><li>Reuse cached copy on 500, 501, 502, 503 error even if old</li></ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP ETag</h3>
+    <ul>
+        <li>How do you make it?</li>
+        <li>Strong: Hash funciton (e.g. SHA1)</li>
+        <li>Weak: <code>etagvalue</code> + some value
+            <ul>
+                <li>Use to avoid expensive hashing of huge files.</li>
+            </ul>
+        </li>
+        <li>Keep it short!</li>
+    </ul>
+</section>
+<section>
+    <h3>Dangers of Etag</h3>
+    <ul>
+        <li>Servers can use it as a replacement for <code>Cookie</code>
+            <ul>
+                <li>Can track you even if you disable cookies!
+                    <ul>
+                        <li>Just send <code>ETag</code> instead of <code>Set-Cookie</code></li>
+                        <li>Get back <code>If-None-Match</code> instead of <code>Cookie</code></li>
+                    </ul>
+                </li>
+                <li>2011: <a href="http://www.extremetech.com/internet/91966-aol-spotify-gigaom-etsy-kissmetrics-sued-over-undeletable-tracking-cookies">AOL, Spotify, GagoOm, Etsy, KISSmetrics sued over undeletable cookies</a></li>
+                <li>2020: <a href="https://levelup.gitconnected.com/no-cookies-no-problem-using-etags-for-user-tracking-3e745544176b">Wendy's was still using it...</a></li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>State vs Caching</h3>
+    <ul>
+        <li>Server tracking state and changing its response depending on state <b>prevents</b> effective caching</li>
+        <li>Authentication is a kind of state<br>
+            → Authentication prevents caching
+        </li>
+        <li>Limit stateful and authenticated server content
+            <ul>
+                <li>Seperate out content that needs to be stateful/authenticated
+                    from content that can be public and shared!
+                </li>
+            </ul>
+        </li>
+    </ul>
+</section>
+{% endblock %}
