@@ -411,25 +411,6 @@ content-length: 8792
                 <li>Scripts</li>
             </ul>
         </li>
-        <li>Use GET for static content</li>
-        <li>Use <em>cache-busting</em>: version number or hash in URL for static content</li>
-    </ul>
-</section>
-<section style="font-size: 80%;">
-    <h3>Avoid Cookies & Auth for Static Content</h3>
-    <ul>
-        <li>Static content = content that doesn't change or rarely changes</li>
-        <li>Examples:
-            <ul>
-                <li>Images</li>
-                <li>CSS</li>
-                <li>Fonts</li>
-                <li>Scripts</li>
-            </ul>
-        </li>
-        <li>Use GET for static content</li>
-        <li>Use <em>cache-busting</em>: version number or hash in URL for static content</li>
-        <li>Use <code>Cache-Control: public, immutable, max-age=604800</code> for static content</li>
     </ul>
 </section>
 <section style="font-size: 80%;">
@@ -437,6 +418,11 @@ content-length: 8792
     <ul>
         <li>Use GET for static content</li>
         <li>Use <em>cache-busting</em>: version number or hash in URL for static content</li>
+    </ul>
+</section>
+<section style="font-size: 80%;">
+    <h3>Avoid Cookies & Auth for Static Content</h3>
+    <ul>
         <li>Use <code>Cache-Control: public, immutable, max-age=604800</code> for static content</li>
         <li>Put all authenticated content in a top level folder like <code>server.com/x/</code>,<br>
             then use <code>Set-Cookie: name=value; <b>Path=/x/</b></code></li>
