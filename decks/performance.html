@@ -37,6 +37,16 @@
     </ul>
 </section>
 <section>
+    <h3>Before you Optimize</h3>
+    <img class="stretch" src="../images/premature_optimization_knuth.jpg" alt="Premature Optimization is the Root of All Evil - Donald Knuth">
+</section>
+<section>
+    <h3>Before you Optimize</h3>
+    <ol start="0">
+        <li>Make sure you have a performance problem.</li>
+    </ol>
+</section>
+<section style="font-size: 80%;">
     <h3>Before You Optimize</h3>
     <ol>
         <li>Measure
@@ -392,6 +402,145 @@ content-length: 8792
                 <li>Seperate out content that needs to be stateful/authenticated
                     from content that can be public and shared!
                 </li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Avoid Cookies & Auth for Static Content</h3>
+    <ul>
+        <li>Static content = content that doesn't change or rarely changes</li>
+        <li>Examples:
+            <ul>
+                <li>Images</li>
+                <li>CSS</li>
+                <li>Fonts</li>
+                <li>Scripts</li>
+            </ul>
+        </li>
+        <li>Use GET for static content</li>
+        <li>Use <em>cache-busting</em>: version number or hash in URL for static content</li>
+    </ul>
+</section>
+<section>
+    <h3>Avoid Cookies & Auth for Static Content</h3>
+    <ul>
+        <li>Static content = content that doesn't change or rarely changes</li>
+        <li>Examples:
+            <ul>
+                <li>Images</li>
+                <li>CSS</li>
+                <li>Fonts</li>
+                <li>Scripts</li>
+            </ul>
+        </li>
+        <li>Use GET for static content</li>
+        <li>Use <em>cache-busting</em>: version number or hash in URL for static content</li>
+        <li>Use <code>Cache-Control: public, immutable, max-age=604800</code> for static content</li>
+    </ul>
+</section>
+<section>
+    <h3>Avoid Cookies & Auth for Static Content</h3>
+    <ul>
+        <li>Use GET for static content</li>
+        <li>Use <em>cache-busting</em>: version number or hash in URL for static content</li>
+        <li>Use <code>Cache-Control: public, immutable, max-age=604800</code> for static content</li>
+        <li>Put all authenticated content in a top level folder like <code>server.com/x/</code>,<br>
+            then use <code>Set-Cookie: name=value; <b>Path=/x/</b></code></li>
+        <li>Dynamic and static content can also be placed on two different servers, but it is less efficient</li>
+    </ul>
+</section>
+<section style="font-size: 80%;">
+    <h3>Round Trips</h3>
+    <ul>
+        <li>Increase <b>latency</b></li>
+        <li>Happen whenever you have to wait for a response before making the next request</li>
+        <li>Example:
+            <ul>
+                <li>Have to wait for DNS response before starting TCP connection</li>
+                <li>Have to wait for TCP to connect before starting TLS connection</li>
+                <li>Have to wait for TLS to connect before making HTTP request</li>
+                <li>Have to wait for HTML before making request for CSS</li>
+                <li>Have to wait for CSS before making request for background image</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Reducing Round Trips</h3>
+    <ul>
+        <li>Use HTTP/3: TCP is eliminiated, TLS/HTTP requests can be done in fewer round trips</li>
+        <li>HTTP/2 and HTTP/3 can do multiple downloads at the same time with a single connection</li>
+    </ul>
+    <img src="../images/tls-quic.png" class="stretch">
+</section>
+<section>
+    <h3>Reducing Round Trips</h3>
+    <ul>
+        <li>Use fewer servers → look up fewer domain names, make fewer connections</li>
+        <li>Gmail example: 
+            <ul style="font-size: 50%; columns: 2;">
+                <li>gmail.com</li>
+                <li>mail.google.com</li>
+                <li>fonts.gstatic.com</li>
+                <li>ssl.gstatic.com</li>
+                <li>www.gstatic.com</li>
+                <li>aa.google.com</li>
+                <li>lh3.googleusercontent.com</li>
+                <li>apis.google.com</li>
+                <li>chat.google.com</li>
+                <li>peoplestackwebexperiments-pa.clients6.google.com</li>
+                <li>peoplestack-pa.clients6.google.com</li>
+                <li>people-pa.clients6.google.com</li>
+                <li>play.google.com</li>
+                <li>addons-pa.clients6.google.com</li>
+                <li>signaler-pa.clients6.google.com</li>
+                <li>contacts.google.com</li>
+                <li>mail-ads.google.com</li>
+                <li>clients6.google.com</li>
+                <li>meet.google.com</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Reducing Round Trips</h3>
+    <ul>
+        <li>Use asynchronous loading!</li>
+        <li>Allow the browser to make multiple requests at once...</li>
+        <li><code>&lt;script async src="whatever.js">&lt;/script></code></li>
+        <li>Use ES6 modules rather than plain JS files</li>
+        <li>Include all CSS/JS/assets that are needed immediately directly in first HTML load</li>
+        <li>Use JS to async load CSS and other assets that aren't needed immediately</li>
+    </ul>
+</section>
+<section>
+    <h3>Reducing Round Trips</h3>
+    <ul>
+        <li>Avoid CSS imports</li>
+        <li>Use JS "compiler" like webpack
+            <ul>
+                <li>For deep requirement trees</li>
+                <li>Only if necessary: has some big disadvantages for debugging etc.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Reduce Request Size</h3>
+    <ul>
+        <li>HTTP/1.1
+            <ul>
+                <li>Avoid too many headers</li>
+                <li>Avoid big cookies</li>
+                <li>Avoid long URIs</li>
+            </ul>
+        </li>
+        <li>HTTP/2 & HTTP/3
+            <ul>
+                <li>Automatically applies header compression</li>
+                <li>If headers don't change, they won't be re-sent!</li>
+                <li>Lots of headers, big cookies and big URIs not a big deal!</li>
             </ul>
         </li>
     </ul>
