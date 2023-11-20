@@ -599,6 +599,18 @@ content-length: 8792
     {% endfilter %}</code></pre>
 </section>
 <section>
+    <h3>Use SVG</h3>
+    <ul>
+        <li>SVG is an image format for vector images (made of shapes), instead of raster images (made of pixels)</li>
+        <li>HTML-like XML, can use text compression (gzip/deflate)
+            <ul>
+                <li>Even supports CSS!</li>
+            </ul>
+        </li>
+        <li>Usually much smaller than equivalent PNG/GIF/JPEG</li>
+    </ul>
+</section>
+<section>
     <h3>Avoid POST</h3>
     <ul>
         <li>POST is not idempotent ("safe" in REST terms)</li>
@@ -639,6 +651,21 @@ content-length: 8792
         <li>Disadvantage: What if they get hacked?</li>
         <li>Disadvantage: What if they are slower than you?</li>
         <li>Disadvantage: What if you lose locality?</li>
+    </ul>
+</section>
+<section>
+    <h3>Tools</h3>
+    <ul>
+        <li>Your browser's developer pane!</li>
+        <li>Google Lighthouse Chrome Plugin</li>
+    </ul>
+</section>
+<section>
+    <h3>Resources</h3>
+    <ul>
+        <li>MDN on <a href="https://developer.mozilla.org/en-US/docs/Web/Performance">Web performance</a></li>
+        <li>Google Lighthouse's <a href="https://developer.chrome.com/docs/lighthouse/performance/">documentation</a></li>
+        <li>TODO: find more guides that are actually up to date, and that aren't selling something. See the old slides.</li>
     </ul>
 </section>
 {% endblock %}
