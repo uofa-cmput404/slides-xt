@@ -221,7 +221,7 @@ content-length: 8792
 <section>
     <h3>What changes?</h3>
     <ul>
-        <li><code>ETag</code>, <code>Content-Length</code>, & <code>Last-Modified</code>
+        <li><code>ETag</code>, <code>Last-Modified</code> & maybe <code>Content-Length</code>
             <ul>
                 <li>Changed by server whenever content (file) changes.</li>
             </ul>
@@ -490,6 +490,18 @@ content-length: 8792
     </ul>
 </section>
 <section>
+    <h3>Reducing DNS Round-Trips</h3>
+    <ul>
+        <li>Avoid CNAME</li>
+        <li>Allow DNS caching
+            <ul>
+                <li>Don't use super short TTLs</li>
+            </ul>
+        </li>
+        <li>Provide multiple A/AAAA records in a single response</li>
+    </ul>
+</section>
+<section>
     <h3>Reducing Round Trips</h3>
     <ul>
         <li>Use asynchronous loading!</li>
@@ -498,6 +510,16 @@ content-length: 8792
         <li>Use ES6 modules rather than plain JS files</li>
         <li>Include all CSS/JS/assets that are needed immediately directly in first HTML load</li>
         <li>Use JS to async load CSS and other assets that aren't needed immediately</li>
+    </ul>
+</section>
+<section>
+    <h3>Async is better than Sync</h3>
+    <ul>
+        <li>Other things can be processed or loaded while something is loading</li>
+        <li>Fewer requests are blocked (waiting for something else to finish first)</li>
+        <li>Synchronous = +1 round trip for each request</li>
+        <li>Asyncronous = Parallelizable</li>
+        <li>Synchronous = Serialized</li>
     </ul>
 </section>
 <section>
@@ -510,6 +532,12 @@ content-length: 8792
                 <li>Only if necessary: has some big disadvantages for debugging etc.</li>
             </ul>
         </li>
+    </ul>
+</section>
+<section>
+    <h3>Reducing Round Trips</h3>
+    <ul>
+        <li>Avoid HTTP redirects!</li>
     </ul>
 </section>
 <section>
@@ -529,6 +557,93 @@ content-length: 8792
                 <li>Lots of headers, big cookies and big URIs not a big deal!</li>
             </ul>
         </li>
+    </ul>
+</section>
+<section>
+    <h3>Minimize Resource Size</h3>
+    <ul>
+        <li>HTTP Compression
+            <ul>
+                <li><code>Content-Encoding: gzip</code></li>
+                <li><code>Content-Encoding: deflate</code></li>
+                <li>Designed for compressing text (HTML, JS, CSS, JSON...)</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Minimize Resource Size</h3>
+    <ul>
+        <li>What if it's not text?</li>
+        <li>Image Compression
+            <ul>
+                <li>Old:
+                    <ul>
+                        <li>Photos - JPEG</li>
+                        <li>Drawings - GIF</li>
+                        <li>Lossless - PNG</li>
+                    </ul>
+                </li>
+                <li>New: WebP</li>
+                <li>Newer: AVIF</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Image Compression</h3>
+    <ul>
+        <li>AVIF and WebP offer better compression</li>
+        <li>But... they aren't universally supported.</li>
+    </ul>
+    <p>Fallback examle from <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture">MDN</a>: use AVIF if supported, otherwise use WebP if supported, otherwise use JPG.</p>
+    <pre><code>&lt;picture&gt;
+    &lt;source srcset=&quot;photo.avif&quot; type=&quot;image/avif&quot; /&gt;
+    &lt;source srcset=&quot;photo.webp&quot; type=&quot;image/webp&quot; /&gt;
+    &lt;img src=&quot;photo.jpg&quot; alt=&quot;photo&quot; /&gt;
+  &lt;/picture&gt;</code></pre>
+</section>
+<section>
+    <h3>Avoid POST</h3>
+    <ul>
+        <li>POST is not idempotent ("safe" in REST terms)</li>
+        <li>POST is not cacheable</li>
+        <li>POST is dynamic</li>
+        <li>POST->redirect->GET: at least a couple of round trips</li>
+        <li>POST smashes all the performance infrastructure into a fine powder and blows it into your face.</li>
+    </ul>
+</section>
+<section>
+    <h3>Check for Errors</h3>
+    <ul>
+        <li>403s, 404s, 410s, etc. are all slow
+            <ul>
+                <li>Often the server works harder to serve an error than it does to serve real content</li>
+                <li>Errors are often not cached or cacheable</li>
+                <li>Errors cause logging overhead (I/O), reporting, and rarely used code to run</li>
+                <li>Errors are worthless! You don't even get anything!</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Encoding</h3>
+    <ul>
+        <li>There are often more efficient formats than JSON</li>
+        <li>Don't send an audio file as ASCII text!</li>
+        <li>Do you need lossless or is lossy okay?</li>
+        <li>Do you need XML? JSON? CSV? Binary?</li>
+    </ul>
+</section>
+<section>
+    <h3>Library CDNs</h3>
+    <ul>
+        <li>Including JavaScript libraries from their home page or a CDN</li>
+        <li>Can also include other resources like fonts</li>
+        <li>Benefit: User may already have it cached if its popular</li>
+        <li>Disadvantage: What if they get hacked?</li>
+        <li>Disadvantage: What if they are slower than you?</li>
+        <li>Disadvantage: What if you lose locality?</li>
     </ul>
 </section>
 
