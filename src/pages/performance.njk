@@ -1,0 +1,671 @@
+{% extends "layouts/main.njk" %}
+
+{% block slides %}
+<section>
+    <h1>CMPUT 404</h1>
+    <h3>Web Applications and Architecture</h3>
+    <h2>Performance</h2>
+    <p>
+        <small>Created by <br>
+            <a href="http://softwareprocess.es">Abram Hindle</a>
+            (<a href="mailto:abram.hindle@ualberta.ca">abram.hindle@ualberta.ca</a>) <br>
+            and Hazel Campbell (<a href="mailto:hazel.campbell@ualberta.ca">hazel.campbell@ualberta.ca</a>).<br>
+            Copyright 2014-2023.
+        </small>
+    </p>
+</section>
+<section>
+    <h3>Performance</h3>
+    <ul>
+        <li>Performance is a <i>non-functional requirement</i>.</li>
+        <li>Measured as...
+            <ul>
+                <li>Concurrency (# of requests or users at once)</li>
+                <li>Latency (ms)</li>
+                <li>Volume (requests/second)</li>
+                <li>Bandwidth (bytes/second)</li>
+                <li>Utilization (percent)</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Before you Optimize</h3>
+    <img class="stretch" src="../images/premature_optimization_knuth.jpg" alt="Premature Optimization is the Root of All Evil - Donald Knuth">
+</section>
+<section>
+    <h3>Before you Optimize</h3>
+    <ol start="0">
+        <li>Make sure you have a performance problem.</li>
+    </ol>
+</section>
+<section style="font-size: 80%;">
+    <h3>Before You Optimize</h3>
+    <ol>
+        <li>Measure
+            <ul>
+                <li>Concurrency or Latency or Volume or Bandwidth or Utilization</li>
+            </ul>
+        </li>
+        <li>Record that number!
+            <ul>
+                <li>You need to compare it against future values.</li>
+            </ul>
+        </li>
+        <li>Record and track original settings and changes made!
+            <ul>
+                <li>You need to compare performance wiht your changes!</li>
+            </ul>
+        </li>
+        <li>Run tests more than once!
+            <ul>
+                <li>For basic stats you want more than 10 runs</li>
+                <li>For rigorous stats you want 40+</li>
+            </ul>
+        </li>
+    </ol>
+</section>
+<section>
+    <h3>Techniques</h3>
+    <ul>
+        <li>Caching</li>
+        <li>Reduce # of round trips</li>
+        <li>Reduce download size</li>
+        <li>Asynchronous communication</li>
+    </ul>
+</section>
+<section>
+    <h3>Caching</h3>
+    <ul>
+        <li>Caching increases locality
+            <ul>
+                <li>Content/data is closer to where it is needed</li>
+            </ul>
+        </li>
+        <li>Locality increases <em>available</em> bandwidth</li>
+        <li>Locality decreases latency</li>
+    </ul>
+</section>
+<section>
+    <h3>Levels of cache</h3>
+    <ul>
+        <li>CPU</li>
+        <li>Memory (RAM)</li>
+        <li>Disk</li>
+        <li>Network</li>
+    </ul>
+</section>
+<section>
+    <h3>Levels of HTTP cache</h3>
+    <p>Typically:</p>
+    <ul>
+        <li>Browser cache (memory/disk)</li>
+        <li>Near reverse proxy cache server or CDN (Network)</li>
+        <li>Far reverse proxy cache server (Network, but higher latency and lower bandwidth)</li>
+        <li>Original server</li>
+    </ul>
+</section>
+<section>
+    <h3>Browser Cache</h3>
+    <ul>
+        <li>Fastest</li>
+        <li>Force-refresh with control-shift-R</li>
+        <li>Browser manages balance between RAM and disk</li>
+        <li>Private windows typically won't use disk at all</li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP Caching</h3>
+    <pre><code>
+HTTP/2 200
+server: GitHub.com
+content-type: text/html; charset=utf-8
+permissions-policy: interest-cohort=()
+last-modified: Tue, 24 Oct 2023 22:48:57 GMT <b>← general caching</b>
+access-control-allow-origin: *
+strict-transport-security: max-age=31556952
+etag: "653849d9-2258" <b>← general caching</b>
+expires: Thu, 09 Nov 2023 17:32:01 GMT <b>← general caching</b>
+cache-control: max-age=600 <b>← general caching</b>
+x-proxy-cache: MISS <b>← varnish reverse proxy cache</b>
+x-github-request-id: 142A:6FA6:22706B2:302A4E3:654D1537
+accept-ranges: bytes
+date: Thu, 09 Nov 2023 17:22:07 GMT <b>← general caching</b>
+via: 1.1 varnish <b>← varnish reverse proxy cache</b>
+<i>age: 6</i> <b>← cdn reverse proxy cache</b>
+<i>x-served-by: cache-yyc1430027-YYC</i> <b>← cdn reverse proxy cache</b>
+<i>x-cache: HIT</i> <b>← cdn reverse proxy cache</b>
+<i>x-cache-hits: 1</i> <b>← cdn reverse proxy cache</b>
+x-timer: S1699550528.559036,VS0,VE1
+vary: Accept-Encoding
+x-fastly-request-id: e314eac57fc85817836f68792e20e026d05fd958
+content-length: 8792
+    </code></pre>
+</section>
+<section>
+    <h3>HTTP Caching</h3>
+    <ul>
+        <li>Hasn't been modified for 15 days 18 hours 33 minutes 4 seconds</li>
+        <li>Expires in 10 minutes</li>
+        <li>ETag = "653849d9-2258"</li>
+        <li>Browser (Edmonton) <br>
+            ⮀ Fastly CDN Reverse Proxy (Calgary)<br>
+            ⮀ varnish caching reverse proxy (Github)<br>
+            ⮀ Server (Github)
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Curl Download 1</h3>
+    <pre><code>
+HTTP/2 200
+server: GitHub.com
+content-type: text/html; charset=utf-8
+permissions-policy: interest-cohort=()
+last-modified: Tue, 24 Oct 2023 22:48:57 GMT
+access-control-allow-origin: *
+strict-transport-security: max-age=31556952
+etag: "653849d9-2258"
+expires: Thu, 09 Nov 2023 17:32:01 GMT
+cache-control: max-age=600
+x-proxy-cache: MISS
+x-github-request-id: 142A:6FA6:22706B2:302A4E3:654D1537
+accept-ranges: bytes
+date: Thu, 09 Nov 2023 17:47:04 GMT
+via: 1.1 varnish
+age: 0
+x-served-by: cache-yyc1430027-YYC
+x-cache: HIT
+x-cache-hits: 1
+x-timer: S1699552025.741855,VS0,VE80
+vary: Accept-Encoding
+x-fastly-request-id: 9c31959e0bbdd1340c30b3964a0424d1056d75c3
+content-length: 8792
+    </code></pre>
+</section>
+<section>
+    <h3>Curl Download 2</h3>
+    <pre><code>
+HTTP/2 200
+server: GitHub.com
+content-type: text/html; charset=utf-8
+permissions-policy: interest-cohort=()
+last-modified: Tue, 24 Oct 2023 22:48:57 GMT
+access-control-allow-origin: *
+strict-transport-security: max-age=31556952
+etag: "653849d9-2258"
+expires: Thu, 09 Nov 2023 17:32:01 GMT
+cache-control: max-age=600
+x-proxy-cache: MISS
+x-github-request-id: 142A:6FA6:22706B2:302A4E3:654D1537
+accept-ranges: bytes
+date: Thu, 09 Nov 2023 17:47:29 GMT
+via: 1.1 varnish
+age: 24
+x-served-by: cache-yyc1430034-YYC
+x-cache: HIT
+x-cache-hits: 1
+x-timer: S1699552049.047416,VS0,VE1
+vary: Accept-Encoding
+x-fastly-request-id: a93c5cf45589d939b9673207b5e90e84d8b34126
+content-length: 8792
+    </code></pre>
+</section>
+<section>
+    <h3>What changes?</h3>
+    <ul>
+        <li><code>ETag</code>, <code>Last-Modified</code> & maybe <code>Content-Length</code>
+            <ul>
+                <li>Changed by server whenever content (file) changes.</li>
+            </ul>
+        </li>
+        <li><code>Expires</code>
+            <ul>
+                <li>Changed by server whenever reverse-proxy gets a new copy.</li>
+            </ul>
+        </li>
+        <li><code>Age</code>, <code>Date</code>, <code>Via</code>, etc...
+            <ul>
+                <li>Set by reverse-proxy on every request.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP Headers For Caching</h3>
+    <ul>
+        <li><code>Last-Modified</code> Response, tells client when the content was last modified.
+            <ul>
+                <li>Browser can use the rule of thumb: check back after 1/10th of the time since it was modified.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section style="font-size: 90%;">
+    <h3>HTTP Headers For Caching</h3>
+    <ul>
+        <li><code>Etag</code> in response & <code>If-None-Match</code> in next request
+            <ul>
+                <li>Rather than sending the content again, server can reply <code>304 Not Modified</code></li>
+                <li>Etag (entity tag) should be a unique identifier
+                    <ul>
+                        <li>Changes when content changes</li>
+                    </ul>
+                </li>
+                <li>Don't have to guess or estimate time content will be valid
+                    <ul>
+                        <li>Useful if content udpates are unpredictable</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section style="font-size: 90%;">
+    <h3>HTTP Headers For <s>Caching</s></h3>
+    <ul>
+        <li><code>Etag</code> in response & <code>If-Match</code> in next request
+            <ul>
+                <li>Used for PUT/PATCH/DELETE
+                    <ul><li>Make sure that content doesn't change between read and write</li>
+                        <li>Similar to a transaction but for only one URL</li>
+                        <li>If the Etag has changed, respond with <code>412 Precondition Failed</code></li>
+                    </ul>
+                </li>
+                <li>Can be used with GET but not really useful</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP Headers For Caching</h3>
+    <ul>
+        <li><code>Last-Modified</code> in response & <code>If-Modified-Since</code> in next request
+            <ul>
+                <li>Rather than sending 200 OK, server can reply 304 not modified</li>
+                <li>If the server would have responded with anything else than 200 OK, it should still proceed with that response
+                    <ul>
+                        <li>A 404 should still be a 404!</li>
+                    </ul>
+                </li>
+                <li>Can be used to compute the 1/10 rule</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP Headers For Caching</h3>
+    <ul>
+        <li><code>Expires</code> in response
+            <ul>
+                <li>Tells user-agent exactly when to stop caching the content</li>
+                <li>Simple</li>
+                <li>Easy to use</li>
+                <li>Can cause problems if someone's clock is set wrong.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP HEAD for Caching</h3>
+    <ul>
+        <li>Like GET, but the server only responds with headers</li>
+        <li>Useful for checking etag, Last-Modified, etc.</li>
+        <li>User-agent will request again if it sees a change.</li>
+        <li>Also useful for checking size before actually requesting something that could be huge.</li>
+    </ul>
+</section>
+<section>
+    <h3>Cache-Control</h3>
+    <ul>
+        <li><code>Cache-Control: max-age=3600, must-revalidate</code>
+            <ul>
+                <li>Cache for 1 hour max</li>
+            </ul>
+        </li>
+        <li><code>Cache-Control: no-cache</code>
+            <ul><li>Do not cache</li></ul>
+        </li>
+        <li><code>Cache-Control: no-store</code>
+            <ul><li>Response should never be stored, only valid once</li></ul>
+        </li>
+        <li><code>Cache-Control: private</code>
+            <ul><li>Only browser's local cache should cache it</li></ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Cache-Control</h3>
+    <ul>
+        <li><code>Cache-Control: public</code>
+            <ul>
+                <li>Allow caching even if responding to <code>Authorization:</code></li>
+            </ul>
+        </li>
+        <li><code>Cache-Control: no-transform</code>
+            <ul><li>Proxies must not recompress images</li></ul>
+        </li>
+        <li><code>Cache-Control: immutable</code>
+            <ul><li>Promise that response won't change until <code>max-age</code></li></ul>
+        </li>
+        <li><code>Cache-Control: stale-if-error</code>
+            <ul><li>Reuse cached copy on 500, 501, 502, 503 error even if old</li></ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>HTTP ETag</h3>
+    <ul>
+        <li>How do you make it?</li>
+        <li>Strong: Hash funciton (e.g. SHA1)</li>
+        <li>Weak: <code>etagvalue</code> + some value
+            <ul>
+                <li>Use to avoid expensive hashing of huge files.</li>
+            </ul>
+        </li>
+        <li>Keep it short!</li>
+    </ul>
+</section>
+<section>
+    <h3>Dangers of Etag</h3>
+    <ul>
+        <li>Servers can use it as a replacement for <code>Cookie</code>
+            <ul>
+                <li>Can track you even if you disable cookies!
+                    <ul>
+                        <li>Just send <code>ETag</code> instead of <code>Set-Cookie</code></li>
+                        <li>Get back <code>If-None-Match</code> instead of <code>Cookie</code></li>
+                    </ul>
+                </li>
+                <li>2011: <a href="http://www.extremetech.com/internet/91966-aol-spotify-gigaom-etsy-kissmetrics-sued-over-undeletable-tracking-cookies">AOL, Spotify, GagoOm, Etsy, KISSmetrics sued over undeletable cookies</a></li>
+                <li>2020: <a href="https://levelup.gitconnected.com/no-cookies-no-problem-using-etags-for-user-tracking-3e745544176b">Wendy's was still using it...</a></li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>State vs Caching</h3>
+    <ul>
+        <li>Server tracking state and changing its response depending on state <b>prevents</b> effective caching</li>
+        <li>Authentication is a kind of state<br>
+            → Authentication prevents caching
+        </li>
+        <li>Limit stateful and authenticated server content
+            <ul>
+                <li>Seperate out content that needs to be stateful/authenticated
+                    from content that can be public and shared!
+                </li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Avoid Cookies & Auth for Static Content</h3>
+    <ul>
+        <li>Static content = content that doesn't change or rarely changes</li>
+        <li>Examples:
+            <ul>
+                <li>Images</li>
+                <li>CSS</li>
+                <li>Fonts</li>
+                <li>Scripts</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section style="font-size: 80%;">
+    <h3>Avoid Cookies & Auth for Static Content</h3>
+    <ul>
+        <li>Use GET for static content</li>
+        <li>Use <em>cache-busting</em>: version number or hash in URL for static content</li>
+    </ul>
+</section>
+<section style="font-size: 80%;">
+    <h3>Avoid Cookies & Auth for Static Content</h3>
+    <ul>
+        <li>Use <code>Cache-Control: public, immutable, max-age=604800</code> for static content</li>
+        <li>Put all authenticated content in a top level folder like <code>server.com/x/</code>,<br>
+            then use <code>Set-Cookie: name=value; <b>Path=/x/</b></code></li>
+        <li>Dynamic and static content can also be placed on two different servers, but it is less efficient</li>
+    </ul>
+</section>
+<section style="font-size: 80%;">
+    <h3>Round Trips</h3>
+    <ul>
+        <li>Increase <b>latency</b></li>
+        <li>Happen whenever you have to wait for a response before making the next request</li>
+        <li>Example:
+            <ul>
+                <li>Have to wait for DNS response before starting TCP connection</li>
+                <li>Have to wait for TCP to connect before starting TLS connection</li>
+                <li>Have to wait for TLS to connect before making HTTP request</li>
+                <li>Have to wait for HTML before making request for CSS</li>
+                <li>Have to wait for CSS before making request for background image</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Reducing Round Trips</h3>
+    <ul>
+        <li>Use HTTP/3: TCP is eliminiated, TLS/HTTP requests can be done in fewer round trips</li>
+        <li>HTTP/2 and HTTP/3 can do multiple downloads at the same time with a single connection</li>
+    </ul>
+    <img src="../images/tls-quic.png" class="stretch">
+</section>
+<section>
+    <h3>Reducing Round Trips</h3>
+    <ul>
+        <li>Use fewer servers → look up fewer domain names, make fewer connections</li>
+        <li>Gmail example: 
+            <ul style="font-size: 50%; columns: 2;">
+                <li>gmail.com</li>
+                <li>mail.google.com</li>
+                <li>fonts.gstatic.com</li>
+                <li>ssl.gstatic.com</li>
+                <li>www.gstatic.com</li>
+                <li>aa.google.com</li>
+                <li>lh3.googleusercontent.com</li>
+                <li>apis.google.com</li>
+                <li>chat.google.com</li>
+                <li>peoplestackwebexperiments-pa.clients6.google.com</li>
+                <li>peoplestack-pa.clients6.google.com</li>
+                <li>people-pa.clients6.google.com</li>
+                <li>play.google.com</li>
+                <li>addons-pa.clients6.google.com</li>
+                <li>signaler-pa.clients6.google.com</li>
+                <li>contacts.google.com</li>
+                <li>mail-ads.google.com</li>
+                <li>clients6.google.com</li>
+                <li>meet.google.com</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Reducing DNS Round-Trips</h3>
+    <ul>
+        <li>Avoid CNAME</li>
+        <li>Allow DNS caching
+            <ul>
+                <li>Don't use super short TTLs</li>
+            </ul>
+        </li>
+        <li>Provide multiple A/AAAA records in a single response</li>
+    </ul>
+</section>
+<section>
+    <h3>Reducing Round Trips</h3>
+    <ul>
+        <li>Use asynchronous loading!</li>
+        <li>Allow the browser to make multiple requests at once...</li>
+        <li><code>&lt;script async src="whatever.js">&lt;/script></code></li>
+        <li>Use ES6 modules rather than plain JS files</li>
+        <li>Include all CSS/JS/assets that are needed immediately directly in first HTML load</li>
+        <li>Use JS to async load CSS and other assets that aren't needed immediately</li>
+    </ul>
+</section>
+<section>
+    <h3>Async is better than Sync</h3>
+    <ul>
+        <li>Other things can be processed or loaded while something is loading</li>
+        <li>Fewer requests are blocked (waiting for something else to finish first)</li>
+        <li>Synchronous = +1 round trip for each request</li>
+        <li>Asyncronous = Parallelizable</li>
+        <li>Synchronous = Serialized</li>
+    </ul>
+</section>
+<section>
+    <h3>Reducing Round Trips</h3>
+    <ul>
+        <li>Avoid CSS imports</li>
+        <li>Use JS "compiler" like webpack
+            <ul>
+                <li>For deep requirement trees</li>
+                <li>Only if necessary: has some big disadvantages for debugging etc.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Reducing Round Trips</h3>
+    <ul>
+        <li>Avoid HTTP redirects!</li>
+    </ul>
+</section>
+<section>
+    <h3>Reduce Request Size</h3>
+    <ul>
+        <li>HTTP/1.1
+            <ul>
+                <li>Avoid too many headers</li>
+                <li>Avoid big cookies</li>
+                <li>Avoid long URIs</li>
+            </ul>
+        </li>
+        <li>HTTP/2 & HTTP/3
+            <ul>
+                <li>Automatically applies header compression</li>
+                <li>If headers don't change, they won't be re-sent!</li>
+                <li>Lots of headers, big cookies and big URIs not a big deal!</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Minimize Resource Size</h3>
+    <ul>
+        <li>HTTP Compression
+            <ul>
+                <li><code>Content-Encoding: gzip</code></li>
+                <li><code>Content-Encoding: deflate</code></li>
+                <li>Designed for compressing text (HTML, JS, CSS, JSON...)</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Minimize Resource Size</h3>
+    <ul>
+        <li>What if it's not text?</li>
+        <li>Image Compression
+            <ul>
+                <li>Old:
+                    <ul>
+                        <li>Photos - JPEG</li>
+                        <li>Drawings - GIF</li>
+                        <li>Lossless - PNG</li>
+                    </ul>
+                </li>
+                <li>New: WebP</li>
+                <li>Newer: AVIF</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Image Compression</h3>
+    <ul>
+        <li>AVIF and WebP offer better compression</li>
+        <li>But... they aren't universally supported.</li>
+    </ul>
+    <p>Fallback examle from <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture">MDN</a>: use AVIF if supported, otherwise use WebP if supported, otherwise use JPG.</p>
+    <pre><code>{% filter prexample %}
+        <picture>
+            <source srcset="photo.avif" type="image/avif" />
+            <source srcset="photo.webp" type="image/webp" />
+            <img src="photo.jpg" alt="photo" />
+          </picture>
+    {% endfilter %}</code></pre>
+</section>
+<section>
+    <h3>Use SVG</h3>
+    <ul>
+        <li>SVG is an image format for vector images (made of shapes), instead of raster images (made of pixels)</li>
+        <li>HTML-like XML, can use text compression (gzip/deflate)
+            <ul>
+                <li>Even supports CSS!</li>
+            </ul>
+        </li>
+        <li>Usually much smaller than equivalent PNG/GIF/JPEG!</li>
+    </ul>
+</section>
+<section>
+    <h3>Avoid POST</h3>
+    <ul>
+        <li>POST is not idempotent ("safe" in REST terms)</li>
+        <li>POST is not cacheable</li>
+        <li>POST is dynamic</li>
+        <li>POST->redirect->GET: at least a couple of round trips</li>
+        <li>POST smashes all the performance infrastructure into a fine powder and blows it into your face.</li>
+    </ul>
+</section>
+<section>
+    <h3>Check for Errors</h3>
+    <ul>
+        <li>403s, 404s, 410s, etc. are all slow
+            <ul>
+                <li>Often the server works harder to serve an error than it does to serve real content</li>
+                <li>Errors are often not cached or cacheable</li>
+                <li>Errors cause logging overhead (I/O), reporting, and rarely used code to run</li>
+                <li>Errors are worthless! You don't even get anything!</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Encoding</h3>
+    <ul>
+        <li>There are often more efficient formats than JSON</li>
+        <li>Don't send an audio file as ASCII text!</li>
+        <li>Do you need lossless or is lossy okay?</li>
+        <li>Do you need XML? JSON? CSV? Binary?</li>
+    </ul>
+</section>
+<section>
+    <h3>Library CDNs</h3>
+    <ul>
+        <li>Including JavaScript libraries from their home page or a CDN</li>
+        <li>Can also include other resources like fonts</li>
+        <li>Benefit: User may already have it cached if its popular</li>
+        <li>Disadvantage: What if they get hacked?</li>
+        <li>Disadvantage: What if they are slower than you?</li>
+        <li>Disadvantage: What if you lose locality?</li>
+    </ul>
+</section>
+<section>
+    <h3>Tools</h3>
+    <ul>
+        <li>Your browser's developer pane!</li>
+        <li>Google Lighthouse Chrome Plugin</li>
+    </ul>
+</section>
+<section>
+    <h3>Resources</h3>
+    <ul>
+        <li>MDN on <a href="https://developer.mozilla.org/en-US/docs/Web/Performance">Web performance</a></li>
+        <li>Google Lighthouse's <a href="https://developer.chrome.com/docs/lighthouse/performance/">documentation</a></li>
+        <li>TODO: find more guides that are actually up to date, and that aren't selling something. See the old slides.</li>
+    </ul>
+</section>
+{% endblock %}

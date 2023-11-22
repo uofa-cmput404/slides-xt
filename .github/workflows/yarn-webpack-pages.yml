@@ -1,30 +1,53 @@
-name: yarn-webpack-gh-pages
+# From the vite guide: https://vitejs.dev/guide/static-deploy.html 2023-11-21
+
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
+
 on:
-    push:
-      branches:
-        - master
-        - main
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ['main']
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets the GITHUB_TOKEN permissions to allow deployment to GitHub Pages
 permissions:
-    contents: write
-    pages: write
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - name: nodejs
-              uses: actions/setup-node@v3
-              with:
-                node-version: '20.x'
-            - name: yarn install
-              uses: bahmutov/npm-install@v1
-              with:
-                useRollingCache: false
-              #   env:
-              #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # if needed
-            - name: gh-pages deploy
-              run: |
-                    git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-                    yarn run deploy -u "github-actions-bot <support+actions@github.com>" --message gh_actions_npm_run_deploy
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          # Upload dist repository
+          path: './dist'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

@@ -1,0 +1,111 @@
+{% extends "layouts/main.njk" %}
+
+{% block slides %}
+<section>
+    <h1>CMPUT 404</h1>
+    <h3>Web Applications and Architecture</h3>
+    <h2>More JavaScript</h2>
+    <p>
+        <small>Created by <br>
+                Hazel Campbell (<a href="mailto:hazel.campbell@ualberta.ca">hazel.campbell@ualberta.ca</a>).<br> Copyright 2023.
+        </small>
+    </p>
+</section>
+<section>
+    <h3>Modules</h3>
+    <ul>
+        <li>At some point it became necessary to split JS into multiple files.</li>
+        <li>Originally you'd just use multiple <code>&lt;script> tags</code></li>
+        <li>2009: CommonJS modules
+            <ul>
+                <li>Needs library or processing (RequireJS, Webpack, etc.) to work in browser.</li>
+            </ul>
+        </li>
+        <li>2016: ES modules (aka ES6 modules)
+            <ul>
+                <li>Needs Node.js version 14 or better, supported natively in browser.</li>
+                <li>You can use "top-level await" that is, <code>await</code> outside of an async function.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>CommonJS modules</h3>
+    <pre><code>{% filter prexample %}
+        'use strict';
+        module.exports.safeAdd = function(a, b) {
+            const s = a + b;
+            if (Number.isSafeInteger(s) && Number.isSafeInteger(a) && Number.isSafeInteger(b)) {
+                return s;
+            } else {
+                throw Error("Numbers got too big!");
+            }
+        }
+        module.exports.safeSubtract = function(a, b) {
+            const s = a - b;
+            if (Number.isSafeInteger(s) && Number.isSafeInteger(a) && Number.isSafeInteger(b)) {
+                return s;
+            } else {
+                throw Error("Numbers got too big!");
+            }
+        }
+    {% endfilter %}</code></pre>
+</section>
+<section>
+    <h3>CommonJS modules</h3>
+    <p>safety.js</p>
+    <pre><code>{% filter prexample %}
+        'use strict';
+        const safeAdd = function(a, b) {
+            // some code ...
+        }
+        const safeSubtract = function(a, b) {
+            // some code ...
+        }
+        module.exports = { safeAdd, safeSubtract };
+    {% endfilter %}</code></pre>
+    <p>something else in the same folder...</p>
+    <pre><code>{% filter prexample %}
+        'use strict';
+        const {safeAdd, safeSubtract} = require('./safety'); // note no .js
+        console.log(safeAdd(2, 2));
+    {% endfilter %}</code></pre>   
+</section>
+<section>
+    <h3>ES Modules</h3>
+    <p>safety.mjs</p>
+    <pre><code>{% filter prexample %}
+        // don't need use strict, its on by default in ES modules! 
+        export function safeAdd(a, b) {
+            // some code ...
+        }
+        export function safeSubtract(a, b) {
+            // some code ...
+        }
+        module.exports = { safeAdd, safeSubtract };
+    {% endfilter %}</code></pre>
+    <p>something else in the same folder...</p>
+    <pre><code>{% filter prexample %}
+        import {safeAdd, safeSubtract} from './safety.mjs'; // we do need the .mjs here
+        console.log(safeAdd(2, 2));
+    {% endfilter %}</code></pre>   
+</section>
+<section>
+    <h3>ES Modules</h3>
+    <p>Async loading...</p>
+    <pre><code>{% filter prexample %}
+        async function loadAndSubtract() {
+            safety = await import("./safety.mjs");
+            console.log(safety.safeAdd(2, 2));   
+        }
+    {% endfilter %}</code></pre>   
+</section>
+<section>
+    <h3>Modules</h3>
+    <ul>
+        <li>use <code>.mjs</code> to tell Node and other libraries that it's an ES Module.</li>
+        <li>use <code>.cjs</code> to tell Node and other libraries that it's an CommonJS Module (rare).</li>
+        <li>Both support full URLs, though if you're not using relative URLs you're setting yourself up for a security problem.</li>
+    </ul>
+</section>
+{% endblock %}

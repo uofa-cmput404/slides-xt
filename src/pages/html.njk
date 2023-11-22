@@ -1,0 +1,1244 @@
+{% extends "layouts/main.njk" %}
+
+{% block slides %}
+<section>
+  <h1>CMPUT 404</h1>
+  <h3>Web Applications and Architecture</h3>
+  <h2>Part 06: HTML</h2>
+  <p>
+    <small>Created by <br>
+      <a href="http://softwareprocess.es">Abram Hindle</a>
+      (<a href="mailto:abram.hindle@ualberta.ca">abram.hindle@ualberta.ca</a>) <br>
+      and Hazel Campbell (<a href="mailto:hazel.campbell@ualberta.ca">hazel.campbell@ualberta.ca</a>).<br>
+      Copyright 2014-2023.
+    </small>
+  </p>
+</section>
+<section style="font-size: 95%;">
+  <h3>HTML standards</h3>
+  <ul style="font-size: 80%">
+    <li>The current version of HTML has two standards</li>
+    <li>WHATWG's HTML "living standard"
+      <ul>
+        <li><a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a></li>
+        <li>Continually updated, constantly evolving</li>
+        <li>No version numbers</li>
+      </ul>
+    </li>
+    <li>W3C's HTML 5 Standards
+      <ul>
+        <li><a href="https://www.w3.org/TR/html52/">https://www.w3.org/TR/html52/</a></li>
+        <li>Occaisionally releases versions</li>
+        <li>Versions: 5.0, 5.1, 5.2</li>
+      </ul>
+    </li>
+    <li>Best?
+      <ul>
+        <li>Generally people prefer WHATWG's "living standard"</li>
+        <li>Your best option when writing HTML is to use a reference with a compatibility table</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+<section>
+  <ul>
+    <li>Example compatibility table from MDN:</li>
+  </ul>
+  <img class="stretch noborder" src="../images/mdn-compatibility-table.png">
+  <ul style="font-size: 80%">
+    <li>Hazel's favorite resource is MDN because its up to date, and its provided by Mozilla, who actually make a
+      browser, and aren't just trying to show you ads: <a
+        href="https://developer.mozilla.org/en-US/docs/Web">https://developer.mozilla.org/en-US/docs/Web</a></li>
+  </ul>
+</section>
+<section>
+  <h2>Let's start HTMLing!</h2>
+
+  It's best to start from the bare essentials.
+  You canvalidate this HTML using <a href="http://validator.w3.org/check">http://validator.w3.org/check</a>.
+
+  <pre><code class="html">{% filter prexample %}
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Page Title</title>
+        <meta charset="UTF-8">
+      </head>
+      <body>
+        Here's your minimal and validating HTML page.
+      </body>
+    </html>
+    {% endfilter -%}
+  </code></pre>
+</section>
+<section>
+  <h2>Don't forget!</h2>
+  <p>You need to tell the
+    world that this is a
+    modern HTML file!</p>
+
+  <p>Put your DOCTYPE at
+    the top!</p>
+
+  <p>Also enclose your content in the HTML tag!</p>
+  <pre><code class="html">{% filter prexample %}
+<!DOCTYPE html>
+<html>
+...
+</html>
+        {% endfilter %}</code></pre>
+</section>
+
+<section style="font-size: 80%">
+  <h3>Head/Header</h3>
+  <p>The head tag is where
+    we put information
+    about the webpage. You
+    will usually include a title here.</p>
+  <p>Meta tags contain meta
+    information for
+    browsers and other
+    tools to help
+    interpret.</p>
+  <pre><code class="html">{% filter prexample %}
+    <head>
+      <title>Page Title</title>
+      <meta charset="UTF-8">
+      <meta name="description" content="Example Page">
+      <meta name="author" content="Abram Hindle">
+
+      <!-- proprietary extensions -->
+      <meta name="apple-mobile-web-app-capable" content="yes" >
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" >
+      <!-- mobile viewport information -->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <!-- stylesheets / css -->
+      <link rel="stylesheet" href="css/reveal.min.css">
+      <link rel="stylesheet" href="css/theme/default.css" id="theme">
+      <link rel="stylesheet" href="lib/css/zenburn.css">
+    </head>
+  {% endfilter %}</code></pre>
+</section>
+<section>
+  <h3>Body</h3>
+
+  <pre><code class="html">{% filter prexample %}
+    <body>
+      <p>Visible content goes here.</p>
+      <p>Consider that you should not directly specify layout information
+          here but that you should mark up blocks with a class allowing you to
+          apply layouts later. You can abstract layout</p>
+    </body>
+  {% endfilter %}</code></pre>
+</section>
+<section>
+  <h3>Tags</h3>
+  <p>All tags should be closed to allow for ease of reading and parsing, except void tags.</p>
+  <p>Start Tags are enclosed in &lt; and >
+  </p>
+  <p>End Tags are enclosed in &lt;/ and ></p>
+  <pre><code class="html">{% filter prexample %}
+    <tag>
+      <enclosedtag>
+      </enclosedtag>
+    </tag>
+  {% endfilter %}</code></pre>
+</section>
+<section>
+  <p>Void tags are enclosed in &lt; and > like start tags, but don't have a matching end tag</p>
+  <pre><code class="html">{% filter prexample %}
+    <tag>
+      <voidtag>
+      <br>
+    </tag>
+    {% endfilter %}</code></pre>
+</section>
+<section style="font-size: 90%;">
+  <h2>Tags</h2>
+  <p>
+    Unless you are writing XHTML, in which case you must follow XML syntax,
+    void tags typically look like <code>&lt;voidtag></code>. but sometimes are written like <code>&lt;voidtag/></code>.
+  </p>
+  <p>
+    However your IDE/Editor/Formatter might not like it if you don't put the <code>/></code> at the end, even though
+    it's against spec.
+  </p>
+  <p>
+    <a href="https://developer.mozilla.org/en-US/docs/Glossary/Void_element">List of void tags</a>
+  </p>
+  <p>
+    Tags can be any capitalization in HTML, but typically they are
+    written in lower case. Stick to lower-case when writing HTML.
+  </p>
+</section>
+<section>
+  <h3>XHTML</h3>
+  <ul style="font-size: 70%">
+    <li>You can write HTML in XML format if you follow XML syntax: XHTML</li>
+    <li>Valid HTML is not valid XML, and valid XML is not valid HTML
+      <ul>
+        <li>For a while there was a drive to combine XML and HTML into "polyglot HTML" where you could write both at the
+          same time, but this was abandoned in 2015.</li>
+        <li>Browsers still support <var>&lt;voidtag/></var> syntax in HTML but it breaks other HTML parsers</li>
+      </ul>
+    </li>
+    <li>XML is very unforgiving, a simple mistake could cause a parser to refuse to parse the XML</li>
+    <li>Breaks <var>Document.write()</var>, the <var>&lt;template></var> tag, most entities...</li>
+    <li>Adds support for namespaces</li>
+    <li>HTML 5 XML has no DTD URL</li>
+    <li>Uses <var>Content-Type: application/xhtml+xml</var></li>
+  </ul>
+</section>
+<section>
+  <h3>Paragraph tag: &lt;p&gt;</h3>
+  <pre><code class="html">{% filter prexample %}
+    <p>
+      Now bears us onward one of the hard margins,
+      And so the brooklet's mist o'ershadows it,
+      From fire it saves the water and the dikes.
+    </p>
+    <p>
+      Even as the Flemings, 'twixt Cadsand and Bruges,
+      Fearing the flood that tow'rds them hurls itself,
+      Their bulwarks build to put the sea to flight;
+    </p>
+  {% endfilter %}</code></pre>
+  <p>We can use CSS to style these text blocks. Whitespace in the &lt;p&gt;
+    block doesn't matter.</p>
+</section>
+<section style="font-size: 88%">
+  <h2>Paragraph Tag</h2>
+  <p>That code now looks like:</p>
+  <blockquote>
+    <p>
+      Now bears us onward one of the hard margins,
+      And so the brooklet's mist o'ershadows it,
+      From fire it saves the water and the dikes.
+    </p>
+    <p>
+      Even as the Flemings, 'twixt Cadsand and Bruges,
+      Fearing the flood that tow'rds them hurls itself,
+      Their bulwarks build to put the sea to flight;
+    </p>
+  </blockquote>
+</section>
+<section style="font-size: 90%;">
+  <h3>Paragraph tag: &lt;p&gt; and &lt;br&gt;</h3>
+  <ul>
+    <li>The previous example broke up the explicit lines from that canto.</li>
+    <li>We can make line-breaks explicit with &lt;br&gt;.</li>
+  </ul>
+  <pre><code class="html">{% filter prexample %}
+    <p>
+      Now bears us onward one of the hard margins,<br>
+      And so the brooklet's mist o'ershadows it,<br>
+      From fire it saves the water and the dikes.<br>
+    </p>
+    <p>
+      Even as the Flemings, 'twixt Cadsand and Bruges,<br>
+      Fearing the flood that tow'rds them hurls itself,<br>
+      Their bulwarks build to put the sea to flight;<br>
+    </p>
+  {% endfilter %}</code></pre>
+  <ul>
+    <li>We can use CSS to style these text blocks. Whitespace in the &lt;p&gt;
+      block doesn't matter.</li>
+  </ul>
+</section>
+<section style="font-size: 70%;">
+  <h2>Paragraph Tag and &lt;br&gt;</h2>
+  <p>That code now looks like:</p>
+  <blockquote>
+    <p>
+      Now bears us onward one of the hard margins,<br>
+      And so the brooklet's mist o'ershadows it,<br>
+      From fire it saves the water and the dikes.<br>
+    </p>
+    <p>
+      Even as the Flemings, 'twixt Cadsand and Bruges,<br>
+      Fearing the flood that tow'rds them hurls itself,<br>
+      Their bulwarks build to put the sea to flight;<br>
+    </p>
+  </blockquote>
+</section>
+<section style="font-size: 90%">
+  <div data-markdown>
+    <textarea data-template>
+      ## `<img>`: The Image Tag
+      
+      We want to show images, we cannot embed them in HTML easily so we use
+      hyperlinks (URIs) to reference them and include them.
+      
+      Remember to include alt tags so they are machine and human-readable.
+      
+      ````
+      <img src="../images/plasma.png" alt="Plasma Pattern">
+      <!-- scaling -->
+      <img src="../images/plasma.png" alt="Plasma Pattern" width="30">
+      <!-- scaling without respecting aspect -->
+      <img src="../images/plasma.png" alt="Plasma Pattern" width="30" height="60">
+      ````
+      </textarea>
+  </div>
+  <img src="../images/plasma.png" alt="Plasma Pattern">
+  <img src="../images/plasma.png" alt="Plasma Pattern" width="30">
+  <img src="../images/plasma.png" alt="Plasma Pattern" width="30" height="60">
+</section>
+<section style="font-size: 80%">
+  <h2><code>&lt;a></code>: The Anchor Tag</h2>
+  <p>
+    We wouldn't have hypertext without hyperlinks!
+  </p>
+  <p>
+    Anchor tags let us link to other documents or locations. The href
+    attribute links to a URL. The URL can be relative to the location of
+    the current page. Anchor tags used to place anchors on pages, but in
+    HTML 5 they just navigate to ID'd sections now.
+  </p>
+  <pre><code class="html">{% filter prexample %}
+    <a href="http://slashdot.org">Slashdot.org: News for Nerds Stuff that
+      Matters</a><br>
+    <a href="http://cnn.com">T</a><a href="http://msn.com">a</a>
+    <a href="http://softwareprocess.es/">g</a><a href="http://ualberta.ca">s</a>
+    don't have to be very long.<br>
+    <a href="../">The a directory down!</a> Relative Link
+  {% endfilter %}</code></pre>
+  <p>
+    <a href="http://slashdot.org">Slashdot.org: News for Nerds Stuff that
+      Matters</a><br>
+    <a href="http://cnn.com">T</a><a href="http://msn.com">a</a>
+    <a href="http://softwareprocess.es/">g</a><a href="http://ualberta.ca">s</a>
+    don't have to be very long.<br>
+    <a href="../">The parent directory!</a> Relative Link
+  </p>
+</section>
+<section>
+  <h3>Text Layout Philosophy</h3>
+  <p> Let the user agent decide how to display the text. You don't
+    need to control everything. But provide the appropriate semantics
+    first. Then apply layout information to those semantics.</p>
+  <p>If you want something to show up in a certain make a CSS class
+    and style a span or a div or a paragraph that way.</p>
+  <p>If you want a fancy layout use flexbox or grid layouts.</p>
+</section>
+<section>
+  <h3>&lt;div&gt; and &lt;span&gt; tags</h3>
+  <ul>
+    <li>&lt;div&gt; and &lt;span&gt; tags have no particular meaning.</li>
+    <li>&lt;div&gt; will cause a line break before it is displayed.</li>
+    <li>&lt;span&gt; will be inlined.</li>
+  </ul>
+  <pre><code class="html">{% filter prexample %}
+    <div>
+      <span>Now bears us onward one of the hard margins,</span><br>
+      And so the brooklet's mist o'ershadows it,<br>
+      From fire it saves the water and the dikes.<br>
+    </div>
+    <div>
+      Even <span>as the Flemings</span>, 'twixt Cadsand and Bruges,<br>
+      Fearing the flood that tow'rds them hurls itself,<br>
+      Their bulwarks build to put the sea to flight;<br>
+    </div>
+  {% endfilter %}</code></pre>
+</section>
+<section>
+  <h2>&lt;div&gt; and &lt;span&gt; tags</h2>
+
+  <p>Looks like this:</p>
+
+  <blockquote style="font-size: 70%;">
+    <div>
+      <span>Now bears us onward one of the hard margins,</span><br>
+      And so the brooklet's mist o'ershadows it,<br>
+      From fire it saves the water and the dikes.<br>
+    </div>
+    <div>
+      Even <span>as the Flemings</span>, 'twixt Cadsand and Bruges,<br>
+      Fearing the flood that tow'rds them hurls itself,<br>
+      Their bulwarks build to put the sea to flight;<br>
+    </div>
+  </blockquote>
+
+  <p>It did not change.</p>
+
+</section>
+<section>
+  <h3>&lt;div&gt; and &lt;span&gt; tags: With Style</h3>
+  <ul>
+    <li>We can add a style attribute to these tags</li>
+  </ul>
+  <pre><code class="html">{% filter prexample %}
+    <div>
+      <span style="background-color:#AAAAAA;font-weight:bold">
+      Now bears us onward one of the hard margins,</span><br>
+      And so the brooklet's mist o'ershadows it,<br>
+      From fire it saves the water and the dikes.<br>
+    </div>
+    <div style="font-size:150%">
+      Even <span style="color:red">as the Flemings</span>, 'twixt Cadsand and Bruges,<br>
+      Fearing the flood that tow'rds them hurls itself,<br>
+      Their bulwarks build to put the sea to flight;<br>
+    </div>
+  {% endfilter %}</pre></code>
+</section>
+<section style="font-size: 65%;">
+  <h2>&lt;div&gt; and &lt;span&gt; tags: With Style</h2>
+
+  <p>Looks like this:</p>
+
+  <blockquote>
+    <div>
+      <span style="background-color:#AAAAAA;font-weight:bold">
+        Now bears us onward one of the hard margins,</span><br>
+      And so the brooklet's mist o'ershadows it,<br>
+      From fire it saves the water and the dikes.<br>
+    </div>
+    <div style="font-size:150%">
+      Even <span style="color:red">as the Flemings</span>, 'twixt Cadsand and Bruges,<br>
+      Fearing the flood that tow'rds them hurls itself,<br>
+      Their bulwarks build to put the sea to flight;<br>
+    </div>
+  </blockquote>
+</section>
+<section>
+  <h2>Style</h2>
+  <p>I showed how to modify the style properties of tags. Tags can have
+    attributes defined liked so:</p>
+  <pre><code class="html">{% filter prexample %}
+    <tag attribute1="value1" attribute2="val2">
+  {% endfilter %}</code></pre>
+  <p>We added style attributes. The style attributes are Cascading Style
+    Sheet properties.</p>
+  </textarea>
+</section>
+<section style="font-size: 95%;">
+  <h3>Cascading</h3>
+  <ul>
+    <li>Cascading refers to accumulation of CSS properties (like color,
+      font-weight, etc.).
+  </ul>
+  </li>
+  <pre><code class="html">{% filter escape %}<span style="color:blue;">Hello! 
+  <span style="color:blue;font-weight: bold;">Hello!
+    <span style="color:blue;font-weight: bold;box-shadow: 10px 10px 5px #888888;">Hello!</span>
+  </span>
+</span>{% endfilter %}</code></pre>
+  Looks like:
+  <blockquote style="font-size: 200%">
+    <span style="color:blue;">Hello!
+      <span style="color:blue;font-weight: bold;">Hello!
+        <span style="color:blue;font-weight: bold;box-shadow: 10px 10px 5px #888888;">Hello!</span>
+      </span>
+    </span>
+  </blockquote>
+</section>
+<section style="font-size: 95%;">
+  <h4>Cascading</h4>
+  <ul>
+    <li>Cascading refers to accumulation of CSS properties (like color,
+      font-weight, etc.).
+  </ul>
+  </li>
+  <pre><code class="html">{% filter escape %}<span style="color:blue;">Hello! 
+  <span style="font-weight: bold;">Hello!
+    <span style="box-shadow: 10px 10px 5px #888888;">Hello!
+      <span style="color:red;">Hello!</span>
+    </span>
+  </span>
+</span>{% endfilter %}</code></pre>
+  Looks like:
+  <blockquote style="font-size: 200%">
+    <span style="color:blue;">Hello!
+      <span style="font-weight: bold;">Hello!
+        <span style="box-shadow: 10px 10px 5px #888888;">Hello!
+          <span style="color:red;">Hello!</span>
+        </span>
+      </span>
+    </span>
+  </blockquote>
+</section>
+<section data-markdown>
+  <textarea data-template>
+          ## Cascading Style Sheets
+
+* Cascades
+ * Children Inherit Properties
+* Style 
+ * Properties refer to style properties such as layout, position,
+ color, font, background, padding, borders
+* Sheets
+ * Apply to a page, change a page.
+</textarea>
+</section>
+<section style="font-size: 80%">
+  <div data-markdown>
+    <textarea data-template>
+            ## Cascading Style Sheets
+
+CSS can be applied on a per tag level, but can also be applied globally.
+
+
+````
+<!-- Include a file of CSS  -->
+<link href="path/to/cssfile.css" rel="stylesheet">
+````
+
+````
+<!-- Inline CSS -->
+<style type="text/css">
+.angry {
+font-weight:900;
+zoom: 3;
+}
+.angry:nth-child(odd)
+{
+color:green;
+transform:rotate(7deg);
+-webkit-transform:rotate(7deg); /* Safari and Chrome */
+float: left;
+}
+.angry:nth-child(even)
+{
+color:red;
+transform:rotate(-12deg);
+-webkit-transform:rotate(-12deg); /* Safari and Chrome */
+float: right;
+} 
+</style>
+<p style="color:orange">Apply style directly</p>
+<div>
+<div class="angry">HULK</div> <div class="angry">SMASH!</div>
+</div>
+
+
+````
+</textarea>
+  </div>
+</section>
+<section>
+  <h2>Style</h2>
+
+  <p>Looks like this:</p>
+
+  <blockquote>
+    <style type="text/css">
+      .angry {
+        font-weight: 900;
+        zoom: 3;
+      }
+
+      .angry:nth-child(odd) {
+        color: green;
+        transform: rotate(7deg);
+        -webkit-transform: rotate(7deg);
+        /* Safari and Chrome */
+        float: left;
+      }
+
+      .angry:nth-child(even) {
+        color: red;
+        transform: rotate(-12deg);
+        -webkit-transform: rotate(-12deg);
+        /* Safari and Chrome */
+        float: right;
+      }
+    </style>
+    <p style="color:orange">Apply style directly</p>
+    <div>
+      <div class="angry">HULK</div>
+      <div class="angry">SMASH!</div>
+    </div>
+
+  </blockquote>
+</section>
+
+<!-- ######################## START MARKDOWN SLIDE ########################## -->
+
+<section style="font-size: 80%">
+  <div data-markdown>
+    <textarea data-template>
+          ## CSS: Properties To Know!
+
+* color -- color of the text or object
+  * color:green
+  * color:#abc (short form)
+* font-family -- the font
+  * font-family:"Times New Roman"
+  * font-family:"Verdana"
+* font-size -- the font size
+  * font-size:10px;
+  * font-size:10pt;
+  * font-size:large;
+  * font-size:200%;
+* font-style -- normal, italic, oblique
+  * font-style:normal;
+</textarea>
+  </div>
+</section>
+<!-- ######################## END MARKDOWN SLIDE ########################## -->
+
+
+<!-- ######################## START MARKDOWN SLIDE ########################## -->
+
+<section style="font-size:90%">
+  <div data-markdown>
+    <textarea data-template>
+          ## CSS Backgrounds
+
+* background-color -- Background color of a div or a span
+````
+.bg1 { background-color:red }
+.bg2 { background-color:#aabbcc }
+````
+
+* background-image -- Background image 
+````
+.bg3 {background-image:url('../images/plasma.png');} 
+````
+
+* On this HTML
+````
+  <p class="bg1">This is example 1</p>
+  <p class="bg2">This is example 2</p>
+  <p class="bg3">This is example 3.<br/>
+    This is example 3.<br/>
+    This is example 3.<br/>
+  </p>
+````
+</textarea>
+  </div>
+</section>
+<!-- ######################## END MARKDOWN SLIDE ########################## -->
+
+<!-- ######################## START HTML SLIDE ########################## -->
+<section>
+  <h2>CSS Backgrounds</h2>
+
+  <style type="text/css">
+    .bg1 {
+      background-color: red
+    }
+
+    .bg2 {
+      background-color: #aabbcc
+    }
+
+    .bg3 {
+      background-image: url('../images/plasma.png');
+    }
+  </style>
+  <p class="bg1">This is example 1</p>
+  <p class="bg2">This is example 2</p>
+  <p class="bg3">This is example 3.<br />
+    This is example 3.<br />
+    This is example 3.<br />
+  </p>
+
+</section>
+<section style="font-size: 80%">
+  <div data-markdown>
+    <textarea data-template>
+          ## CSS Selectors
+
+Did you notice I had .bg1 and .bg2 in the previous example?
+
+Those are CSS selectors. .bg1 and .bg2 are classes. We can use HTML
+attributes to label tags with classes that allow the tags to inherit
+CSS style information.
+
+````
+.bg1 { background-color:red; }
+.bg2 { background-color:#aabbcc; }
+.bg3 {background-image:url('images/plasma.png');} 
+````
+</textarea>
+  </div>
+</section>
+<section style="font-size: 65%">
+  <div data-markdown>
+    <textarea data-template>
+            ## CSS Selectors
+
+* .class
+  * class selectors let you mark up HTML with a class
+````
+.highlight { background-color:yellow; }
+````
+````
+<p class="highlight">ALERT!</p>
+````
+
+* You can also combine classes with HTML tag selectors; this example
+makes p tags with class="highlight" orange instead of yellow. You can
+override other CSS as well.
+````
+p.highlight { background-color:orange; }
+````
+````
+<p class="highlight">ALERT in orange!</p>
+````
+</textarea>
+  </div>
+  <style type="text/css">
+    .highlight {
+      background-color: yellow;
+    }
+
+    p.highlight {
+      background-color: orange;
+    }
+  </style>
+  <div class="highlight">Here's some highlighted stuff in a div</div>
+  <p class="highlight">ALERT in orange!</p>
+
+</section>
+<section data-markdown>
+  <textarea data-template>
+          ## CSS Selectors
+
+* \#id
+  * ID selectors are like class selectors except they aim at the one
+    tag with the id="idtag" as an attribute.
+````
+#yellowtag { background-color:yellow; }
+````
+````
+<p id="yellowtag">Yellow Tag Sale!</p>
+````
+</textarea>
+</section>
+<section style="font-size: 80%">
+  <div data-markdown>
+    <textarea data-template>
+            ## CSS Selectors
+
+* element
+  * element selectors let you style entire HTML elements (tags).
+  * Important because you might want to theme all divs or imgs or links
+````
+p { background-color:yellow; }
+````
+````
+<p>Great. Everything is yellow now.</p>
+````
+</textarea>
+  </div>
+
+  <style type="text/css">
+    #fake1 {
+      background-color: yellow
+    }
+  </style>
+  <p id="fake1">Great. Everything is yellow now.</p>
+</section>
+<section style="font-size: 70%">
+  <div data-markdown>
+    <textarea data-template>
+            ## CSS Selectors
+
+* :context
+  * Selectors that behave depending on the context
+  * Can be chained with other selectors
+  * :hover - when the mouse is over
+  * :active - active link
+  * :first-letter - operate on the first letter
+  * :nth-child(2) - second child
+````
+span.x:hover { background-color:yellow; }
+.x:nth-child(even) { background-color:red; }
+````
+````
+<span class="x">How</span>
+<span class="x">is</span>
+<span class="x">this</span>
+<span class="x">going</span>
+<span class="x">to</span>
+<span class="x">work?</span>
+````
+</textarea>
+  </div>
+
+  <style type="text/css">
+    span.x:hover {
+      background-color: yellow;
+    }
+
+    .x:nth-child(even) {
+      background-color: red;
+    }
+  </style>
+  <p>
+    <span class="x">How</span>
+    <span class="x">is</span>
+    <span class="x">this</span>
+    <span class="x">going</span>
+    <span class="x">to</span>
+    <span class="x">work?</span>
+  </p>
+</section>
+<section style="font-size: 80%">
+  <div data-markdown>
+    <textarea data-template>
+            ## CSS Positioning
+
+* position: (use left, right, top, bottom)
+  * fixed -- stays on one spot in the browser
+````
+p.fixed { position: fixed; right: 10%; top: 20%; }
+````
+  * relative -- position relative to where it normally goes.
+````
+<!-- a little to the left -->
+p.relative { position: relative; left:-10px; }
+p.bigrelative { position: relative; left:-100px; }
+````
+  
+
+</textarea>
+  </div>
+  <blockquote>
+    <style type="text/css">
+      p.fixed {
+        position: fixed;
+        right: 10%;
+        top: 20%;
+      }
+
+      p.relative {
+        position: relative;
+        left: -10px;
+      }
+
+      p.bigrelative {
+        position: relative;
+        left: -100px;
+      }
+    </style>
+    <p class="fixed">FIXED</p>
+    <p>!relative</p>
+    <p class="relative">Relative</p>
+    <p class="bigrelative">Big Relative</p>
+  </blockquote>
+</section>
+<!-- ######################## END MARKDOWN SLIDE ########################## -->
+
+
+<!-- ######################## START MARKDOWN SLIDE ########################## -->
+<section style="font-size: 80%">
+  <div data-markdown>
+    <textarea data-template>
+            ## CSS Positioning
+
+* position: (use left, right, top, bottom)
+  * absolute -- absolute positioning relative to the first parent that
+  was positioned (often the page itself).
+````
+p.abs { position: absolute; left: 10%; top: 5%; }
+````
+````
+<p class="abs">Ab-solutely!</p>
+````  
+  * z-index can be used to order overlapping elements!
+````
+p.redbox { z-index: 5; position: absolute; right: 11%; top: 10%; 
+    background-color:red;}
+p.bluebox { position: absolute; right: 15%; top: 15%; 
+    background-color:blue;}
+````
+````
+<p class="redbox">Redbox!</p>
+<p class="bluebox">Bluebox!</p>
+````  
+
+</textarea>
+  </div>
+
+  <style type="text/css">
+    p.abs {
+      position: absolute;
+      left: 10%;
+      top: 5%;
+    }
+
+    p.redbox {
+      z-index: 5;
+      position: absolute;
+      right: 11%;
+      top: 10%;
+      background-color: red;
+    }
+
+    p.bluebox {
+      position: absolute;
+      right: 15%;
+      top: 15%;
+      background-color: blue;
+    }
+  </style>
+  <p class="redbox">Redbox!</p>
+  <p class="bluebox">Bluebox!</p>
+  <p class="abs">Ab-solutely!</p>
+
+</section>
+<!-- ######################## END MARKDOWN SLIDE ########################## -->
+
+<!-- ######################## START MARKDOWN SLIDE ########################## -->
+<section style="font-size: 77%">
+  <div data-markdown>
+    <textarea data-template>
+            ## CSS Text Alignment
+
+One big problem with CSS is how to center something!
+
+* Margins can be used
+* text-align: center can be used
+````
+p.centered { margin-left: auto; margin-right: auto; }
+````
+````
+<p class="centered">A pretty long line of text, it might not looked centered</p>
+<p class="centered" style="width: 10em;">A pretty long line of text, it might not looked centered</p>
+<p class="centered">A short bit of text</p>
+````
+</textarea>
+  </div>
+
+  <style type="text/css">
+    p.centered {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+  <p class="centered">A pretty long line of text, it might not looked centered</p>
+  <p class="centered" style="width: 10em;">A pretty long line of text, it might not looked centered</p>
+  <p class="centered">A short bit of text</p>
+</section>
+<!-- ######################## END MARKDOWN SLIDE ########################## -->
+
+
+<!-- ######################## START MARKDOWN SLIDE ########################## -->
+<section style="font-size: 90%;">
+  <div data-markdown>
+    <textarea data-template>
+            ## CSS Text Alignment
+
+One big problem with CSS is how to center something! Flex box model
+helps for big centering jobs
+
+* display:flex https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout
+* align-content: center
+* [justify-content: center](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content)
+</textarea>
+  </div>
+</section>
+<section style="font-size: 60%; text-align: left;">
+  <div data-markdown>
+    <textarea data-template>
+            ````
+            .flex { border: 1px solid blue;}
+            .flex-conainer { display: flex; align-items: center;  justify-content: center;  border: 1px solid red; width: 100%; }
+            ````
+            ````
+            <p class="flex" style="">Check me out! I'm not centered!</p>
+            <div class="flex-container">
+              <p class="flex" style="">Check me out! I'm centered!</p>
+            </div>
+            <div class="flex-container">
+            <p class="flex" style="width: 5em; height: 6em; text-align: center;">Check me out! I'm
+              centered!</p>
+            </div>
+            ````
+          </textarea>
+  </div>
+
+  <style type="text/css">
+    p.flex {
+      border: 1px solid blue;
+    }
+
+    div.flex-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid red;
+      width: 100%;
+    }
+  </style>
+  <p class="flex" style="">Check me out! I'm not centered!</p>
+  <div class="flex-container">
+    <p class="flex" style="">Check me out! I'm centered!</p>
+  </div>
+  <div class="flex-container">
+    <p class="flex" style="width: 5em; height: 6em; text-align: center;">Check me out! I'm
+      centered!</p>
+  </div>
+</section>
+<!-- ######################## END MARKDOWN SLIDE ########################## -->
+
+
+<!-- ######################## START MARKDOWN SLIDE ########################## -->
+<section style="font-size: 80%">
+  <div data-markdown>
+    <textarea data-template>
+            ## CSS Text Alignment
+
+Display flex also lays out other objects too.
+
+````
+.flexx { display: flex; align-items: center; justify-content: center; align-content: center; border: 1px solid green; }
+````
+````
+<p class="flexx" style="width: 100%; height: 10em;">
+   <img src="../images/plasma.png" alt="Plasma Pattern"/>
+   <img src="../images/plasma.png" alt="Plasma Pattern"/>
+   <img src="../images/plasma.png" alt="Plasma Pattern"/>
+</p>
+
+````
+</textarea>
+  </div>
+
+  <style type="text/css">
+    p.flexx {
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid green;
+      width: 100%;
+    }
+  </style>
+  <p class="flexx" style="width: 100%; height: 10em;">
+    <img src="../images/plasma.png" alt="Plasma Pattern" />
+    <img src="../images/plasma.png" alt="Plasma Pattern" />
+    <img src="../images/plasma.png" alt="Plasma Pattern" />
+  </p>
+
+</section>
+<section>
+  <h2>CSS Example</h2>
+  <p><code><pre>
+                nav ul {
+                    list-style: none;
+                }
+                nav ul>li {
+                    display: inline-block;
+                }
+            </pre></code></p>
+  <p>
+    Any &lt;ul&gt; inside of (descendants of) &lt;nav&gt; has no bullet points, and the list items that are directly
+    inside of that (children) are displayed without line breaks between them.
+    This could be a good start for making a navigation bar.
+  </p>
+</section>
+<section>
+  <h2>CSS Example</h2>
+  <p><code><pre>
+                em {
+                    font-style: italic;
+                }
+                p>em {
+                    font-weight: bold;
+                }
+            </pre></code></p>
+  <p>
+    Things you want to emphasize (the &lt;em&gt; tag) should be in italics. Things you want to emphasize in paragraphs
+    should <em>also</em> be bold.
+  </p>
+</section>
+<section>
+  <h2>CSS Example</h2>
+  <p><code><pre>
+                h1, h2, h3, h4, h5, h6 {
+                    text-decoration: underline;
+                }
+                h1, h2, h3 {
+                    font-variant: small-caps;
+                }
+            </pre></code></p>
+  <p>Headings should be underlined. First, second, and third level headings should also be in <samp
+      style="font-variant: small-caps;">small caps</samp>.
+  </p>
+</section>
+<section>
+  <h2>CSS Units</h2>
+  <ul>
+    <li><code>px</code> - 1/96th of an inch. One pixel <em>if</em> DPI & zoom is 96.</li>
+    <li><code>%</code> - percentage, usually of the containing (parent) element.</li>
+    <li><code>em</code> - the font size. For example, 2em is twice the size of the font.</li>
+    <li><code>ex</code> - the height of the letter 'x' (usually) in the current font and font size.</li>
+    <li>...</li>
+  </ul>
+</section>
+<section>
+  <h2>CSS Units</h2>
+  <ul>
+    <li>Prefer to use % or units based on font size (<code>em</code>, <code>ex</code>).</li>
+    <li>Avoid <code>px</code>, it won't react to zooming and user's font size, monitor resolution, etc. as well.</li>
+  </ul>
+</section>
+<section style="font-size: 90%;">
+  <h2>CSS Help!</h2>
+  <p> CSS is spread across many specs, so it is hard to really get a
+    clear grasp on it.</p>
+  <ul>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS">MDN's CSS Documentation</a> -- probably the best
+      resource.
+    </li>
+    <li><a href="https://caniuse.com/">Can I Use?</a> -- browswer compatibility tables, sometimes these are more
+      up-to-date than MDN's compatibility tables.
+    <li><a href="https://www.w3.org/TR/css-2023/">2023 CSS Specifications</a></li>
+  </ul>
+</section>
+<section>
+  <h2>HTML for User Interfaces</h2>
+  <p> The HTML Form elements let us accept input from browsers in a
+    structured way and form HTTP GETs and POSTs.</p>
+  <p> In the lab you should have covered some of this.</p>
+</section>
+<section style="font-size: 70%">
+  <div data-markdown>
+    <textarea data-template>
+            ## &lt;form&gt; tag
+
+The form tag encloses a group of HTML input/UI widgets which can then
+be submitted as once.
+
+* method - We can specify the HTTP method (POST/GET)
+* action - We can specify the URI to GET or POST to.
+
+````
+<form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
+What is your name? <input name="name"/></br>
+What is your quest? <input name="quest"/></br>
+What is your favorite colour? <input name="colour"/></br>
+<input type="submit"/>
+</form>
+````
+</textarea>
+  </div>
+
+  <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
+    What is your name? <input name="name" /></br>
+    What is your quest? <input name="quest" /></br>
+    What is your favorite colour? <input name="colour" /></br>
+    <input type="submit" />
+  </form>
+
+
+</section>
+<section style="font-size: 80%;">
+  <h2>&lt;input> tag</h2>
+  <p>The input tag can take in textual input, passwords, or act as submit
+    button.
+  </p>
+  <ul>
+    <li><code>type=</code> button / *checkbox* / color / date / datetime / datetime-local / email
+      / file / *hidden* / image / month / number / password / *radio* /
+      range / reset / search / *submit* / tel / *text* / time / url / week
+    </li>
+    <li><code>name=</code> the name to send in the query string or post</li>
+    <li><code>value=</code> the default value</li>
+    <li>Hidden type lets you embed values to send to help track the request.</li>
+  </ul>
+</section>
+<section>
+  <h2>&lt;input> tag</h2>
+  <pre><code>{% filter prexample %}
+    <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
+      What is your name? <input name="name"/></br>
+      What is your quest? <input name="quest"/></br>
+      What is your favorite colour? <input name="colour"/></br>
+      <input type="hidden" name="hitchhiker" value="I'm coming too!"/>
+      <input type="submit"/>
+    </form>
+  {% endfilter %}</code></pre>
+  <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
+    What is your name? <input name="name" /></br>
+    What is your quest? <input name="quest" /></br>
+    What is your favorite colour? <input name="colour" /></br>
+    <input type="hidden" name="hitchhiker" value="I'm coming too!" />
+    <input type="submit" />
+  </form>
+</section>
+<section>
+  <h2>&lt;input> tag</h2>
+  <pre><code>{% filter prexample %}
+    <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
+      Do you like cake? <input name="cakeliker" type="checkbox" checked/><br/>
+      How much do you like cake? <input min="0" max="15" value="10"
+                                        type="range"/><br/>
+      When should we eat cake? <input type="date" name="cakewhen"/><br/>
+      What kind of filling? 
+      Chocolate: <input name="filling" value="chocolate" type="radio"/>
+      Vanilla: <input name="filling" value="vanilla" type="radio"/><br/>
+      <input type="submit"/>
+    </form>
+{% endfilter %}</code></pre>
+  <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
+    Do you like cake? <input name="cakeliker" type="checkbox" checked /><br />
+    How much do you like cake? <input min="0" max="15" value="10" type="range" /><br />
+    When should we eat cake? <input type="date" name="cakewhen" /><br />
+    What kind of filling?
+    Chocolate: <input name="filling" value="chocolate" type="radio" />
+    Vanilla: <input name="filling" value="vanilla" type="radio" /><br />
+    <input type="submit" />
+  </form>
+</section>
+<section>
+  <h2>&lt;select> tag</h2>
+  <p>Select tag is for a dropdown box of options
+  </p>
+  <pre><code>{% filter prexample %}
+    <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
+      What kind of cake shall we have?<br>
+      <select name="caketype">
+        <option value="angel">Angel Food Cake</option>
+        <option value="devil" selected>Devil's Food Cake</option>
+        <option value="cowpatty">Marie Antionette's Cake</option>
+      </select>
+      <input type="submit"/>
+    </form>
+  {% endfilter %}</code></pre>
+  <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
+    What kind of cake shall we have?</br>
+    <select name="caketype">
+      <option value="angel">Angel Food Cake</option>
+      <option value="devil" selected>Devil's Food Cake</option>
+      <option value="cowpatty">Marie Antionette's Cake</option>
+    </select>
+    <input type="submit" />
+  </form>
+</section>
+<section>
+  <h2>File upload</h2>
+  <p>
+    You can upload files with the input tag but we need to switch the POST
+    encoding.
+  </p>
+  <pre><code>{% filter prexample %}
+    <form action="http://buttercup.cs.ualberta.ca:9000/"
+      enctype="multipart/form-data"
+      method="get">
+      Choose a file to upload!
+      <input name="uploadFile" type="file" />
+      <input type="submit"/>
+    </form>
+  {% endfilter %}</code></pre>
+  <form action="http://buttercup.cs.ualberta.ca:9000/" enctype="multipart/form-data" method="post">
+    Choose a file to upload!
+    <input name="uploadFile" type="file" />
+    <input type="submit" />
+  </form>
+</section>
+<section>
+  <h2>Next: Onto Javascript!</h2>
+  <p>
+    Modern UIs are now part HTML and CSS and part Javascript.
+  </p>
+  <p>
+    Javascript tends to smooth over the rough edges and fill in the gaps
+    that HTML, HTML Forms and CSS leave.
+  </p>
+</section>
+{% endblock %}
