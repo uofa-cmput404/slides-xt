@@ -11,9 +11,6 @@ export default {
             output: {
                 preserveModules: true,
             },
-            input: {
-                
-            }
             preserveEntrySignatures: "exports-only",
         }
     },
