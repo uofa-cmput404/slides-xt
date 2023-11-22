@@ -1,21 +1,21 @@
 /* use Andika - Regular in .woff format */
 @font-face {
     font-family: AndikaW;
-    src: url(../fonts/andika/web/Andika-Regular.woff2);
+    src: url(/src/fonts/andika/web/Andika-Regular.woff2);
 }
 
 /* use Andika - Italic in .woff2 format */
 @font-face {
     font-family: AndikaW;
     font-style: italic;
-    src: url(../fonts/andika/web/Andika-Italic.woff2);
+    src: url(/src/fonts/andika/web/Andika-Italic.woff2);
 }
 
 /* use Andika - Bold in .woff2 format */
 @font-face {
     font-family: AndikaW;
     font-weight: bold;
-    src: url(../fonts/andika/web/Andika-Bold.woff2);
+    src: url(/src/fonts/andika/web/Andika-Bold.woff2);
 }
 
 /* use Andika - Bold Italic in .woff2 format */
@@ -23,31 +23,31 @@
     font-family: AndikaW;
     font-weight: bold;
     font-style: italic;
-    src: url(../fonts/andika/web/Andika-BoldItalic.woff2);
+    src: url(/src/fonts/andika/web/Andika-BoldItalic.woff2);
 }
 
 @font-face {
     font-family: AnonymousPro;
-    src: url(../fonts/anonymouspro/anonymous_pro.ttf);
+    src: url(/src/fonts/anonymouspro/anonymous_pro.ttf);
 }
 
 @font-face {
     font-family: AnonymousPro;
     font-style: italic;
-    src: url(../fonts/anonymouspro/Anonymous_pro_i.ttf);
+    src: url(/src/fonts/anonymouspro/Anonymous_pro_i.ttf);
 }
 
 @font-face {
     font-family: AnonymousPro;
     font-weight: bold;
-    src: url(../fonts/anonymouspro/anonymous_pro_b.ttf);
+    src: url(/src/fonts/anonymouspro/anonymous_pro_b.ttf);
 }
 
 @font-face {
     font-family: AnonymousPro;
     font-weight: bold;
     font-style: italic;
-    src: url(../fonts/anonymouspro/anonymous_pro_ib.ttf);
+    src: url(/src/fonts/anonymouspro/anonymous_pro_bi.ttf);
 }
 
 .twoColumn {
