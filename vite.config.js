@@ -14,6 +14,9 @@ export default {
             preserveEntrySignatures: "exports-only",
         }
     },
+    optimizeDeps: {
+        disabled: true,
+    },
     plugins: [
         vituum({
             pages: {
