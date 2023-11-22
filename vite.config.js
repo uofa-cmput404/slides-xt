@@ -10,8 +10,11 @@ export default {
         rollupOptions: {
             output: {
                 preserveModules: true,
+                compact: false,
+                minifyInternalExports: false,
             },
             preserveEntrySignatures: "exports-only",
+            plugins: [false],
         },
         sourcemap: true,
     },
