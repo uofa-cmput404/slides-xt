@@ -14,7 +14,6 @@ export default {
                 minifyInternalExports: false,
             },
             preserveEntrySignatures: "exports-only",
-            plugins: [false],
         },
         sourcemap: true,
     },
