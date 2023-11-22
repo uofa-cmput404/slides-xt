@@ -16,6 +16,8 @@ export default {
             preserveEntrySignatures: "exports-only",
         },
         sourcemap: true,
+        target: 'esnext',
+        assetsInlineLimit: 0,
     },
     optimizeDeps: {
         disabled: true,
