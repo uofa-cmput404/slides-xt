@@ -30,6 +30,7 @@ function htmlPlugins() {
             template: in_,
             minify: false,
             filename: out,
+            inject: 'head',
         }));
         console.info(in_, out);
     }
@@ -38,17 +39,20 @@ function htmlPlugins() {
 
 const config = {
     entry: './src/index.js',
+    mode: 'development',
     output: {
         path: path.resolve(__dirname, 'dist'),
         clean: true,
+        filename: '[name].[contenthash].js',
         assetModuleFilename: '[path][name].[hash][ext]',
         asyncChunks: false,
+        chunkLoading: false,
     },
     devServer: {
         open: true,
         host: 'localhost',
     },
-    plugins: [
+    plugins: htmlPlugins().concat([
         // Add your plugins here
         // Learn more about plugins from https://webpack.js.org/configuration/plugins/
         new CopyWebpackPlugin({
@@ -59,14 +63,13 @@ const config = {
                 }
             ]},
         ),
-    ].concat([
-    ], htmlPlugins()),
+    ], ),
     module: {
         rules: [
-            {
-                test: /\.(js|jsx)$/i,
-                loader: 'babel-loader',
-            },
+            // {
+            //     test: /\.(js|jsx)$/i,
+            //     loader: 'babel-loader',
+            // },
             {
                 test: /\.css$/i,
                 use: [stylesHandler,'css-loader'],
@@ -106,14 +109,14 @@ const config = {
 };
 
 module.exports = () => {
-    if (isProduction) {
-        config.mode = 'production';
+    // if (isProduction) {
+    //     config.mode = 'production';
         
         
-        config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+    //     config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
         
-    } else {
-        config.mode = 'development';
-    }
+    // } else {
+    //     config.mode = 'development';
+    // }
     return config;
 };
