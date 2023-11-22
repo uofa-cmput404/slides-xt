@@ -83,7 +83,7 @@
         function fetchExample() {
           // https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#Example 2019-02-14
           var img = document.querySelector("img#fetchexample");
-          var request = new Request("../images/fetch.gif");
+          var request = new Request("fetch.gif");
           var promise1 = fetch(request);
           var promise2 = promise1.then(function(response) {
             console.log("Got headers!");
@@ -228,7 +228,7 @@
           getterID = window.setInterval(() => { // callback
             var now = new Date();
             var s = 1 + (now.getSeconds() % 4); // remainder
-            var url = '../json/' + s + ".json" // 1.json 2.json 3.json...
+            var url = 'json/' + s + ".json" // 1.json 2.json 3.json...
             fetchJSON(url).then((json) => { // another callback
               console.log(json); // browser turned the JSON into an object
               text = json.message; // it has properties
