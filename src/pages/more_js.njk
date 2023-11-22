@@ -11,22 +11,13 @@
         </small>
     </p>
 </section>
-<section style="font-size: 90%;">
+<section>
     <h3>Modules</h3>
     <ul>
         <li>At some point it became necessary to split JS into multiple files.</li>
         <li>Originally you'd just use multiple <code>&lt;script> tags</code></li>
-        <li>2009: CommonJS modules
-            <ul>
-                <li>Needs library or processing (RequireJS, Webpack, etc.) to work in browser.</li>
-            </ul>
-        </li>
-        <li>2016: ES modules (aka ES6 modules)
-            <ul>
-                <li>Needs Node.js version 14 or better, supported natively in browser.</li>
-                <li>You can use "top-level await" that is, <code>await</code> outside of an async function.</li>
-            </ul>
-        </li>
+        <li>2009: CommonJS modules</li>
+        <li>2016: ES modules (aka ES6 modules)</li>
     </ul>
 </section>
 <section>
@@ -104,8 +95,110 @@
     <h3>Modules</h3>
     <ul>
         <li>use <code>.mjs</code> to tell Node and other libraries that it's an ES Module.</li>
+        <li>use <code>.esm</code> or <code>.esm.js</code> are ES modules, but not recognized by Node.</li>
         <li>use <code>.cjs</code> to tell Node and other libraries that it's an CommonJS Module (rare).</li>
         <li>Both support full URLs, though if you're not using relative URLs you're setting yourself up for a security problem.</li>
+    </ul>
+</section>
+<section>
+    <h3>CommonJS Modules</h3>
+    <ul>
+        <li>Frontend code that uses CommonJS
+            <ul><li>Needs library or bundler (RequireJS, Webpack, etc.) to work in browser.</li></ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>ES Modules</h3>
+    <ul>
+        <li>Needs Node.js version 14 or better, supported natively in browser.</li>
+        <li>You can use "top-level await" that is, <code>await</code> outside of an async function
+            <ul>
+                <li>This delays loading until the promise resolves</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Transpilers & Bundlers</h3>
+    <ul>
+        <li>Examples:
+            <ul>webpack (+babel)</ul>
+            <ul>rollup</ul>
+            <ul>esbuild</ul>
+            <ul>...</ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Transpilers & Bundlers</h3>
+    <ul>
+        <li>Make JS load faster (maybe) by merging large trees of modules into single files
+            <ul>
+                <li>Also can combine CSS, image files, etc. into JavaScript</li>
+            </ul>
+        </li>
+        <li>Support more modern features on older browsers
+            <ul>
+                <li>Original purpose of Babel was to compile ES6 to ES5</li>
+            </ul>
+        </li>
+        <li>Compile a variety of languages (TypeScript, CoffeeScript...) to JavaScript</li>
+    </ul>
+</section>
+<section>
+    <h3>Transpilers & Bundlers</h3>
+    <ul>
+        <li>Avoid hosting your entire node_modules
+            <ul>
+                <li>Scans for dependencies</li>
+            </ul>
+        </li>
+        <li>Automatically add hashes to files for cache-busting</li>
+        <li>Interferes with debugging</li>
+    </ul>
+</section>
+<section>
+    <h3>Tree Shaking</h3>
+    <ul>
+        <li>Bundlers usually perform <i>Tree-Shaking</i></li>
+        <li>Removing unused parts of modules and their dependencies</li>
+        <li>The previous example only used safeAdd and safeSubtract, so all other exports would be removed</li>
+    </ul>
+</section>
+<section>
+    <h3>Polyfills</h3>
+    <ul>
+        <li>Bundlers often also automatically add polyfills</li>
+        <li>JS script that adds support for newer features not supported in older browers</li>
+        <li>Different from a transpiler!
+            <ul>
+                <li>Transpiler: runs before deployment during build</li>
+                <li>Polyfill: runs in the browser at runtime</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Polyfills vs Transpilers</h3>
+    <ul>
+        <li>Example:
+            <ul>
+                <li>Require.js is a polyfill for CommonJS module support</li>
+                <li>rollup-plugin-commonjs transpiles CommonJS to ES Modules at build time</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3 style="font-size: 80%;">Debugging Transpiled/Bundled Frontents</h3>
+    <ul>
+        <li>Source maps!</li>
+        <li>Like debugging symbols <code>gcc -g</code>, but for the web</li>
+        <li>Produced to map the output html/css/js from transpilers, bundlers, minifiers, and templaters to the original source code</li>
+        <li><code>//# sourceMappingURL=yourFileName.min.js.map</code></li>
+        <li>Not perfect</li>
+        <li>So far only supports JS and CSS</li>
     </ul>
 </section>
 {% endblock %}

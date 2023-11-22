@@ -12,7 +12,8 @@ export default {
                 preserveModules: true,
             },
             preserveEntrySignatures: "exports-only",
-        }
+        },
+        sourcemap: true,
     },
     optimizeDeps: {
         disabled: true,
