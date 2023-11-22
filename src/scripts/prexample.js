@@ -3,7 +3,6 @@ const env = new nunjucks.Environment();
 const escape = env.getFilter('escape');
 
 export function prexample(val) {
-    return '';
     const lines = val.split('\n');
     while (lines.length > 0) {
         const line = lines[0];
