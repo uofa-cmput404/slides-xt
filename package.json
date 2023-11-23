@@ -11,7 +11,7 @@
   "devDependencies": {
     "@vituum/vite-plugin-nunjucks": "^1.1.0",
     "reveal.js": "^5.0.2",
-    "vite": "^5.0.0",
+    "vite": "^5.0.0-beta.20",
     "vituum": "^1.1.0"
   }
 }
