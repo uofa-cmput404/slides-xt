@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --base=/",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "buildview": "vite build && vite preview"
   },
   "devDependencies": {
     "@vituum/vite-plugin-nunjucks": "^1.1.0",

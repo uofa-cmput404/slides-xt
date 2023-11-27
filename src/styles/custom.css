@@ -174,3 +174,7 @@ body .reveal dd>ul {
     float: none;
     font-size: 90%;
 }
+
+.wellness {
+    border-top: 1px solid black;
+}
