@@ -98,14 +98,6 @@ const registerServiceWorker = async () => {
     } else {
       console.log("No registration?")
     }
-
-    // wait for active
-    const currentRegistration = await navigator.serviceWorker.ready;
-    if (currentRegistration.scope === registration.scope) {
-      console.log("Old service worker");
-    } else {
-      console.log("New service worker");
-    }
   } else {
     console.log("ServiceWorkers are not supported.");
   }

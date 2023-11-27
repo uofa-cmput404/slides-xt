@@ -1,5 +1,5 @@
-const assets = import.meta.asset_list;
-console.log(assets);
+// const assets = import.meta.asset_list;
+// console.log(assets);
 
 let messageQueue = [];
 
@@ -26,7 +26,7 @@ const swConsoleLog = async (...someArguments) => {
 }
 
 self.addEventListener('install', (event) => {
-    swConsoleLog("Service worker installed");
+    event.waitUntil(swConsoleLog("Service worker installed"));
     const doneWaiting = self.skipWaiting();
     event.waitUntil(doneWaiting);
     doneWaiting.then(() => {
