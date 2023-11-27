@@ -2,10 +2,229 @@
 
 {% block slides %}
 <section>
+    <h1>CMPUT 404</h1>
+    <h3>Web Applications and Architecture</h3>
+    <h2>Progressive Web Applications</h2>
+    <p>
+        <small>Created by <br>
+                Hazel Campbell (<a href="mailto:hazel.campbell@ualberta.ca">hazel.campbell@ualberta.ca</a>).<br> Copyright 2023.
+        </small>
+    </p>
+</section>
+<section>
     <h3>Progressive Web Apps</h3>
     <ul>
         <li>Work offline</li>
-        <li></li>
+        <li>Manage caching
+            <ul>
+                <li>& pre-loading!</li>
+            </ul>
+        </li>
+        <li>Notifications</li>
+    </ul>
+</section>
+<section>
+    <h3>PWA parts</h3>
+    <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API">ServiceWorkers API</a></li>
+        <li>The "installer" script</li>
+        <li>The ServiceWoker script</li>
+    </ul>
+</section>
+<section>
+    <h3>Installer script</h3>
+    <ul>
+        <li>Loaded by HTML (directly or indirectly) &lt;script> tag</li>
+        <li>Should be in all the main pages of the app</li>
+        <li>Uses the <code>navigator.serviceWorker</code> object, a <code>ServiceWorkerContainer</code></li>
+        <li>Has access to the page and everything like a normal script</li>
+    </ul>
+</section>
+<section>
+    <h3>Installer script</h3>
+    <ul>
+        <li>First, check if serviceWorker is supported</li>
+    </ul>
+    <pre><code>{% filter prexample %}
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker... // do something with the ServiceWorkerContainer API
+        }
+    {% endfilter %}</code></pre>
+</section>
+<section>
+    <h3>ServiceWorker API</h3>
+    <ul>
+        <li>Basically everything returns promises</li>
+        <li>async / await is your friend!</li>
+    </ul>
+    <pre><code>{% filter prexample %}
+        const registerServiceWorker = async () => {
+            if ("serviceWorker" in navigator) {
+                await navigator.serviceWorker... // do something with the ServiceWorkerContainer API
+            }
+        }
+
+        // just start the function and proceed with the rest of the script
+        registerServiceWorker(); 
+    {% endfilter %}</code></pre>
+</section>
+<section>
+    <h3>ServiceWorker script</h3>
+    <ul>
+        <li>Loaded by the browser after being registerd by the installer script</li>
+        <li>Must be at the root of all the pages it's going to work with
+            <ul>
+                <li>It includes sub-folders and pages in the same folder</li>
+                <li>Excludes other domains and other parent folders!</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>ServiceWorker script</h3>
+    <ul>
+        <li>Must be loaded over HTTP<b>S</b></li>
+        <li>Cannot access the page, window, and most JS APIs
+            <ul>
+                <li>console.log messages will not show up in the tab!</li>
+            </ul>
+        </li>
+        <li>Runs in a seperate thread</li>
+    </ul>
+</section>
+<section>
+    <h3>ServiceWorker script</h3>
+    <ul>
+        <li>Mainly accesses the API through the ServiceWorkerGlobalScope</li>
+        <li>Difficult to debug...</li>
+        <li>Can communicate to pages via<br>
+            <pre><code>{% filter prexample %}
+                const sendToAllTabs async (data) => {
+                   (await self.clients.matchAll()).map((client) => {
+                        // data is some structured-cloneable object
+                        await client.postMessage(data);
+                    });
+                }
+            {% endfilter %}</code></pre>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Communication</h3>
+    <ul>
+        <li>Pages can recieve messages from ServiceWorker:
+            <pre><code>{% filter prexample %}
+                if ("serviceWorker" in navigator) {
+                    navigator.serviceWorker.addEventListener("message", (event) => {
+                        if ("data" in event) {
+                            // data.event is the structured-cloneable message from the serviceworker
+                        }
+                    })
+                    navigator.serviceWorker.startMessages();
+                }
+            {% endfilter %}</code></pre>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Structured Cloneable</h3>
+    <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm">MDN Documentation</a></li>
+        <li>Objects that can be easily cloned
+            <ul>
+                <li>Similar to Python <code>copy.deepcopy</code></li>
+            </ul>
+        </li>
+        <li>Used for thread-to-thread Communication
+            <ul>
+                <li>Web Workers</li>
+                <li>Shared Workers</li>
+                <li>Service Workers</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Structured Cloneable</h3>
+    <ul>
+        <li>Can have:
+            <ul class="twoColumn">
+                <li>Plain Objects</li>
+                <li>String</li>
+                <li>Number</li>
+                <li>Array</li>
+                <li>ArrayBuffer</li>
+                <li>Boolean</li>
+                <li>DataView</li>
+                <li>Date</li>
+                <li>Error (kinda)</li>
+                <li>Map</li>
+                <li>Number</li>
+                <li>null</li>
+                <li>undefined</li>
+                <li>BigInt</li>
+                <li>RegExp (kinda)</li>
+                <li>Set</li>
+                <li>String</li>
+                <li>TypedArray</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Structured Cloneable</h3>
+    <ul>
+        <li>Can't have:
+            <ul>
+                <li>Functions</li>
+                <li>DOM Nodes</li>
+                <li>Complicated objects (e.g. made by a class)</li>
+                <li>Event</li>
+                <li>...</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Events + ServiceWorker Code</h3>
+    <ul>
+        <li>Browser considers the event finished when all the handlers exit unless...</li>
+        <li>The event is an <a href="https://developer.mozilla.org/en-US/docs/Web/API/ExtendableEvent">ExtendableEvent</a></li>
+        <li>Then we can use <code>event.waitUntil(somePromise)</code></li>
+        <li>This prevents the thread from being killed by the browser</li>
+    </ul>
+</section>
+<section>
+    <h3>ServiceWorker Script</h3>
+    <ul>
+        <li>Can (and will!) be killed by the browser whenever it feels like it</li>
+        <li>Use <code>event.waitUntil()</code> to ask browser for more time</li>
+        <li>They are not always running!</li>
+    </ul>
+</section>
+<section>
+    <h3>ServiceWorker Lifecycle</h3>
+    <ul>
+        <li>Registered by page JS</li>
+        <li>Browser goes and gets the ServiceWorker JS</li>
+        <li>Browser installs the ServiceWorker JS</li>
+        <li>If there was a previous ServiceWorker JS with the same URL, it waits for the tabs to close</li>
+        <li>Browser removes the old version and activates the new version</li>
+        <li>New tabs use the new version of the service worker</li>
+    </ul>
+</section>
+<section>
+    <h3>ServiceWorker Script</h3>
+    <ul>
+        <li>Only runs when first registered and some events:
+            <ul>
+                <li><code>install</code> - service worker is first installed</li>
+                <li><code>activate</code> - service worker becomes the active service worker version</li>
+                <li><code>message</code> - a tab (client) sent the serviceworker a message</li>
+                <li><code>fetch</code> - page makes a fetch request</li>
+                <li><code>push...</code> - Push API (Notifications)</li>
+            </ul>
+        </li>
     </ul>
 </section>
 {% endblock %}
