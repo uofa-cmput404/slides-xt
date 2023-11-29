@@ -1,19 +1,7 @@
-import { Buffer } from 'node:buffer';
 import { readFileSync, renameSync, writeFileSync } from 'node:fs';
 
 const ASSET_LIST_REPLACED = "[]||ASSET_LIST";
 const ASSET_LIST_VERSION_REPLACED = "''&&ASSET_LIST_VERSION";
-
-const patchBundled = (bundled, replaced, replacement) => {
-    if ('code' in bundled && bundled.code.includes(replaced)) {
-        console.log("PATCHING code", bundled.fileName, replaced);
-        bundled.code = bundled.code.replace(replaced, replacement);
-    } else if ('source' in bundled && bundled.source.includes(replaced)) {
-        console.log("PATCHING source", bundled.fileName, replaced);
-        const code = bundled.source.toString('utf8').replace(replaced, replacement);
-        bundled.source = Buffer.from(code, 'utf8');
-    }
-}
 
 const needsPatch = (bundled, replaced) => {
     return (
@@ -113,6 +101,20 @@ const assetListPlugin = (options) => {
                 renameSync(toRewritePathTemp, toRewritePath);
             }
             console.log(config.build);
+        },
+        augmentChunkHash(chunkInfo) {
+            for (const [moduleId, module] of Object.entries(chunkInfo.modules)) {
+                console.log("CHUNK: ", chunkInfo.name, moduleId);
+                if (module.code.includes(ASSET_LIST_VERSION_REPLACED)) {
+                    console.log("patch me!");
+                }
+                if (chunkInfo.name.startsWith("sw")) {
+                    console.log(module.code);
+                }
+        }
+            if (chunkInfo.name.startsWith("sw")) {
+                console.log(chunkInfo);
+            }
         }
     }
 }

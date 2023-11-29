@@ -200,4 +200,25 @@
         <li>So far only supports JS and CSS</li>
     </ul>
 </section>
+<section>
+    <h3>Spread operator</h3>
+    <ul>
+        <li><code>...</code></li>
+        <li>When used in arguments: takes an array and turns it into arguments</li>
+        <li>When used in parameters: takes the rest of the arguments passed in and turns it into an array</li>
+        <li>When used in an array: takes an array and inserts its contents into the array</li>
+    </ul>
+</section>
+<section>
+    <h3>Spread operator</h3>
+    <pre><code>{% filter prexample %}
+        const f = (...a) {
+            // a is an array of all the arguments passed in
+            console.log(...a); // give console.log multiple arguments 
+            const b = [0, ...a]; // b is a new array with 0, then the elements from a
+            console.log(...b);
+        }
+        f(1, 2, 3) // works just like console.log(1, 2, 3)
+    {% endfilter %}</code></pre>
+</section>
 {% endblock %}

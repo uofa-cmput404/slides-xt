@@ -5,6 +5,8 @@ const messageQueue = [];
 
 const scopeBase = new URL(self.registration.scope);
 
+//
+
 const sendAll = async (cloneable) => {
     let clients = await self.clients.matchAll();
     for (const client of clients) {
@@ -109,5 +111,3 @@ self.addEventListener("fetch", (event) => {
     }
     event.respondWith(cachedFetch(event.request));
 });
-
-swConsoleLog("Service Worker loaded");

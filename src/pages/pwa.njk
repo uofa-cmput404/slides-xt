@@ -214,6 +214,24 @@
     </ul>
 </section>
 <section>
+    <h3>ServiceWorker Lifecycle</h3>
+    <ul>
+        <li>Default: Allow all tabs to close before new version of the SW (and the App)</li>
+        <li>Optionally: Service worker can take over ASAP
+            <ul>
+                <li><code>self.skipWaiting()</code> in <code>install</code> event handler</li>
+                <li><code>clients.claim()</code> in <code>activate</code> event handler</li>
+                <li>Tell clients (tabs) there's a new version
+                    <ul>
+                        <li>Just reload</li>
+                        <li>Popup for the user</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
     <h3>ServiceWorker Script</h3>
     <ul>
         <li>Only runs when first registered and some events:
@@ -226,5 +244,61 @@
             </ul>
         </li>
     </ul>
+</section>
+<section>
+    <h3>Making it Offline</h3>
+    <ul>
+        <li>After the service worker is activated it can intercept all requests made by the app</li>
+        <li>HTML, JS, CSS, fetch(), everything</li>
+        <li><code>self.addEventListener("fetch", (event) => { ... });</code></li>
+        <li><code>event.respondWith(promise for response)</code> to take over handling the request</li>
+        <li>return without calling <code>respondWith</code> to let the browser handle as normal</li>
+    </ul>
+</section>
+<section>
+    <h3>Making it Offline</h3>
+    <ul>
+        <li>Fetch handler
+            <ul>
+                <li>Examine <code>Request</code> and decide if it should be handled by SW</li>
+                <li>Look for valid data in the cache</li>
+                <li>Give a promise for the response if its in the cache</li>
+                <li>If its not in the cache, use normal <code>fetch()</code> to supply result</li>
+                <li>Optionally add result to cache</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+<section>
+    <h3>Cache Management</h3>
+    <ul>
+        <li>Once SW is installed: fill the cache
+            <ul>
+                <li><code>install</code> event handler</li>
+            </ul>
+        </li>
+        <li>Optionally we can also add other things to the cache later</li>
+    </ul>
+    <pre><code>{% filter prexample %}
+        const fillCache = async () => {
+            const cache = await caches.open(cache_version);
+            await cache.addAll(['./', 'index.html', 'somepage.html', 'somecode.js', 'somestyle.css', 'somepicture.avif']);
+        }
+    {% endfilter %}</code></pre>
+</section>
+<section>
+    <h3>Cache Management</h3>
+    <ul>
+        <li>Cache is seperated into multiple versions</li>
+        <li>Make sure to remove the old versions!</li>
+    </ul>
+    <pre><code>{% filter prexample %}
+        const cacheKeys = await caches.keys();
+        for (const cacheKey of cacheKeys) {
+            if (cacheKey !== cache_version) {
+                await caches.delete(cacheKey);
+            }
+        }
+    {% endfilter %}</code></pre>
 </section>
 {% endblock %}
