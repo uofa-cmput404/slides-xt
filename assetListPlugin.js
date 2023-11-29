@@ -1,9 +1,44 @@
-const REPLACED = "import.meta.asset_list";
+import { Buffer } from 'node:buffer';
+import { readFileSync, renameSync, writeFileSync } from 'node:fs';
+
+const ASSET_LIST_REPLACED = "[]||ASSET_LIST";
+const ASSET_LIST_VERSION_REPLACED = "''&&ASSET_LIST_VERSION";
+
+const patchBundled = (bundled, replaced, replacement) => {
+    if ('code' in bundled && bundled.code.includes(replaced)) {
+        console.log("PATCHING code", bundled.fileName, replaced);
+        bundled.code = bundled.code.replace(replaced, replacement);
+    } else if ('source' in bundled && bundled.source.includes(replaced)) {
+        console.log("PATCHING source", bundled.fileName, replaced);
+        const code = bundled.source.toString('utf8').replace(replaced, replacement);
+        bundled.source = Buffer.from(code, 'utf8');
+    }
+}
+
+const needsPatch = (bundled, replaced) => {
+    return (
+        ('code' in bundled && bundled.code.includes(replaced))
+        || ('source' in bundled && bundled.source.includes(replaced))
+    );
+}
+
+const getVersion = async (assets) => {
+    assets.sort();
+    const joined = assets.join('\0');
+    return btoa(
+        String.fromCodePoint(...new Uint8Array(
+            await crypto.subtle.digest("SHA-256", (
+                new TextEncoder().encode(joined)
+            ))
+        ))
+    ).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
+}
 
 const assetListPlugin = (options) => {
     const virtualModuleId = 'virtual:asset-list';
     const resolvedVirtualModuleId = '\0' + virtualModuleId;
     let server
+    let config
 
     if (!options || !('file' in options)) {
         throw new Error("Missing file");
@@ -24,15 +59,19 @@ const assetListPlugin = (options) => {
 
     return {
         name: 'assetList',
+        configResolved(resolvedConfig) {
+            config = resolvedConfig;
+        },
         configureServer(_server) {
             server = _server
         },
         transform(code, id) {
+            console.log(id);
             if (server) {
-                if (code.includes(REPLACED)) {
+                if (code.includes(ASSET_LIST_REPLACED)) {
                     console.log(id);
                     const assets = JSON.stringify(getModulesServer());
-                    code = code.replace(REPLACED, assets);
+                    code = code.replace(ASSET_LIST_REPLACED, assets);
                 } else {
                     return null;
                 }
@@ -41,12 +80,39 @@ const assetListPlugin = (options) => {
             }
             return code;
         },
-        generateBundle(options, bundle, isWrite) {
-            // console.log(options, isWrite);
-            console.log(Object.keys(bundle).length);
+        async writeBundle(options, bundle, isWrite) {
+            const allFileNames = [];
+            const needToRewrite = [];
             for (const [fileName, bundled] of Object.entries(bundle)) {
-                console.log(fileName, bundled.facadeModuleId);
+                const realFileName = bundled.fileName;
+                allFileNames.push(realFileName);
+                if (fileName !== realFileName) {
+                    console.log(fileName, realFileName);
+                }
+                if (
+                    needsPatch(bundled, ASSET_LIST_REPLACED) 
+                    || needsPatch(bundled, ASSET_LIST_VERSION_REPLACED)
+                ) {
+                    console.log("needs patch ", realFileName);
+                    needToRewrite.push(realFileName);
+                }
             }
+            const assetList = JSON.stringify(allFileNames);
+            const assetListVersion = JSON.stringify(await getVersion(allFileNames));
+            for (const toRewrite of needToRewrite) {
+                const toRewritePath = config.build.outDir + '/' + toRewrite;
+                const toRewritePathTemp = toRewritePath + '.temp';
+                const code = readFileSync(toRewritePath).toString('utf8');
+                if (! code.includes(ASSET_LIST_REPLACED)) {
+                    throw new Error(`${toRewrite} is missing ${ASSET_LIST_REPLACED}`);
+                }
+                const patched = code
+                    .replaceAll(ASSET_LIST_REPLACED, assetList)
+                    .replaceAll(ASSET_LIST_VERSION_REPLACED, assetListVersion);
+                writeFileSync(toRewritePathTemp, patched, {flush: true});
+                renameSync(toRewritePathTemp, toRewritePath);
+            }
+            console.log(config.build);
         }
     }
 }

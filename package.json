@@ -14,6 +14,7 @@
     "reveal.js": "^5.0.2",
     "vite": "^5.0.0-beta.20",
     "vite-plugin-inspect": "^0.7.42",
+    "vite-plugin-pwa": "^0.17.2",
     "vituum": "^1.1.0"
   }
 }

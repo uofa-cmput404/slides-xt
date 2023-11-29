@@ -32,6 +32,9 @@ export default {
         sourcemap: true,
         target: 'esnext',
         assetsInlineLimit: 0,
+        modulePreload: {
+            polyfill: false,
+        },
     },
     preview: {
         https: {

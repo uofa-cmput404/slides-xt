@@ -12,10 +12,20 @@ const base = import.meta.env.BASE_URL; // this is injected with text replacement
 console.log("Vite base: " + base);
 const baseURL = new URL(base, import.meta.url);
 
+const NO_NET = "NO_NET";
+
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.addEventListener("message", (event) => {
-    if ("data" in event && "consoleLog" in event.data) {
-      console.log("(sw)", ...(event.data.consoleLog));
+    if ("data" in event) {
+      const data = event.data;
+      if ("consoleLog" in data) {
+        console.log("(sw)", ...(data.consoleLog))
+      } else if ("reloadWindow" in data) {
+        console.log("Reloading!");
+        location.reload();
+      } else {
+        console.log("(sw)", data);
+      }
     } else {
       console.log("(sw)", event);
     }
@@ -23,57 +33,78 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker.startMessages();
 }
 
+const onlineCheckScript = async (url) => {
+  const request = new Request(url, {
+    method: 'HEAD',
+    cache: 'no-store',
+  });
+  return await fetch(request).then((response) => {
+    const contentType = response.headers.get('Content-Type');
+    console.log("Check JS:", url, response.status, contentType);
+    if (response.status === 404 || contentType === 'text/html') {
+      return false;
+    } else {
+      return response.status;
+    }
+  }, (reason) => {
+    console.log("Check JS fail: ", reason, url);
+    return NO_NET;
+  });
+}
+
+const onlineCheckMain = async () => {
+  if (! await onlineCheckScript(import.meta.url)) {
+    console.log("I changed. old: ", import.meta.url)
+    if ("serviceWorker" in navigator) {
+      let workers = await navigator.serviceWorker.getRegistrations();
+      for (const workerRegistration of workers) {
+        await workerRegistration.unregister();
+      }
+    }
+    location.reload();
+  }
+}
+
 const registerServiceWorker = async () => {
+  await onlineCheckMain();
   if ("serviceWorker" in navigator) {
     let workers = await navigator.serviceWorker.getRegistrations();
-    let found = false;
-    for (let workerRegistration of workers) {
+    let stale = false;
+    for (const workerRegistration of workers) {
       const worker = workerRegistration.active;
       let unregister = null;
       if (worker) {
-        const otherURL = new URL(worker.scriptURL, import.meta.url);
-        if (otherURL.pathname.split('/').pop() === swName) {
-          console.log("Already registered " + otherURL);
-          const request = new Request(swRelURL, {
-            method: 'HEAD',
-          });
-          let response;
-          try {
-            response = await fetch(request);
-            if (response.status === 200) {
-              console.log("SeviceWoker JS: HTTP " + response.status);
-              unregister = false;
-            } else {
-              console.log("SeviceWoker JS: HTTP " + response.status);
-              unregister = true;
-            }
-          } catch (error) {
-            console.log("Couldn't fetch ", error);
-            response = false;
-            unregister = false;
+        const otherURL = worker.scriptURL;
+        if (new URL(otherURL).pathname.split('/').pop() === swName) {
+          const fresh = await onlineCheckScript(otherURL);
+          if (fresh === 200) {
+            console.log("Cache not busted, keep SW", otherURL);
+            workerRegistration.update(); // dont wait on this
+          } else if (fresh) {
+            console.log("Status", fresh, "keep SW", otherURL);
+          } else {
+            console.log("Stale SW", otherURL);
+            await workerRegistration.unregister();
+            stale = true;
           }
         } else {
-          unregister = true;
-        }
-        if (unregister === true) {
-          console.log("Unregistering worker " + otherURL);
-          await worker.unregister();
-        } else if (unregister === false) {
-          found = true;
-          console.log("Keeping this worker.");
-        } else { // null
-          throw new Error("Didn't determine if the service worker is old or not!");
+          console.log("Wrong SW (cache busted), unregistering", otherURL);
+          await workerRegistration.unregister();
         }
       }
     }
-    console.log("Registering " + swRelURL);
+
     let registration = false;
-    try {
-      registration = await navigator.serviceWorker.register(swRelURL, {
-        scope: base,
-      });
-    } catch (error) {
-      console.error("Registration failed", error);
+    if (!stale) {
+      console.log("Registering " + swRelURL);
+      try {
+        registration = await navigator.serviceWorker.register(swRelURL, {
+          scope: base,
+          updateViaCache: "imports",
+        });
+      } catch (error) {
+        console.error("Registration failed", error);
+      }
     }
 
     const wakeup = (worker) => {
@@ -96,7 +127,7 @@ const registerServiceWorker = async () => {
         wakeup(registration.active);
       }
     } else {
-      console.log("No registration?")
+      console.log("No registration")
     }
   } else {
     console.log("ServiceWorkers are not supported.");
