@@ -5,7 +5,7 @@ const messageQueue = [];
 
 const scopeBase = new URL(self.registration.scope);
 
-//
+///
 
 const sendAll = async (cloneable) => {
     let clients = await self.clients.matchAll();
