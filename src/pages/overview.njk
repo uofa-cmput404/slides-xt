@@ -348,10 +348,16 @@
         </ul>
       </section>
       <section>
-        <h3>In 2022</h3>
+        <h3>In <span id="current-year"></span> </h3>
         <ul>
           <li>It should be obvious to you that there are many many many technologies involved.</li>
         </ul>
+        <script>
+          document.addEventListener('DOMContentLoaded', (event) => {
+            const currentYear = new Date().getFullYear();
+            document.getElementById('current-year').textContent = currentYear;
+          });
+        </script>
       </section>
       <section>
         <h3>Resources</h3>
