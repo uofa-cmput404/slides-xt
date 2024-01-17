@@ -468,15 +468,15 @@
             <li>Open up a connection to port 80 slashdot.org</li>
             <li>Send...
         </ul>
-        <pre><code class="http">get / http/1.1\r\n
-host: slashdot.org\r\n
-user-agent: mozilla/5.0 (x11; linux x86_64; rv:64.0) gecko/20100101 firefox/64.0\r\n
-accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n
-accept-language: en-us,en;q=0.5\r\n
-accept-encoding: gzip, deflate\r\n
-connection: keep-alive\r\n
-upgrade-insecure-requests: 1\r\n
-dnt: 1\r\n
+        <pre><code class="http">GET / HTTP/1.1\r\n
+Host: slashdot.org\r\n
+User-Agent: mozilla/5.0 (x11; linux x86_64; rv:64.0) gecko/20100101 firefox/64.0\r\n
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n
+Accept-language: en-us,en;q=0.5\r\n
+Accept-encoding: gzip, deflate\r\n
+Connection: keep-alive\r\n
+Upgrade-Insecure-Requests: 1\r\n
+DNT: 1\r\n
 \r\n</code></pre>
         <ul>
             <li>
@@ -492,13 +492,13 @@ dnt: 1\r\n
         <ul>
             <li>Receive headers...</li>
         </ul>
-        <pre><code class="http">http/1.1 301 moved permanently\r\n
-server: nginx/1.13.12\r\n
-date: mon, 14 jan 2019 23:18:22 gmt\r\n
-content-type: text/html\r\n
-content-length: 186\r\n
-connection: keep-alive\r\n
-location: https://slashdot.org/\r\n
+        <pre><code class="http">HTTP/1.1 301 Moved Permanently\r\n
+Server: nginx/1.13.12\r\n
+Date: mon, 14 jan 2019 23:18:22 gmt\r\n
+Content-Type: text/html\r\n
+Content-Length: 186\r\n
+Connection: keep-alive\r\n
+Location: https://slashdot.org/\r\n
 \r\n</code></pre>
         <ul>
             <li>
@@ -570,33 +570,33 @@ location: https://slashdot.org/\r\n
                     <li>Do a TLS handshake and open up TLS connection</li>
                     <li>Send...
                 </ul>
-                <pre><code class="http">get / http/1.1\r\n
-host: slashdot.org\r\n
-user-agent: mozilla/5.0 (x11; linux x86_64; rv:64.0) gecko/20100101 firefox/64.0\r\n
-accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n
-accept-language: en-us,en;q=0.5\r\n
-accept-encoding: gzip, deflate\r\n
-connection: keep-alive\r\n
-upgrade-insecure-requests: 1\r\n
-dnt: 1\r\n
+                <pre><code class="http">GET / HTTP/1.1\r\n
+Host: slashdot.org\r\n
+User-Agent: mozilla/5.0 (x11; linux x86_64; rv:64.0) gecko/20100101 firefox/64.0\r\n
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n
+Accept-Language: en-us,en;q=0.5\r\n
+Accept-Encoding: gzip, deflate\r\n
+Connection: keep-alive\r\n
+Upgrade-Insecure-Requests: 1\r\n
+DNT: 1\r\n
 \r\n</code></pre>
             </section>
             <section>
                 <ul>
                     <li>Receive headers...</li>
                 </ul>
-                <pre><code class="http">http/1.1 200 ok\r\n
-server: nginx/1.13.12\r\n
-date: mon, 14 jan 2019 23:18:22 gmt\r\n
-content-type: text/html; charset=utf-8\r\n
-transfer-encoding: chunked\r\n
-connection: keep-alive\r\n
+                <pre><code class="http">HTTP/1.1 200 OK\r\n
+Server: nginx/1.13.12\r\n
+Date: mon, 14 jan 2019 23:18:22 gmt\r\n
+Content-Type: text/html; charset=utf-8\r\n
+Transfer-Encoding: chunked\r\n
+Connection: keep-alive\r\n
 slash_log_data: shtml\r\n
-cache-control: no-cache\r\n
-pragma: no-cache\r\n
-x-xrds-location: https://slashdot.org/slashdot.xrds\r\n
-strict-transport-security: max-age=31536000\r\n
-content-encoding: gzip\r\n
+Cache-Control: no-cache\r\n
+Pragma: no-cache\r\n
+X-xrds-location: https://slashdot.org/slashdot.xrds\r\n
+Strict-Transport-Security: max-age=31536000\r\n
+Content-Encoding: gzip\r\n
 \r\n</code></pre>
                 <ul>
                     <li>
@@ -693,18 +693,18 @@ content-encoding: gzip\r\n
             <section>
                 <h3>HTTP POST Example</h3>
                 Web browser sends:
-                <pre><code>post /04-http.html http/1.1
-host: localhost:8000
-user-agent: mozilla/5.0 (x11; linux x86_64; rv:64.0) gecko/20100101 firefox/64.0
-accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-accept-language: en-us,en;q=0.5
-accept-encoding: gzip, deflate
-referer: http://localhost:8000/04-http.html
-content-type: application/x-www-form-urlencoded
-content-length: 0
-connection: keep-alive
-upgrade-insecure-requests: 1
-dnt: 1
+                <pre><code>POST /04-http.html HTTP/1.1
+Host: localhost:8000
+User-agent: mozilla/5.0 (x11; linux x86_64; rv:64.0) gecko/20100101 firefox/64.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8000/04-http.html
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 0
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+DNT: 1
 
 name=hazel&occupation=slide+maker</code></pre>
             </section>
