@@ -263,12 +263,6 @@
             </ul>
         </li>
         <li>
-            <a href="http://[::1]:8000/images/../index.html">http://[::1]:8000/images/../index.html</a>
-            <ul>
-                <li>Absolute authority, relative path</li>
-            </ul>
-        </li>
-        <li>
             <a href="/images/web-server.svg">/images/web-server.svg</a>
             <ul>
                 <li>Implied authority, absolute path</li>
@@ -282,9 +276,55 @@
         </li>
     </ul>
 </section>
+<section style="font-size: 70%;">
+    <h3>Absolute and relative URLs</h3>
+    <table style="font-size:90%;">
+        <thead>
+            <tr><td>Where I am</td><td>The link</td><td>Where I go</td></tr>
+        </thead>
+        <tbody>
+            <tr><td><code>http://[::1]/f/d/1/a.html</code></td><td><code>http://google.com/</code></td><td><code>http://google.com/</code></td></tr>
+            <tr><td><code><b>http:</b>//[::1]/f/d/1/a.html</code></td><td><code>//localhost/g/b.html</code></td><td><code><b>http:</b>//localhost/g/b.html</code></td></tr>
+            <tr><td><code><b>http://[::1]/</b>f/d/1/a.html</code></td><td><code>/g/b.html</code></td><td><code><b>http://[::1]/</b>g/b.html</code></td></tr>
+            <tr><td><code><b>http://[::1]/f/d/1/</b>a.html</code></td><td><code>g/b.html</code></td><td><code><b>http://[::1]/f/d/1/</b>g/b.html</code></td></tr>
+        </tbody>
+    </table>
+</section>
+<section style="font-size: 70%;">
+    <h3><code>..</code> means go to parent folder</h3>
+    <table style="font-size:90%;">
+        <thead>
+            <tr><td>Where I am</td><td>The link</td><td>Where I go</td></tr>
+        </thead>
+        <tbody>
+            <tr><td><code>http://[::1]/f/d/1/a&period;html</code></td><td><code>http://google&period;com/c/&period;&period;/E&period;html</code></td><td><code>http://google&period;com/E&period;html</code></td></tr>
+            <tr><td><code><b>http:</b>//[::1]/f/d/1/a&period;html</code></td><td><code>//localhost/g/&period;&period;/b&period;html</code></td><td><code><b>http:</b>//localhost/b&period;html</code></td></tr>
+            <tr><td><code><b>http://[::1]/</b>f/d/1/a&period;html</code></td><td><code>/g/&period;&period;/b&period;html</code></td><td><code><b>http://[::1]/</b>b&period;html</code></td></tr>
+            <tr><td><code><b>http://[::1]/f/d/1/</b>a&period;html</code></td><td><code>&period;&period;/g/b&period;html</code></td><td><code><b>http://[::1]/f/d/</b>g/b&period;html</code></td></tr>
+            <tr><td><code><b>http://[::1]/f/d/1/</b>a&period;html</code></td><td><code>&period;&period;/&period;&period;/g/b&period;html</code></td><td><code><b>http://[::1]/f/</b>g/b&period;html</code></td></tr>
+            <tr><td><code><b>http://[::1]/f/d/1/</b>a&period;html</code></td><td><code>&period;&period;/&period;&period;/&period;&period;/g/b&period;html</code></td><td><code><b>http://[::1]/</b>g/b&period;html</code></td></tr>
+        </tbody>
+    </table>
+</section>
+<section style="font-size: 70%;">
+    <h3><code>.</code> means go to the same folder we're already in</h3>
+    <table style="font-size:90%;">
+        <thead>
+            <tr><td>Where I am</td><td>The link</td><td>Where I go</td></tr>
+        </thead>
+        <tbody>
+            <tr><td><code>http://[::1]/f/d/1/a&period;html</code></td><td><code>http://google&period;com/c/&period;/E&period;html</code></td><td><code>http://google&period;com/c/E&period;html</code></td></tr>
+            <tr><td><code><b>http:</b>//[::1]/f/d/1/a&period;html</code></td><td><code>//localhost/g/&period;/b&period;html</code></td><td><code><b>http:</b>//localhost/g/b&period;html</code></td></tr>
+            <tr><td><code><b>http://[::1]/</b>f/d/1/a&period;html</code></td><td><code>/g/&period;/b&period;html</code></td><td><code><b>http://[::1]/</b>g/b&period;html</code></td></tr>
+            <tr><td><code><b>http://[::1]/f/d/1/</b>a&period;html</code></td><td><code>&period;/g/b&period;html</code></td><td><code><b>http://[::1]/f/d/1/</b>g/b&period;html</code></td></tr>
+            <tr><td><code><b>http://[::1]/f/d/1/</b>a&period;html</code></td><td><code>&period;/&period;/g/b&period;html</code></td><td><code><b>http://[::1]/f/d/1/</b>g/b&period;html</code></td></tr>
+            <tr><td><code><b>http://[::1]/f/d/1/</b>a&period;html</code></td><td><code>&period;/&period;/&period;/g/b&period;html</code></td><td><code><b>http://[::1]/f/d/1/</b>g/b&period;html</code></td></tr>
+        </tbody>
+    </table>
+</section>
 <section>
     <h3>Example URLs</h3>
-    <ul style="font-size: 80%;">
+    <ul style="font-size: 70%;">
         <li>
             <a href="http://uofa-cmput404.github.io/cmput404-slides/index.html">http://uofa-cmput404.github.io/cmput404-slides/index.html</a>
             <ul>
