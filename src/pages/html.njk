@@ -157,10 +157,10 @@
   <h2>Tags</h2>
   <p>
     Unless you are writing XHTML, in which case you must follow XML syntax,
-    void tags typically look like <code>&lt;voidtag></code>. but sometimes are written like <code>&lt;voidtag/></code>.
+    void tags typically look like <code>&lt;voidtag></code>. but sometimes are written like <code>&lt;voidtag></code>.
   </p>
   <p>
-    However your IDE/Editor/Formatter might not like it if you don't put the <code>/></code> at the end, even though
+    However your IDE/Editor/Formatter might not like it if you don't put the <code>></code> at the end, even though
     it's against spec.
   </p>
   <p>
@@ -179,7 +179,7 @@
       <ul>
         <li>For a while there was a drive to combine XML and HTML into "polyglot HTML" where you could write both at the
           same time, but this was abandoned in 2015.</li>
-        <li>Browsers still support <var>&lt;voidtag/></var> syntax in HTML but it breaks other HTML parsers</li>
+        <li>Browsers still support <var>&lt;voidtag></var> syntax in HTML but it breaks other HTML parsers</li>
       </ul>
     </li>
     <li>XML is very unforgiving, a simple mistake could cause a parser to refuse to parse the XML</li>
@@ -605,9 +605,9 @@ float: right;
 ````
   <p class="bg1">This is example 1</p>
   <p class="bg2">This is example 2</p>
-  <p class="bg3">This is example 3.<br/>
-    This is example 3.<br/>
-    This is example 3.<br/>
+  <p class="bg3">This is example 3.<br>
+    This is example 3.<br>
+    This is example 3.<br>
   </p>
 ````
 </textarea>
@@ -634,9 +634,9 @@ float: right;
   </style>
   <p class="bg1">This is example 1</p>
   <p class="bg2">This is example 2</p>
-  <p class="bg3">This is example 3.<br />
-    This is example 3.<br />
-    This is example 3.<br />
+  <p class="bg3">This is example 3.<br >
+    This is example 3.<br >
+    This is example 3.<br >
   </p>
 
 </section>
@@ -994,9 +994,9 @@ Display flex also lays out other objects too.
 ````
 ````
 <p class="flexx" style="width: 100%; height: 10em;">
-   <img src="../images/plasma.png" alt="Plasma Pattern"/>
-   <img src="../images/plasma.png" alt="Plasma Pattern"/>
-   <img src="../images/plasma.png" alt="Plasma Pattern"/>
+   <img src="../images/plasma.png" alt="Plasma Pattern">
+   <img src="../images/plasma.png" alt="Plasma Pattern">
+   <img src="../images/plasma.png" alt="Plasma Pattern">
 </p>
 
 ````
@@ -1014,9 +1014,9 @@ Display flex also lays out other objects too.
     }
   </style>
   <p class="flexx" style="width: 100%; height: 10em;">
-    <img src="../images/plasma.png" alt="Plasma Pattern" />
-    <img src="../images/plasma.png" alt="Plasma Pattern" />
-    <img src="../images/plasma.png" alt="Plasma Pattern" />
+    <img src="../images/plasma.png" alt="Plasma Pattern" >
+    <img src="../images/plasma.png" alt="Plasma Pattern" >
+    <img src="../images/plasma.png" alt="Plasma Pattern" >
   </p>
 
 </section>
@@ -1114,20 +1114,20 @@ be submitted as once.
 
 ````
 <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
-What is your name? <input name="name"/></br>
-What is your quest? <input name="quest"/></br>
-What is your favorite colour? <input name="colour"/></br>
-<input type="submit"/>
+What is your name? <input name="name"></br>
+What is your quest? <input name="quest"></br>
+What is your favorite colour? <input name="colour"></br>
+<input type="submit">
 </form>
 ````
 </textarea>
   </div>
 
   <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
-    What is your name? <input name="name" /></br>
-    What is your quest? <input name="quest" /></br>
-    What is your favorite colour? <input name="colour" /></br>
-    <input type="submit" />
+    What is your name? <input name="name" ></br>
+    What is your quest? <input name="quest" ></br>
+    What is your favorite colour? <input name="colour" ></br>
+    <input type="submit" >
   </form>
 
 
@@ -1151,43 +1151,42 @@ What is your favorite colour? <input name="colour"/></br>
   <h2>&lt;input> tag</h2>
   <pre><code>{% filter prexample %}
     <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
-      What is your name? <input name="name"/></br>
-      What is your quest? <input name="quest"/></br>
-      What is your favorite colour? <input name="colour"/></br>
-      <input type="hidden" name="hitchhiker" value="I'm coming too!"/>
-      <input type="submit"/>
+      What is your name? <input name="name"></br>
+      What is your quest? <input name="quest"></br>
+      What is your favorite colour? <input name="colour"></br>
+      <input type="hidden" name="hitchhiker" value="I'm coming too!">
+      <input type="submit">
     </form>
   {% endfilter %}</code></pre>
   <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
-    What is your name? <input name="name" /></br>
-    What is your quest? <input name="quest" /></br>
-    What is your favorite colour? <input name="colour" /></br>
-    <input type="hidden" name="hitchhiker" value="I'm coming too!" />
-    <input type="submit" />
+    What is your name? <input name="name" ></br>
+    What is your quest? <input name="quest" ></br>
+    What is your favorite colour? <input name="colour" ></br>
+    <input type="hidden" name="hitchhiker" value="I'm coming too!" >
+    <input type="submit" >
   </form>
 </section>
-<section>
+<section style="font-size: 80%;">
   <h2>&lt;input> tag</h2>
   <pre><code>{% filter prexample %}
     <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
-      Do you like cake? <input name="cakeliker" type="checkbox" checked/><br/>
-      How much do you like cake? <input min="0" max="15" value="10"
-                                        type="range"/><br/>
-      When should we eat cake? <input type="date" name="cakewhen"/><br/>
-      What kind of filling? 
-      Chocolate: <input name="filling" value="chocolate" type="radio"/>
-      Vanilla: <input name="filling" value="vanilla" type="radio"/><br/>
-      <input type="submit"/>
+      Do you like cake? <input name="cakeliker" type="checkbox" checked ><br >
+      How much do you like cake? <input name="howmuch" min="0" max="15" value="10" type="range" ><br >
+      When should we eat cake? <input type="date" name="when" ><br >
+      What kind of filling?
+      Chocolate: <input name="filling" value="chocolate" type="radio" >
+      Vanilla: <input name="filling" value="vanilla" type="radio" ><br >
+      <input type="submit" >
     </form>
 {% endfilter %}</code></pre>
   <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
-    Do you like cake? <input name="cakeliker" type="checkbox" checked /><br />
-    How much do you like cake? <input min="0" max="15" value="10" type="range" /><br />
-    When should we eat cake? <input type="date" name="cakewhen" /><br />
+    Do you like cake? <input name="cakeliker" type="checkbox" checked ><br >
+    How much do you like cake? <input name="howmuch" min="0" max="15" value="10" type="range" ><br >
+    When should we eat cake? <input type="date" name="when" ><br >
     What kind of filling?
-    Chocolate: <input name="filling" value="chocolate" type="radio" />
-    Vanilla: <input name="filling" value="vanilla" type="radio" /><br />
-    <input type="submit" />
+    Chocolate: <input name="filling" value="chocolate" type="radio" >
+    Vanilla: <input name="filling" value="vanilla" type="radio" ><br >
+    <input type="submit" >
   </form>
 </section>
 <section>
@@ -1202,7 +1201,7 @@ What is your favorite colour? <input name="colour"/></br>
         <option value="devil" selected>Devil's Food Cake</option>
         <option value="cowpatty">Marie Antionette's Cake</option>
       </select>
-      <input type="submit"/>
+      <input type="submit">
     </form>
   {% endfilter %}</code></pre>
   <form action="http://buttercup.cs.ualberta.ca:9000/" method="get">
@@ -1212,7 +1211,7 @@ What is your favorite colour? <input name="colour"/></br>
       <option value="devil" selected>Devil's Food Cake</option>
       <option value="cowpatty">Marie Antionette's Cake</option>
     </select>
-    <input type="submit" />
+    <input type="submit" >
   </form>
 </section>
 <section>
@@ -1225,16 +1224,16 @@ What is your favorite colour? <input name="colour"/></br>
     <form action="http://buttercup.cs.ualberta.ca:9000/"
       enctype="multipart/form-data"
       method="get">
-      Choose a file to upload!
-      <input name="uploadFile" type="file" />
-      <input type="submit"/>
+      Choose a file to upload!<br>
+      <input name="uploadFile" type="file"><br>
+      <input type="submit" value="Uploadit!">
     </form>
   {% endfilter %}</code></pre>
-  <form action="http://buttercup.cs.ualberta.ca:9000/" enctype="multipart/form-data" method="post">
-    Choose a file to upload!
-    <input name="uploadFile" type="file" />
-    <input type="submit" />
-  </form>
+  <form action="http://buttercup.cs.ualberta.ca:9000/" enctype="multipart/form-data" method="get">
+  Choose a file to upload!<br>
+  <input name="uploadFile" type="file"><br>
+  <input type="submit" value="Uploadit!">
+</form>
 </section>
 <section>
   <h2>Next: Onto Javascript!</h2>

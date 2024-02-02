@@ -179,5 +179,19 @@ body .reveal dd>ul {
     font-size: 90%;
 }
 
-.wellness {
+input[type='date'], input[type='submit'], select, input[type='file'] {
+    font-size: 75%;
+}
+
+input[type='checkbox'], input[type='radio'] {
+    width: 1.5lh;
+    height: 1.5lh;
+}
+
+input[type='range'] {
+    height: 1.5lh;
+}
+
+form {
+    border: 0.5ex dashed black;
 }
