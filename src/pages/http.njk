@@ -292,7 +292,7 @@
 </section>
 <section style="font-size: 70%;">
     <h3><code>..</code> means go to parent folder</h3>
-    <table style="font-size:90%;">
+    <table style="font-size:80%;">
         <thead>
             <tr><td>Where I am</td><td>The link</td><td>Where I go</td></tr>
         </thead>
@@ -308,7 +308,7 @@
 </section>
 <section style="font-size: 70%;">
     <h3><code>.</code> means go to the same folder we're already in</h3>
-    <table style="font-size:90%;">
+    <table style="font-size:80%;">
         <thead>
             <tr><td>Where I am</td><td>The link</td><td>Where I go</td></tr>
         </thead>
@@ -812,11 +812,25 @@ content-type: text/html; charset=utf-8
             <li>Binary protocol: not viewable/debuggable/writable in plain text
                 <ul>
                     <li>Compress headers for less bandwidth</li>
+                    <li>Headers are shown in lowercase: <code>location</code> instead of <code>Location</code></li>
                 </ul>
             </li>
-            <li>Pipelining: request request request ... response response response</li>
+        </ul>
+    </section>
+    <section>
+        <h3>HTTP 2</h3>
+        <ul>
+            <li>Pipelining: 
+                <ul>
+                    <li><i>request</i> request <b>request</b> ... <i>response</i> response <b>response</b></li>
+                </ul>
+            </li>
             <li>Push: psychic servers look into the future and sends clients content before they even request it 🔮</li>
-            <li>Multiplexing</li>
+            <li>Multiplexing:
+                <ul>
+                    <li><i>resp</i><b>re</b>res<b>sp</b><i>ons</i><b>on</b>ponse<b>se</b><i>e</i> </li>
+                </ul>
+            </li>
         </ul>
     </section>
     <section>

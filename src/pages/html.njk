@@ -203,8 +203,12 @@
       Their bulwarks build to put the sea to flight;
     </p>
   {% endfilter %}</code></pre>
-  <p>We can use CSS to style these text blocks. Whitespace in the &lt;p&gt;
+  <p>We can use CSS to style these text blocks. Whitespace in the <code>&lt;p&gt;</code>
     block doesn't matter.</p>
+  <ul>
+    <li>&lt;p&gt;<code>&lt;p&gt;</code></li>
+    <li><code>&lt;p&gt;</code>&lt;p&gt;</li>
+  </ul>
 </section>
 <section style="font-size: 88%">
   <h2>Paragraph Tag</h2>
@@ -314,11 +318,12 @@
 </section>
 <section>
   <h3>Text Layout Philosophy</h3>
-  <p> Let the user agent decide how to display the text. You don't
-    need to control everything. But provide the appropriate semantics
-    first. Then apply layout information to those semantics.</p>
-  <p>If you want something to show up in a certain make a CSS class
-    and style a span or a div or a paragraph that way.</p>
+  <p> Let the user agent (Browser) and CSS decide how to display the text. You don't
+    need to control everything. Provide the appropriate semantics
+    first with HTML. Then apply layout information to those semantics.</p>
+  <p>If you want something to show up in a certain way, 
+    use the HTML element that most closely resembles the meaning of the text, the use a CSS class
+    to style it.</p>
   <p>If you want a fancy layout use flexbox or grid layouts.</p>
 </section>
 <section>

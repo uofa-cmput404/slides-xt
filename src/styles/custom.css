@@ -89,6 +89,7 @@ body {
     --r-code-font: 'AnonymousPro', 'Consolas', monospace;
     --r-heading-font: 'AndikaW', 'Arial', sans-serif;
     --r-background-color: #ffe;
+    --r-block-margin: 0.5ch;
     letter-spacing: 0.033rem;
     word-spacing: 110%;
     font-feature-settings: "cv10" 1, "cv39" 1;
@@ -111,23 +112,26 @@ h3>b {
 }
 
 code>pre {
-    background-color: red;
+    background-color: red !important;
     color: yellow;
 }
 
 body code {
     letter-spacing: 0;
-    font-size: 67.8%;
-}
-
-body pre {
-    letter-spacing: 0;
-    word-spacing: normal;
+    font-size: 85%;
 }
 
 body .reveal pre {
-    font-size: 67.8%;
+    letter-spacing: 0;
+    word-spacing: normal;
+    margin: 1lh auto;
+    width: 100%;
+    font-size: calc(var(--r-main-font-size) * 0.61);
     line-height: normal;
+}
+
+section>li {
+    background-color: red;
 }
 
 dl,
