@@ -90,6 +90,9 @@ body {
     --r-heading-font: 'AndikaW', 'Arial', sans-serif;
     --r-background-color: #ffe;
     --r-block-margin: 0.5ch;
+    --r-heading3-font-size: 1.2em;
+    --r-heading4-font-size: 1.1em;
+    --r-heading-margin: 0 0 0.3333em 0;
     letter-spacing: 0.033rem;
     word-spacing: 110%;
     font-feature-settings: "cv10" 1, "cv39" 1;
@@ -124,7 +127,7 @@ body code {
 body .reveal pre {
     letter-spacing: 0;
     word-spacing: normal;
-    margin: 1lh auto;
+    margin: 1ex auto;
     width: 100%;
     font-size: calc(var(--r-main-font-size) * 0.61);
     line-height: normal;

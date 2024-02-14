@@ -116,7 +116,7 @@
         // Note in the DOM the img's src= attribute after running!</pre></code>
     {% endfilter %}</code></pre>
   </section>
-  <section>
+  <section data-visibility="hidden">
     <h3>Promises, Promises</h3>
     <script>
         function makeAPromise(data) {
@@ -161,6 +161,111 @@
           }
       {% endfilter %}</pre></code>
     <button type="button" onclick="promiseExample()">promiseExample()</button>
+  </section>
+  <section>
+    <h3>Timers</h3>
+    <ul>
+     <li><var>window.setInterval</var> lets you run a function every so many milliseconds.</li>
+     <li><var>window.setTimeout</var> lets you run a function once after so many milliseconds.</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Promises Execution Order</h3>
+    <script>
+      function promiseTimerExample() {
+        console.log("1. First line of promiseTimerExample");
+        const promise1 = new Promise((resolve, reject) => {
+          console.log("2. In new Promise #1 executor function")
+          window.setTimeout(() => {
+            console.log("4. In window.setTimeout callback function")
+            resolve(333);
+          }, 1000);
+        })
+        const promise2 = promise1.then((value) => {
+          console.log("5. In promise1.then function", value);
+          return 777;
+        });
+        const promise3 = promise2.then((value) => {
+          console.log("6. In promise2.then function", value);
+        })
+        console.log("3. LAST line of promiseTimerExample");
+      }
+    </script>
+    <pre><code class="javascript">{% filter prexample %}
+      function promiseTimerExample() {
+        console.log("1. First line of promiseTimerExample");
+        const promise1 = new Promise((resolve, reject) => {
+          console.log("2. In new Promise #1 executor function")
+          window.setTimeout(() => {
+            console.log("4. In window.setTimeout callback function")
+            resolve(333);
+          }, 1000);
+        })
+        const promise2 = promise1.then((value) => {
+          console.log("5. In promise1.then "onfulfilled" function", value);
+          return 777;
+        });
+        const promise3 = promise2.then((value) => {
+          console.log("6. In promise2.then "onfulfilled" function", value);
+        })
+        console.log("3. LAST line of promiseTimerExample");
+      }
+    {% endfilter %}</pre></code>
+  <button type="button" onclick="promiseTimerExample()">promiseTimerExample()</button>
+  </section>
+  <section>
+    <h3>Function Passed to <code>then</code> Can Return Promise</h3>
+    <script>
+      function promise2TimerExample() {
+        console.log("1. First line of promiseTimerExample");
+        const promise1 = new Promise((resolve, reject) => {
+          console.log("2. In new Promise #1 executor function")
+          window.setTimeout(() => {
+            console.log("4. In window.setTimeout callback function")
+            resolve(333);
+          }, 1000);
+        })
+        const promise2 = promise1.then((value) => {
+          console.log("5. In promise1.then function", value);
+          return new Promise((resolve, reject) => {
+            window.setTimeout(() => {
+              console.log("6. Second timer timed out");
+              resolve(333);
+            }, 2000);
+          });
+        });
+        const promise3 = promise2.then((value) => {
+          console.log("7. In promise2.then function", value);
+        })
+        console.log("3. LAST line of promiseTimerExample");
+      }
+    </script>
+    <pre><code class="javascript">{% filter prexample %}
+      function promise2TimerExample() {
+        console.log("1. First line of promiseTimerExample");
+        const promise1 = new Promise((resolve, reject) => {
+          console.log("2. In new Promise #1 executor function")
+          window.setTimeout(() => {
+            console.log("4. In window.setTimeout callback function")
+            resolve(333);
+          }, 1000);
+        })
+        const promise2 = promise1.then((value) => {
+          console.log("5. In promise1.then function", value);
+          return new Promise((resolve, reject) => {
+            window.setTimeout(() => {
+              console.log("6. Second timer timed out");
+              resolve(333);
+            }, 2000);
+          });
+        });
+        const promise3 = promise2.then((value) => {
+          console.log("7. In promise2.then function", value);
+        })
+        console.log("3. LAST line of promiseTimerExample");
+      }
+    {% endfilter %}</pre></code>
+  <button type="button" onclick="promise2TimerExample()">promise2TimerExample()</button>
   </section>
   <section style="font-size: 85%">
     <h3>Promise dot-chaining</h3>
@@ -220,7 +325,7 @@
         }
     {% endfilter %}</code></pre>
   </section>
-  <section style="font-size: 75%">
+  <section style="font-size: 70%">
     <h3>Do something with the JSON</h3>
     <script>
         var getterID; // global
@@ -265,13 +370,6 @@
     {% endfilter %}</code></pre>
     <button type="button" onclick="startGetting()">Start Getting</button><button type="button" onclick="stopGetting()">Stop Getting</button>
     <blockquote id="ajaxy"></blockquote>
-  </section>
-  <section>
-   <h3>Timers</h3>
-   <ul>
-    <li><var>window.setInterval</var> lets you run a function every so many milliseconds.</li>
-    <li><var>window.setTimeout</var> lets you run a function once after so many milliseconds.</li>
-   </ul>
   </section>
   <section>
     <h3>JSON</h3>
