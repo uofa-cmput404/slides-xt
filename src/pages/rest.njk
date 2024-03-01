@@ -103,7 +103,7 @@
     <h3>REST is not RPC</h3>
     <ul>
         <li>RPC - Remote Procedure Calls</li>
-        <li>Call a procudure (function/method) over the network</li>
+        <li>Call a procedure (function/method) over the network</li>
         <li>Same semantics as calling a function!
             <ul>
                 <li>Inputs</li>
@@ -120,7 +120,7 @@
         <li>Stateless</li>
         <li>Client maintains its own state</li>
         <li>Server does not track clients at all</li>
-        <li>Request are big
+        <li>Requests are big
             <ul>
                 <li>Lots of context</li>
                 <li>All the fields/properties
@@ -177,7 +177,7 @@
         <li>Client can cache responses</li>
         <li>Can also insert a caching reverse proxy</li>
         <li>If the entity doesn't change, why request it again?</li>
-        <li>What methods are cachable?
+        <li>What methods are cacheable?
             <ul>
                 <li>GET? Yes!</li>
                 <li>POST? No :(</li>
@@ -198,7 +198,7 @@
             Your application may not be multi-machine
         </li>
         <li>But it can still have layering that uses HTTP</li>
-        <li>Example: Seperate layer that just handles and validates authentication, before passing it off to the next layer</li>
+        <li>Example: Separate layer that just handles and validates authentication, before passing it off to the next layer</li>
         <li>Example: Stateless routing some requests to a different process (db1, db2)</li>
     </ul>
 </section>
@@ -211,7 +211,7 @@
             </ul>
         </li>
         <li>Stateless - the request/response itself contains all necessary state information</li>
-        <li>Cacheable - the results are the saeme for some period of time</li>
+        <li>Cacheable - the results are the same for some period of time</li>
         <li>Safe - doesn't cause any change</li>
     </ul>
 </section>
@@ -370,13 +370,13 @@
 <section>
     <h3>REST Distributed</h3>
     <ul>
-        <li>Seperate concerns -> seperate servers
+        <li>Separate concerns -> separate servers
             <ul>
                 <li>"Microservices"</li>
             </ul>
         </li>
         <li>
-            State distrubted between server and client
+            State distributed between server and client
         </li>
     </ul>
 </section>
@@ -396,7 +396,7 @@
                 <li>Prefer GET & Avoid POST</li>
             </ul>
         </li>
-        <li>Can a single object be split up into seperate objects with seperate URLs?</li>
+        <li>Can a single object be split up into separate objects with separate URLs?</li>
         <li>Can something be stored client-side instead of on the server?
             <ul>
                 <li>Remember: the client side is the fastest side!</li>
@@ -420,7 +420,7 @@
     </ul>
 </section>
 <section>
-    <p>Sub-directories (sub-folders) for heirarchies</p>
+    <p>Sub-directories (sub-folders) for hierarchies</p>
     <ul>
         <li><code>api/v1/recipes/1243/versions/2</code></li>
     </ul>
