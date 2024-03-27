@@ -212,7 +212,7 @@
 <section>
     <h3>Spread operator</h3>
     <pre><code>{% filter prexample %}
-        const f = (...a) {
+        const f = (...a) => {
             // a is an array of all the arguments passed in
             console.log(...a); // give console.log multiple arguments 
             const b = [0, ...a]; // b is a new array with 0, then the elements from a
