@@ -667,16 +667,21 @@ CSS style information.
 * .class
   * class selectors let you mark up HTML with a class
 ````
-.highlight { background-color:yellow; }
+<style>
+    .highlight { background-color:yellow; }
+</style>
 ````
 ````
-<p class="highlight">ALERT!</p>
+<style>
+    <p class="highlight">ALERT!</p>
+</style>
 ````
 
 * You can also combine classes with HTML tag selectors; this example
 makes p tags with class="highlight" orange instead of yellow. You can
 override other CSS as well.
 ````
+
 p.highlight { background-color:orange; }
 ````
 ````
