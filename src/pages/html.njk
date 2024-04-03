@@ -672,14 +672,16 @@ CSS style information.
 </style>
 ````
 ````
-<style>
-    <p class="highlight">ALERT!</p>
-</style>
+<div class="highlight">Here's some highlighted stuff in a div</div>
+````
+````
+<p class="highlight">ALERT!</p>
 ````
 
 * You can also combine classes with HTML tag selectors; this example
 makes p tags with class="highlight" orange instead of yellow. You can
 override other CSS as well.
+
 ````
 
 p.highlight { background-color:orange; }
@@ -700,6 +702,10 @@ p.highlight { background-color:orange; }
   </style>
   <div class="highlight">Here's some highlighted stuff in a div</div>
   <p class="highlight">ALERT in orange!</p>
+
+* In this example, the orange background color is only applied to the "p" tags of class "highlight".
+However, as we can see with the div element of class highlight, the yellow background color is applied to all tags with class "highlight". 
+This is because the "p" tag selector is more specific than the class selector.
 
 </section>
 <section data-markdown>
