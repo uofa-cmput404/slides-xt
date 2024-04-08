@@ -198,3 +198,15 @@ input[type='range'] {
 form {
     border: 0.5ex dashed black;
 }
+
+/* Properly formats code segment when you print the slides. Currently when you print the slides or download slides
+in Ipad for annotation or on computer for notes, the code segment is big and because its big , it adds a scrollabar bar
+at the end. But when you print the notes , you cannot access the scrollbar making the code cut off. 
+Using this css , it will format the code better and make sure it will remain within the Container box and 
+when the notes are printed , it will adjust accordinly to the container and make sure the whole code segment is seen*/
+@media print {
+    body code {
+      font-size: calc(0.3vw + 1vh);
+    }
+  }
+  
