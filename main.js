@@ -111,7 +111,7 @@ const registerServiceWorker = async () => {
       worker.addEventListener("error", (event) => {
         console.log("An error occurred in the service worker!");
       })
-  
+
       worker.postMessage({ wakeup: true });
     }
 
@@ -135,12 +135,19 @@ const registerServiceWorker = async () => {
 }
 
 Reveal.initialize({
-    hash: true,
-    respondToHashChanges: true,
-    history: false,
-    plugins: [
-        RevealMarkdown
-    ]
+  hash: true,
+  respondToHashChanges: true,
+  history: false,
+  plugins: [
+    RevealMarkdown
+  ]
 });
 
 registerServiceWorker();
+
+// Index button
+const indexButton = document.createElement("a");
+indexButton.classList.add("index-button");
+indexButton.href = base;
+indexButton.textContent = "Index";
+document.body.appendChild(indexButton);
