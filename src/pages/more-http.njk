@@ -591,16 +591,6 @@ content-length: 60
     <section>
         <ul style="font-size: 85%">
             <li>
-                <var>HTTP/1.1 305 Use Proxy</var>
-                (deprecated)
-                <ul>
-                    <li>Try the proxy server specified by the
-                        <var>Location:</var>
-                        header</li>
-                    <li>Deprecated due to security concerns</li>
-                </ul>
-            </li>
-            <li>
                 <var>HTTP/1.1 307 Temporary Redirect</var>
                 <ul>
                     <li>Go to the URI mentioned in the
@@ -623,6 +613,7 @@ content-length: 60
                         <var>Location</var>
                         header</li>
                     <li>Similar to 301 Moved Permanently</li>
+                    <li>Client must repeat the same request for the new location, unlike 301</li>
                 </ul>
             </li>
         </ul>
