@@ -182,15 +182,11 @@ body .reveal dd>ul {
     font-size: 90%;
 }
 
-input[type='date'],
-input[type='submit'],
-select,
-input[type='file'] {
+input[type='date'], input[type='submit'], select, input[type='file'] {
     font-size: 75%;
 }
 
-input[type='checkbox'],
-input[type='radio'] {
+input[type='checkbox'], input[type='radio'] {
     width: 1.5lh;
     height: 1.5lh;
 }
@@ -210,9 +206,9 @@ Using this css , it will format the code better and make sure it will remain wit
 when the notes are printed , it will adjust accordinly to the container and make sure the whole code segment is seen*/
 @media print {
     body code {
-        font-size: calc(0.3vw + 1vh);
+      font-size: calc(0.3vw + 1vh);
     }
-}
+  }
 
 .index-button {
     position: absolute;
@@ -221,11 +217,7 @@ when the notes are printed , it will adjust accordinly to the container and make
     padding: 1em;
     text-decoration: none;
     font-size: 1.5rem;
-    font-family: 'AndikaW', 'Arial', sans-serif;
-    letter-spacing: 0.033rem;
-    word-spacing: 110%;
-    font-feature-settings: "cv10" 1, "cv39" 1;
-    line-height: 1.3;
+    font-family: var(--r-main-font);
     border-top-right-radius: 1em;
     cursor: pointer;
     display: block;
