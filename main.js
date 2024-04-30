@@ -145,8 +145,28 @@ Reveal.initialize({
 
 registerServiceWorker();
 // Index button
-const indexButton = document.createElement("a");
-indexButton.classList.add("index-button");
-indexButton.href = base;
-indexButton.textContent = "Index";
-document.body.appendChild(indexButton);
+
+const rafPromise = async () => {
+  return new Promise((resolve) => {
+      window.requestAnimationFrame(() => {
+          resolve(true);
+      });
+  }); 
+}
+
+const addIndexButton = async () => {
+  const indexButton = document.createElement("a");
+  indexButton.classList.add("index-button");
+  indexButton.href = base;
+  indexButton.textContent = "⋮⋮";
+  indexButton.title = "Index";
+  indexButton.ariaLabel = "Index";
+  let asideControls;
+  while (!asideControls) {
+    await rafPromise();
+    asideControls = document.querySelector("aside.controls");
+  }
+  asideControls.appendChild(indexButton);
+}
+
+addIndexButton();
