@@ -209,4 +209,24 @@ when the notes are printed , it will adjust accordinly to the container and make
       font-size: calc(0.3vw + 1vh);
     }
   }
-  
+
+.index-button {
+    --index-button-font-size: 4;
+    position: absolute;
+    display: block;
+    color: var(--r-link-color);
+    text-decoration: none;
+    font-size: calc(100% * var(--index-button-font-size));
+    bottom: calc(1.4em / var(--index-button-font-size));
+    right: calc(10.5em / var(--index-button-font-size));
+    width: calc(3.6em / var(--index-button-font-size));
+    height: 1em;
+    opacity: 0.3;
+    z-index: 22;
+    pointer-events: auto;
+    font-weight: bold;
+}
+
+.index-button:hover {
+    opacity: 1.0;
+}
