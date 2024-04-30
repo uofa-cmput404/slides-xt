@@ -1,3 +1,4 @@
+
 {% extends "layouts/main.njk" %}
 
 {% block slides %}
@@ -74,7 +75,7 @@
         </li>
     </ul>
 </section>
-<section style="font-size: 99%">
+<section style="font-size: 87%">
     <ul>
         <li>Example: Evil WiFi cafe! I could set up an evil WiFi cafe,
             where people come, sit down, connect to my "secure" WiFi.
@@ -102,7 +103,7 @@
         </li>
     </ul>
 </section>
-<section>
+<section style="font-size: 90%;">
     <h4>TLS: Identity</h4>
     <ul>
         <li>With TLS I can ensure the server I'm connected to is the
@@ -132,7 +133,7 @@
         </li>
     </ul>
 </section>
-<section style="font-size: 90%;">
+<section style="font-size: 85%;">
     <h3>Signed Certificates</h3>
     <ul>
         <li>The certificate's signature is unique to that certificate.</li>
@@ -146,7 +147,7 @@
             or the signature won't match.</li>
     </ul>
 </section>
-<section style="font-size: 85%">
+<section style="font-size: 85%; @media (max-width:1025px) {font-size: 75%;}">
     <h3>Cryptographic Signatures</h3>
     <ul>
         <li>I make a private key and a public key as a part of a
@@ -191,7 +192,7 @@
             with your OS or your browser when you downloaded it.</li>
     </ul>
 </section>
-<section style="font-size: 80%">
+<section style="font-size: 73%;">
     <h3>Identity Problems</h3>
     <ul>
         <li>You don't have the CA's public key
@@ -220,7 +221,7 @@
         </li>
     </ul>
 </section>
-<section style="font-size: 90%">
+<section style="font-size: 80%;">
     <h4>Identity Problems</h4>
     <ul>
         <li>Usually these are combatted by the browser makers:
@@ -337,7 +338,7 @@
         </li>
     </ol>
 </section>
-<section style="font-size: 90%;">
+<section style="font-size: 85%;">
     <h4>Handshake</h4>
     <ol start="4">
         <li>Client verifies server certificate
@@ -426,7 +427,7 @@
         <li>Cloudbleed</li>
     </ul>
 </section>
-<section>
+<section style="font-size: 95%">
     <h3>Avoiding Security Problems</h3>
     <ul>
         <li>TLS <em>everything</em>
