@@ -591,15 +591,6 @@ content-length: 60
     <section>
         <ul style="font-size: 85%">
             <li>
-                <var>HTTP/1.1 305 Use Proxy</var>
-                (rare)
-                <ul>
-                    <li>Try the proxy server specified by the
-                        <var>Location:</var>
-                        header</li>
-                </ul>
-            </li>
-            <li>
                 <var>HTTP/1.1 307 Temporary Redirect</var>
                 <ul>
                     <li>Go to the URI mentioned in the
@@ -609,6 +600,20 @@ content-length: 60
                         next time</li>
                     <li>Cache the redirection using standard caching headers and rules</li>
                     <li>URI in the location bar is updated</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <ul style="font-size: 85%">
+            <li>
+                <var>HTTP/1.1 308 Permanent Redirect</var>
+                <ul>
+                    <li>Go to the URI mentioned in the
+                        <var>Location</var>
+                        header</li>
+                    <li>Similar to 301 Moved Permanently</li>
+                    <li>Client must repeat the same request for the new location, unlike 301</li>
                 </ul>
             </li>
         </ul>
@@ -833,7 +838,7 @@ content-length: 60
             <li>
                 <var>HTTP/1.1 428 Precondition Required</var>
                 <ul>
-                    <li>Indicates that the client needs to send a request with an If- header.</li>
+                    <li>Indicates that the client needs to send a request that is conditional, i.e. has an If- header.</li>
                 </ul>
             </li>
             <li>
@@ -939,6 +944,7 @@ content-length: 60
                 <var>HTTP/1.1 503 Service Unavailable</var>
                 <ul>
                     <li>The service is temporarily down. Something's broken and we'll bring it back up eventually.</li>
+                    <li>Also used when servers are undergoing maintenance</li>
                 </ul>
             </li>
             <li>
