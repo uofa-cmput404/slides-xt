@@ -37,14 +37,16 @@ export default {
         },
     },
     preview: {
+        host: "0.0.0.0",
         https: {
             ciphers: 'ALL:COMPLEMENTOFALL',
-            cert: "./localhost+2.pem",
-            key: "./localhost+2-key.pem",
+            cert: "./cert.pem",
+            key: "./key.pem",
         },
     },
     optimizeDeps: {
-        disabled: true,
+        noDiscovery: true,
+        include: undefined,
     },
     plugins: [
         vituum({
