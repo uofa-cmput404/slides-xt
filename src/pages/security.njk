@@ -20,7 +20,7 @@
         <dt>Leak Prevention</dt>
         <dd>Prevent unauthorized access of information owned by the organization (business, school...)</dd>
         <dt>User Privacy</dt>
-        <dd>Prevent unauthorized access of other user's information
+        <dd>Prevent unauthorized access of other users' information
             <ul>
                 <li>Other users by logged-in users</li>
                 <li>All users by logged-out users</li>
@@ -81,7 +81,7 @@
 </section>
 <section>
     <h3>What's Getting Exploited</h3>
-    <p>Mitre's <a href="https://cwe.mitre.org/top25/">Top 25</a> Weaknesses. (Includes non-Web weakenesses.)</p>
+    <p>Mitre's <a href="https://cwe.mitre.org/top25/">Top 25</a> Weaknesses. (Includes non-Web weaknesses.)</p>
 </section>
 <section>
     <h3>Is your website supposed to...</h3>
@@ -228,8 +228,8 @@
 <section>
     <h3>Apply Escaping EVERYWHERE</h3>
     <ul>
-        <li>Any time something is inserted by interpolation, templating, AJAX, etc. consider it could possbly be exploited.</li>
-        <li>If its a <b>URL</b>, apply percent encoding to variables.
+        <li>Any time something is inserted by interpolation, templating, AJAX, etc. consider it could possibly be exploited.</li>
+        <li>If it's a <b>URL</b>, apply percent encoding to variables.
             <pre><code>{% filter prexample %}
                 # Python example:
                 dest = base_url + item_name + '?t=' + tracking_id
@@ -298,7 +298,7 @@
             <script>
                 alert("This one doesn't load, it's unsafe inline.");
             </script>
-            <button onclick='alert("this one doesnt load either, unsafe inline")'>
+            <button onclick='alert("this one doesn't load either, unsafe inline")'>
         {% endfilter %}</code></pre>
     </ul>
 </section>
@@ -399,7 +399,7 @@
     </ul>
 </section>
 <section>
-    <h3>Path Travesal Exploit</h3>
+    <h3>Path Traversal Exploit</h3>
     <ul>
         <li>Using relative paths like
             <pre><code>{% filter prexample %}
@@ -413,12 +413,12 @@
     </ul>
 </section>
 <section>
-    <h3>Path Travesal Mitigation</h3>
+    <h3>Path Traversal Mitigation</h3>
     <ul>
         <li>Reject <code>/</code> in things like names in the first place.</li>
         <li>Reject sequences such as <code>..</code>, <code>/..</code>, <code>./</code></li>
         <li>Don't use regular expressions to check these 💀</li>
-        <li>Use path library to convert relative path to absolute path, and check that its still in the correct folder</li>
+        <li>Use path library to convert relative path to absolute path, and check that it's still in the correct folder</li>
     </ul>
 </section>
 <section>
@@ -493,7 +493,7 @@
     <ul>
         <li>We want the server to go stateless!</li>
         <li>We want the client/user to remember the state, not us!</li>
-        <li>So lets use cookies or tokens and make the browser/client remember it.</li>
+        <li>So let's use cookies or tokens and make the browser/client remember it.</li>
     </ul>
 </section>
 <section>
@@ -548,7 +548,7 @@
             </ul>
         </li>
         <li>Actually it's better to just use a <em>widely-known</em> library...</li>
-        <li>Making your own encyption code that's actually secure, rather than just looking secure, is difficult!</li>
+        <li>Making your own encryption code that's actually secure, rather than just looking secure, is difficult!</li>
     </ul>
 </section>
 <section>
@@ -559,7 +559,7 @@
                 <li>When it was made</li>
                 <li>For who it was made</li>
                 <li>For what IP it was made</li>
-                <li>When its expected to expire</li>
+                <li>When it's expected to expire</li>
                 <li>What purposes it can be used for</li>
                 <li>What backend version made it</li>
                 <li>What frontend version requested it</li>
@@ -603,7 +603,7 @@
 <section style="font-size: 85%;">
     <h3>Non-Distributed DoS Mitigation</h3>
     <ul>
-        <li>Limit cpu time/ram/disk per request
+        <li>Limit CPU time/RAM/disk per request
             <ul>
                 <li>HTTP 517 Insufficient Storage</li>
             </ul>
@@ -631,7 +631,7 @@
 <section>
     <h3>DDoS Mitigation</h3>
     <ul>
-        <li>Look for patterns in trafic and filter out that pattern
+        <li>Look for patterns in traffic and filter out that pattern
             <ul>
                 <li>Specific requests/endpoints/paths?</li>
                 <li>Specific areas of the world?</li>
@@ -660,7 +660,7 @@
         <li>Pay for cloud-based caching & DDoS defense reverse-proxies
             <ul>
                 <li>Fastly</li>
-                <li>Akami</li>
+                <li>Akamai</li>
                 <li>Cisco Umbrella</li>
                 <li>...</li>
             </ul>
