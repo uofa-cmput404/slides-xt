@@ -4,5 +4,8 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"languageToolLinter.languageTool.disabledRules": "CONSECUTIVE_SPACES,WHITESPACE_RULE",
+		"languageToolLinter.languageTool.ignoredWordHint": true
+	}
 }
