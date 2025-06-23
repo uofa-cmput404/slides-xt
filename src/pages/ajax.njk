@@ -163,6 +163,127 @@
     <button type="button" onclick="promiseExample()">promiseExample()</button>
   </section>
   <section>
+    <h3>Callbacks: Eventually...</h3>
+    <pre><code class="javascript">{% filter prexample %}
+      class Tank {
+        constructor(onEmpty) {
+          this.units = 10;
+          this.onEmpty = onEmpty;
+        }
+        pump() {
+          if (!this.empty()) {
+            this.units -= 1;
+          } else {
+            this.onEmpty(this, this.units);
+          }
+        }
+        empty() { return this.units <= 0; }
+      }
+      const drain = (tank) => {
+        while (!tank.empty()) {
+          tank.pump();
+        }
+        tank.pump();
+      }
+      drain(new Tank((tank, units) => {
+        console.log("tank", tank);
+      }));
+    {% endfilter %}</pre></code>
+  </section>
+  <section>
+    <h3>Callbacks: Immediate</h3>
+    <pre><code class="javascript">{% filter prexample %}
+      const cup = (faucet) => {
+        const aCup = {
+          filled: "air",
+        }
+        if (faucet) {
+          faucet(aCup);
+        }
+        return aCup;
+      }
+      const waterCup = () => {
+        const waterFaucet = (cup) => {
+          cup.filled = "water"
+        }
+        return cup(waterFaucet);
+      } 
+      console.log(waterCup());
+    {% endfilter %}</pre></code>
+  </section>
+  <section>
+    <h3>Callbacks: Callbacks</h3>
+    <pre><code class="javascript">{% filter prexample %}
+      const cup = (faucet) => {
+        const aCup = {
+          filled: "air",
+        };
+        const setFluid = (fluid) => {
+          aCup.filled = fluid;
+        };
+        if (faucet) {
+          faucet(setFluid);
+        }
+        return aCup;
+      }
+      const waterCup = () => {
+        const waterFaucet = (fluidSetter) => {
+          fluidSetter("water");
+        }
+        return cup(waterFaucet);
+      } 
+      console.log(waterCup());
+    {% endfilter %}</pre></code>
+  </section>
+  <section>
+    <h3>Callbacks: Custom Constructor</h3>
+    <pre><code class="javascript">{% filter prexample %}
+      class Cup {
+        constructor(faucet) {
+          this.filled = "air";
+          const setFluid = (fluid) => {
+            this.filled = fluid;
+          };
+          if (faucet) {
+            faucet(setFluid);
+          }
+        }
+      }
+      const waterCup = () => {
+        const waterFaucet = (fluidSetter) => {
+          fluidSetter("water");
+        }
+        return new Cup(waterFaucet);
+      } 
+      console.log(waterCup());
+    {% endfilter %}</pre></code>
+  </section>
+  <section>
+    <h3>Promises: Custom Constructor</h3>
+    <pre><code class="javascript">{% filter prexample %}
+      class Promise {
+        constructor(customizer) {
+          // ...
+          this.state = "pending";
+          // ...
+          const resolve = (value) => {
+            this.state = "resolved";
+            // ...
+          };
+          if (customizer) {
+            customizer(resolve, reject);
+          }
+        }
+      }
+      const waterPromise = () => {
+        return new Promise((resolve) => {
+          resolve("water");
+        });
+      } 
+      console.log(waterCup());
+    {% endfilter %}</pre></code>
+  </section>
+  <section>
     <h3>Timers</h3>
     <ul>
      <li><var>window.setInterval</var> lets you run a function every so many milliseconds.</li>
