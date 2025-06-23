@@ -265,9 +265,11 @@
         constructor(customizer) {
           // ...
           this.state = "pending";
+          this.resolvedTo = undefined;
           // ...
           const resolve = (value) => {
             this.state = "resolved";
+            this.resolvedTo = value;
             // ...
           };
           if (customizer) {
