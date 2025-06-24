@@ -162,54 +162,41 @@
       {% endfilter %}</code></pre>
     <button type="button" onclick="promiseExample()">promiseExample()</button>
   </section>
-  <section>
+  <section style="font-size: 60%;">
     <h3>Callbacks: Eventually...</h3>
-    <pre><code class="javascript">{% filter prexample %}
-      class Tank {
-        constructor(onEmpty) {
-          this.units = 10;
-          this.onEmpty = onEmpty;
-        }
-        pump() {
-          if (!this.empty()) {
-            this.units -= 1;
-          } else {
-            this.onEmpty(this, this.units);
-          }
-        }
-        empty() { return this.units <= 0; }
-      }
-      const drain = (tank) => {
-        while (!tank.empty()) {
-          tank.pump();
-        }
-        tank.pump();
-      }
-      drain(new Tank((tank, units) => {
-        console.log("tank", tank);
-      }));
-    {% endfilter %}</code></pre>
+    <pre><code class="javascript"><span class="a01">class Tank {
+  <span class="a05">constructor(<span class="v1">onEmpty</span>) {
+    this.units = 10;
+    <span class="v1">this.onEmpty = onEmpty;</span>
+  }</span>
+  pump() {
+    if (<span class="a08"><span class="a11">!this.empty()</span></span>) { <span class="a09">this.units -= 1;</span> }
+    else { <span class="a12"><span class="v1">this.onEmpty</span>(this, this.units);</span> }
+  }
+  empty() { return this.units &lt;= 0; }
+}</span>
+<span class="a02">const drain = (tank) =&gt; {
+  <span class="a07">while (!tank.empty()) { tank.pump(); }</span>
+  <span class="a10">tank.pump();</span>
+}</span>
+<span class="a06">drain(<span class="a04">new Tank(<span class="a03 v1">(tank, units) =&gt; {
+  <span class="a13">console.log(&quot;tank&quot;, tank);</span>
+}</span>)</span>);</span></code></pre>
   </section>
   <section>
     <h3>Callbacks: Immediate</h3>
-    <pre><code class="javascript">{% filter prexample %}
-      const cup = (faucet) => {
-        const aCup = {
-          filled: "air",
-        }
-        if (faucet) {
-          faucet(aCup);
-        }
-        return aCup;
-      }
-      const waterCup = () => {
-        const waterFaucet = (cup) => {
-          cup.filled = "water"
-        }
-        return cup(waterFaucet);
-      } 
-      console.log(waterCup());
-    {% endfilter %}</code></pre>
+    <pre><code class="javascript"><span class="a01">const cup = (<span class="v1">faucet</span>) =&gt; {
+  <span class="a06">const aCup = { filled: &quot;air&quot;, }</span>
+  if (<span class="a07 v1">faucet</span>) { <span class="a08 v1">faucet(aCup);</span> }
+  <span class="a10">return aCup;</span>
+}</span>
+<span class="a02">const waterCup = () =&gt; {
+  <span class="a04 v1">const waterFaucet = (cup) =&gt; {
+    <span class="a09">cup.filled = &quot;water&quot;;</span>
+  }</span>
+  <span class="a11">return <span class="a05">cup(<span class="v1">waterFaucet</span>)</span>;</span>
+}</span>
+<span class="a12">console.log(<span class="a03">waterCup()</span>);</span></code></pre>
   </section>
   <section>
     <h3>Callbacks: Callbacks</h3>
