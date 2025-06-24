@@ -78,7 +78,7 @@
         <cite><em>Mean Girls.</em> Paramount Home Entertainment, 2005. Performed by Rachel McAdams.</cite>
         <button type="button" onclick="fetchExample()">Fetch!</button>
       {% endfilter %}</blockquote>
-    </pre></code>
+    </code></pre>
     <script>
         function fetchExample() {
           // https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#Example 2019-02-14
@@ -95,7 +95,7 @@
             img.src = objectURL;
           });
         }
-        // Note in the DOM the img's src= attribute after running!</pre></code>
+        // Note in the DOM the img's src= attribute after running!</code></pre>
       </script>
     <pre><code class="javascript">{% filter prexample %}
         function fetchExample() {
@@ -113,7 +113,7 @@
                 img.src = objectURL;
             });
         }
-        // Note in the DOM the img's src= attribute after running!</pre></code>
+        // Note in the DOM the img's src= attribute after running!</code></pre>
     {% endfilter %}</code></pre>
   </section>
   <section data-visibility="hidden">
@@ -159,7 +159,7 @@
               alert("data3: " + data3);
             });
           }
-      {% endfilter %}</pre></code>
+      {% endfilter %}</code></pre>
     <button type="button" onclick="promiseExample()">promiseExample()</button>
   </section>
   <section>
@@ -188,7 +188,7 @@
       drain(new Tank((tank, units) => {
         console.log("tank", tank);
       }));
-    {% endfilter %}</pre></code>
+    {% endfilter %}</code></pre>
   </section>
   <section>
     <h3>Callbacks: Immediate</h3>
@@ -209,7 +209,7 @@
         return cup(waterFaucet);
       } 
       console.log(waterCup());
-    {% endfilter %}</pre></code>
+    {% endfilter %}</code></pre>
   </section>
   <section>
     <h3>Callbacks: Callbacks</h3>
@@ -233,7 +233,7 @@
         return cup(waterFaucet);
       } 
       console.log(waterCup());
-    {% endfilter %}</pre></code>
+    {% endfilter %}</code></pre>
   </section>
   <section>
     <h3>Callbacks: Custom Constructor</h3>
@@ -256,7 +256,7 @@
         return new Cup(waterFaucet);
       } 
       console.log(waterCup());
-    {% endfilter %}</pre></code>
+    {% endfilter %}</code></pre>
   </section>
   <section>
     <h3>Promises: Custom Constructor</h3>
@@ -282,7 +282,7 @@
         });
       } 
       console.log(waterPromise());
-    {% endfilter %}</pre></code>
+    {% endfilter %}</code></pre>
   </section>
   <section>
     <h3>Timers</h3>
@@ -332,7 +332,7 @@
         })
         console.log("3. LAST line of promiseTimerExample");
       }
-    {% endfilter %}</pre></code>
+    {% endfilter %}</code></pre>
   <button type="button" onclick="promiseTimerExample()">promiseTimerExample()</button>
   </section>
   <section>
@@ -386,7 +386,7 @@
         })
         console.log("3. LAST line of promiseTimerExample");
       }
-    {% endfilter %}</pre></code>
+    {% endfilter %}</code></pre>
   <button type="button" onclick="promise2TimerExample()">promise2TimerExample()</button>
   </section>
   <section style="font-size: 85%">
@@ -404,7 +404,7 @@
         img.src = objectURL;
       });
     }
-    {% endfilter %}</pre></code>
+    {% endfilter %}</code></pre>
     <p>is the same as</p>
     <pre><code class="javascript">{% filter prexample %}
       var request = new Request("images/fetch.gif");
@@ -416,7 +416,7 @@
         var objectURL = URL.createObjectURL(blob);
         img.src = objectURL;
       });
-    {% endfilter %}</pre></code>
+    {% endfilter %}</code></pre>
   </section>
   <section>
     <h3>Fetching JSON</h3>
