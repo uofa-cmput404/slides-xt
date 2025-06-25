@@ -200,50 +200,40 @@
   </section>
   <section>
     <h3>Callbacks: Callbacks</h3>
-    <pre><code class="javascript">{% filter prexample %}
-      const cup = (faucet) => {
-        const aCup = {
-          filled: "air",
-        };
-        const setFluid = (fluid) => {
-          aCup.filled = fluid;
-        };
-        if (faucet) {
-          faucet(setFluid);
-        }
-        return aCup;
-      }
-      const waterCup = () => {
-        const waterFaucet = (fluidSetter) => {
-          fluidSetter("water");
-        }
-        return cup(waterFaucet);
-      } 
-      console.log(waterCup());
-    {% endfilter %}</code></pre>
+    <pre><code class="javascript"><span class="a01">const cup = (<span class="v1">faucet</span>) =&gt; {
+  <span class="a06">const aCup = { filled: &quot;air&quot;, };</span>
+  <span class="a07 v2">const setFluid = (fluid) =&gt; { <span class="a10">aCup.filled = fluid;</span> };</span>
+  if (<span class="v1">faucet</span>) { <span class="a08 v1">faucet(<span class="v2">setFluid</span>);</span> }
+  <span class="a12">return aCup;</span>
+}</span>
+<span class="a02">const waterCup = () =&gt; {
+  <span class="a04 v1">const waterFaucet = (<span class="v2">fluidSetter</span>) =&gt; {
+    <span class="a09 v2">fluidSetter(&quot;water&quot;);</span>
+  <span class="a11">}</span></span>
+  <span class="a13">return <span class="a05">cup(<span class="v1">waterFaucet</span>)</span>;</span>
+}</span>
+<span class="a14">console.log(<span class="a03">waterCup()</span>);</span></code></pre>
   </section>
   <section>
     <h3>Callbacks: Custom Constructor</h3>
-    <pre><code class="javascript">{% filter prexample %}
-      class Cup {
-        constructor(faucet) {
-          this.filled = "air";
-          const setFluid = (fluid) => {
-            this.filled = fluid;
-          };
-          if (faucet) {
-            faucet(setFluid);
-          }
-        }
-      }
-      const waterCup = () => {
-        const waterFaucet = (fluidSetter) => {
-          fluidSetter("water");
-        }
-        return new Cup(waterFaucet);
-      } 
-      console.log(waterCup());
-    {% endfilter %}</code></pre>
+    <pre><code class="javascript"><span class="a01">class Cup {
+  constructor(<span class="v1">faucet</span>) {
+    <span class="a06">this.filled = &quot;air&quot;;</span>
+    <span class="a07 v2">const setFluid = (fluid) =&gt; {
+      <span class="a11">this.filled = fluid;</span>
+    };</span>
+    if (<span class="a08 v1">faucet</span>) {
+      <span class="a09 v1">faucet(<span class="v2">setFluid</span>);</span>
+    <span class="a13">}</span>
+  }
+}</span>
+<span class="a02">const waterCup = () =&gt; {
+  <span class="a04 v1">const waterFaucet = (<span class="v2">fluidSetter</span>) =&gt; {
+    <span class="a10"><span class="v2">fluidSetter</span>(&quot;water&quot;);</span>
+  <span class="a12">}</span></span>
+  <span class="a14">return <span class="a05">new Cup(<span class="v1">waterFaucet</span>)</span>;</span>
+}</span>
+<span class="a15">console.log(<span class="a03">waterCup()</span>);</span></code></pre>
   </section>
   <section>
     <h3>Promises: Custom Constructor</h3>
@@ -255,7 +245,7 @@
           // ...
           const resolve = (value) => {
             this.resolvedTo = value;
-            // ...
+            // ... call all the .then(functions) with resolvedTo
           };
           // const reject = (...) => { ... }
           if (customizer) {
