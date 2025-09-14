@@ -16,7 +16,7 @@
   </section>
   <section>
     <h3>AJAX</h3>
-    <img class="stretch noborder" alt="AJAX" src="../images/ajax.png">
+    <img class="stretch noborder" alt="AJAX" src="/images/ajax.png">
   </section>
   <section style="font-size: 80%;">
     <h3>What is AJAX?</h3>
@@ -101,7 +101,7 @@
         function fetchExample() {
             // https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#Example 2019-02-14
             var img = document.querySelector("img#fetchexample");
-            var request = new Request("../images/fetch.gif");
+            var request = new Request("/images/fetch.gif");
             var promise1 = fetch(request);
             var promise2 = promise1.then(function(response) {
                 console.log("Got headers!");
@@ -553,7 +553,7 @@
   </section>
   <section>
     <h4>AJAX Observer Pattern</h4>
-    <img class="centered noborder" src="../images/observer.svg" alt="Observer UML Diagram">
+    <img class="centered noborder" src="/images/observer.svg" alt="Observer UML Diagram">
   </section>
   <section>
     <h4>AJAX Observer Pattern</h4>
