@@ -50,6 +50,49 @@
     src: url(/src/fonts/anonymouspro/anonymous_pro_bi.ttf);
 }
 
+body,
+body .reveal,
+body .reveal a,
+body .reveal blockquote,
+body .reveal cite,
+body .reveal h1,
+body .reveal h2,
+body .reveal h3,
+body .reveal h4,
+body .reveal h5,
+body .reveal h6,
+body .reveal li,
+body .reveal p,
+body .reveal section,
+body .reveal td,
+body .reveal th,
+body .reveal ul
+{
+    overflow-wrap: normal;
+    text-wrap: balance;
+    text-wrap-mode: wrap;
+    text-wrap-style: balance;
+    letter-spacing: 0.05ch;
+    word-spacing: 0.2ch;
+    line-break: strict;
+    word-break: normal;
+    line-height: 1.3;
+}
+
+body .reveal var
+{
+    font-family: var(--r-code-font);
+    font-style: normal;
+    font-size: 80%;
+    overflow-wrap: normal;
+    text-wrap: balance;
+    text-wrap-mode: wrap;
+    text-wrap-style: balance;
+    line-break: strict;
+    word-break: normal;
+    line-height: 1.0;
+}
+
 .twoColumn {
     columns: 2;
 }
@@ -63,17 +106,19 @@
     font-size: 70.7%;
 }
 
-table.wikitable {
+.reveal table.wikitable {
     margin: 0 0;
     text-align: center;
     font-size: 40%;
 }
 
-table.wikitable td,
-table.wikitable th {
+.reveal table.wikitable td,
+.reveal table.wikitable th 
+{
     text-align: center;
     vertical-align: middle;
-    padding: 0.2em 0.2em 0.2em 0.2em;
+    padding: 0.1ex 0.3ch 0.1ex 0.3ch;
+    margin: 0;
 }
 
 .columns {
@@ -93,10 +138,7 @@ body {
     --r-heading3-font-size: 1.2em;
     --r-heading4-font-size: 1.1em;
     --r-heading-margin: 0 0 0.3333em 0;
-    letter-spacing: 0.033rem;
-    word-spacing: 110%;
     font-feature-settings: "cv10" 1, "cv39" 1;
-    line-height: 1.3;
     --pre-bg-color: white;
     --pre-color: black;
     color: black;
