@@ -1040,6 +1040,58 @@
     </ul>
 </section>
 <section>
+    <h3>Example: Class + Callback</h3>
+        <pre><code class="javascript">{% filter prexample %}
+class ActionLogger {
+    constructor(loggers = []) {
+        this.loggers = loggers;
+    }
+    logAction(action) {
+        this.loggers.forEach(logger => logger.log(action));
+    }
+}
+const consoleLogger = {
+    log: (action) => {
+        console.log(`Action: ${action}`);
+    }
+};
+logger = new ActionLogger([consoleLogger]);
+        {% endfilter %}</pre></code>    
+</section>
+<section>
+    <h3>Example: Class + Callback + Closure</h3>
+        <pre><code class="javascript">{% filter prexample %}
+class ActionLogger {
+    constructor(loggers = []) {
+        this.loggers = loggers;
+    }
+    logAction(action) {
+        this.loggers.forEach(logger => logger.log(action));
+    }
+}
+const consoleLogger = {
+    log: (action) => {
+        console.log(`Action: ${action}`);
+    }
+};
+class ArrayLogger {
+    constructor() {
+        this.logs = [];
+    }
+    getLogs() {
+        return this.logs;
+    }
+    makeLogger() { // makeLogger gets this from before the .
+        return (action) => { // anonymous arrow fn gets this from closure!
+                this.logs.push(action);
+            }
+    }
+}
+const arrayLogger = new ArrayLogger();
+logger = new ActionLogger([consoleLogger, arrayLogger.makeLogger()]);
+        {% endfilter %}</pre></code>    
+</section>
+<section>
     <h3>More Resources</h3>
     <ul>
         <li><a href="http://www.w3schools.com/js/js_htmldom.asp">W3CSchools Javascript DOM</a></li>
