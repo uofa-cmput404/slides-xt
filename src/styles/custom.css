@@ -279,7 +279,7 @@ when the notes are printed , it will adjust accordinly to the container and make
 }
 
 body {
-    --animation-bg-color: yellow;
+    --animation-bg-color: unset;
 }
 
 @keyframes a01 {

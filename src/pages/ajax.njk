@@ -163,8 +163,30 @@
     <button type="button" onclick="promiseExample()">promiseExample()</button>
   </section>
   <section style="font-size: 60%;">
+    <!--
+      class Tank {
+        constructor(onEmpty) {
+          this.units = 10;
+          this.onEmpty = onEmpty;
+        }
+        pump() {
+          if (!this.empty()) { this.units -= 1; }
+          else { this.onEmpty(this, this.units); }
+        }
+        empty() { return this.units <= 0; }
+      }
+      const drain = (tank) => {
+        while (!tank.empty()) { tank.pump(); }
+        tank.pump();
+      }
+      drain(new Tank((tank, units) => {
+        console.log("tank", tank);
+      }));
+    -->
     <h3>Callbacks: Eventually...</h3>
-    <pre><code class="javascript"><span class="a01">class Tank {
+    <div class="columns" style="font-size: 90%">
+        <div class="column">
+              <pre><code class="javascript"><span class="a01">class Tank {
   <span class="a05">constructor(<span class="v1">onEmpty</span>) {
     this.units = 10;
     <span class="v1">this.onEmpty = onEmpty;</span>
@@ -182,58 +204,155 @@
 <span class="a06">drain(<span class="a04">new Tank(<span class="a03 v1">(tank, units) =&gt; {
   <span class="a13">console.log(&quot;tank&quot;, tank);</span>
 }</span>)</span>);</span></code></pre>
+      </div>
+      <div class="column">
+        <pre><code>
+ 1. <span class="a01">class Tank {</span>
+ 2. <span class="a02">const drain = (tank) =&gt; { ... }</span>
+ 3. <span class="a03 v1">(tank, units) =&gt; { ... }</span>
+ 4. <span class="a04">new Tank( ... )</span>
+ 5. <span class="a05">constructor(<span class="v1">onEmpty</span>) { ... }</span>
+ 6. <span class="a06">drain( ... );</span>
+ 7. <span class="a07">while (!tank.empty()) { tank.pump(); }</span>
+ 8. <span class="a08">!this.empty()</span>
+ 9. <span class="a09">this.units -= 1;</span>
+10. <span class="a10">tank.pump();</span>
+11. <span class="a11">!this.empty()</span>
+12. <span class="a12"><span class="v1">this.onEmpty</span>(this, this.units);</span>
+13. <span class="a13">console.log(&quot;tank&quot;, tank);</span>
+        </code></pre>
+      </div>
   </section>
   <section>
+    <!--
+const buySoda = (sodaPicker) => {
+  // Default to Coke
+  const choice = { brand: "Coke", }
+  if (sodaPicker) { sodaPicker(choice); }
+  return choice;
+}
+const buyAPepsi = () => {
+  const sodaPicker = (choice) => {
+    choice.brand = "Pepsi";
+  }
+  return buySoda(sodaPicker);
+}
+console.log(buyAPepsi());
+    -->
     <h3>Callbacks: Immediate</h3>
-    <pre><code class="javascript"><span class="a01">const cup = (<span class="v1">faucet</span>) =&gt; {
-  <span class="a06">const aCup = { filled: &quot;air&quot;, }</span>
-  if (<span class="a07 v1">faucet</span>) { <span class="a08 v1">faucet(aCup);</span> }
-  <span class="a10">return aCup;</span>
+    <div class="columns" style="font-size: 90%">
+    <div class="column">
+      <pre><code class="javascript"><span class="a01">const buySoda = (<span class="v1">sodaPicker</span>) =&gt; {
+  <span class="a06">const choice = { brand: &quot;Coke&quot;, }</span>
+  if (<span class="a07 v1">sodaPicker</span>) { <span class="a08 v1">sodaPicker(choice);</span> }
+  <span class="a10">return choice;</span>
 }</span>
-<span class="a02">const waterCup = () =&gt; {
-  <span class="a04 v1">const waterFaucet = (cup) =&gt; {
-    <span class="a09">cup.filled = &quot;water&quot;;</span>
+<span class="a02">const buyAPepsi = () =&gt; {
+  <span class="a04 v1">const sodaPicker = (buySoda ) =&gt; {
+    <span class="a09">buySoda.brand = &quot;Pepsi&quot;;</span>
   }</span>
-  <span class="a11">return <span class="a05">cup(<span class="v1">waterFaucet</span>)</span>;</span>
+  <span class="a11">return <span class="a05">buySoda(<span class="v1">sodaPicker</span>)</span>;</span>
 }</span>
-<span class="a12">console.log(<span class="a03">waterCup()</span>);</span></code></pre>
+<span class="a12">console.log(<span class="a03">buyAPepsi()</span>);</span></code></pre>
+    </div>
+    <div class="column">
+      <pre><code class="javascript"> 1. <span class="a01">const buySoda = ( ... ) => { ... }</span>
+ 2. <span class="a02">const buyAPepsi = () =&gt; { ... } </span>
+ 3. <span class="a03">buyAPepsi()</span>
+ 4. <span class="a04 v1">const sodaPicker = ( ... ) =&gt; { ... }</span>
+ 5. <span class="a05">buySoda(<span class="v1">sodaPicker</span>)</span>
+ 6. <span class="a06">const choice = { brand: &quot;Coke&quot;, }</span>
+ 7. <span class="a07">if (<span class="v1">sodaPicker</span>)</span>
+ 8. <span class="a08 v1">sodaPicker(choice);</span>
+ 9. <span class="a09">buySoda.brand = &quot;Pepsi&quot;;</span>
+10. <span class="a10">return choice;</span>
+11. <span class="a11">return ...;</span>
+12. <span class="a12">console.log( ... );</span></code></pre>
+    </div>
   </section>
   <section>
     <h3>Callbacks: Callbacks</h3>
-    <pre><code class="javascript"><span class="a01">const cup = (<span class="v1">faucet</span>) =&gt; {
-  <span class="a06">const aCup = { filled: &quot;air&quot;, };</span>
-  <span class="a07 v2">const setFluid = (fluid) =&gt; { <span class="a10">aCup.filled = fluid;</span> };</span>
-  if (<span class="v1">faucet</span>) { <span class="a08 v1">faucet(<span class="v2">setFluid</span>);</span> }
-  <span class="a12">return aCup;</span>
+    <div class="columns" style="font-size: 90%">
+        <div class="column">
+          <pre><code class="javascript"><span class="a01">const buySoda = (<span class="v1">sodaPicker</span>) =&gt; {
+  <span class="a06">const choice = { brand: &quot;Coke&quot;, };</span>
+  <span class="a07 v2">const setBrand = (brandName) =&gt; {
+    <span class="a10">choice.brand = brandName;</span>
+  };</span>
+  if (<span class="v1">sodaPicker</span>) {
+    <span class="a08 v1">sodaPicker(<span class="v2">setBrand</span>);</span>
+  }
+  <span class="a12">return choice;</span>
 }</span>
-<span class="a02">const waterCup = () =&gt; {
-  <span class="a04 v1">const waterFaucet = (<span class="v2">fluidSetter</span>) =&gt; {
-    <span class="a09 v2">fluidSetter(&quot;water&quot;);</span>
-  <span class="a11">}</span></span>
-  <span class="a13">return <span class="a05">cup(<span class="v1">waterFaucet</span>)</span>;</span>
+<span class="a02">const buyAPepsi = () =&gt; {
+  <span class="a04 v1">const sodaPicker = (<span class="v2">brandSetter</span>) =&gt; {
+    <span class="a09 v2">brandSetter(&quot;Pepsi&quot;);</span>
+  <span class="a11">} </span></span><span class="a11">// return from sodaPicker</span>
+  <span class="a13">return <span class="a05">buySoda(<span class="v1">sodaPicker</span>)</span>;</span>
 }</span>
-<span class="a14">console.log(<span class="a03">waterCup()</span>);</span></code></pre>
+<span class="a14">console.log(<span class="a03">buyAPepsi()</span>);</span></code></pre>
+    </div>
+      <div class="column">
+         <pre><code class="javascript"> 1. <span class="a01">const buySoda = ( ... ) { ... }</span>
+ 2. <span class="a02">const buyAPepsi = () =&gt; { ... }</span>
+ 3. <span class="a03">buyAPepsi()</span>
+ 4. <span class="a04 v1">const sodaPicker = (brandSetter) =&gt; { ... }</span>
+ 5. <span class="a05">buySoda(<span class="v1">sodaPicker</span>)</span>
+ 6. <span class="a06">const choice = { brand: &quot;Coke&quot;, };</span>
+ 7. <span class="a07 v2">const setBrand = (brandName) =&gt; { ... }</span>
+ 8. <span class="a08 v1">sodaPicker(<span class="v2">setBrand</span>);</span>
+ 9. <span class="a09 v2">brandSetter(&quot;Pepsi&quot;);</span>
+10. <span class="a10">choice.brand = brandName;</span>
+11. <span class="a11">} // return from SodaPicker</span>
+12. <span class="a12">return choice;</span>
+13. <span class="a13">return buySoda(<span class="v1">sodaPicker</span>);</span>
+14. <span class="a14">console.log(buyAPepsi());</span>
+          </code></pre>
+      </div>
+    </div>
   </section>
   <section>
     <h3>Callbacks: Custom Constructor</h3>
-    <pre><code class="javascript"><span class="a01">class Cup {
-  constructor(<span class="v1">faucet</span>) {
-    <span class="a06">this.filled = &quot;air&quot;;</span>
-    <span class="a07 v2">const setFluid = (fluid) =&gt; {
-      <span class="a11">this.filled = fluid;</span>
+    <div class="columns">
+        <div class="column">
+          <pre><code class="javascript" style="font-size: 70%"><span class="a01">class buySoda {
+  constructor(<span class="v1">sodaPicker</span>) {
+    <span class="a06">this.brand = &quot;Coke&quot;;</span>
+    <span class="a07 v2">const setBrand = (brandName) =&gt; {
+      <span class="a11">this.brand = brandName;</span>
     };</span>
-    if (<span class="a08 v1">faucet</span>) {
-      <span class="a09 v1">faucet(<span class="v2">setFluid</span>);</span>
-    <span class="a13">}</span>
+    if (<span class="a08 v1">sodaPicker</span>) {
+      <span class="a09 v1">sodaPicker(<span class="v2">setBrand</span>);</span>
+    <span class="a13">} // return from buyAPepsi</span>
   }
 }</span>
-<span class="a02">const waterCup = () =&gt; {
-  <span class="a04 v1">const waterFaucet = (<span class="v2">fluidSetter</span>) =&gt; {
-    <span class="a10"><span class="v2">fluidSetter</span>(&quot;water&quot;);</span>
-  <span class="a12">}</span></span>
-  <span class="a14">return <span class="a05">new Cup(<span class="v1">waterFaucet</span>)</span>;</span>
+<span class="a02">const buyAPepsi = () =&gt; {
+  <span class="a04 v1">const sodaPicker = (<span class="v2">brandSetter</span>) =&gt; {
+    <span class="a10"><span class="v2">brandSetter</span>(&quot;Pepsi&quot;);</span>
+  <span class="a12">}</span></span><span class="a12"> // return from sodaPicker</span>
+  <span class="a14">return <span class="a05">new buySoda (<span class="v1">sodaPicker</span>)</span>;</span>
 }</span>
-<span class="a15">console.log(<span class="a03">waterCup()</span>);</span></code></pre>
+<span class="a15">console.log(<span class="a03">buyAPepsi()</span>);</span></code></pre>
+      </div>
+        <div class="column">
+          <pre><code class="javascript" style="font-size: 70%"> 1. <span class="a01">class buySoda { ... }</span>
+ 2. <span class="a02">const buyAPepsi = () =&gt; { ... }</span>
+ 3. <span class="a03">buyAPepsi()</span>
+ 4. <span class="a04 v1">const sodaPicker = (<span class="v2">brandSetter</span>) =&gt; { ... }</span>
+ 5. <span class="a05">new buySoda (<span class="v1">sodaPicker</span>)</span>
+ 6. <span class="a06">this.brand = &quot;Coke&quot;;</span>
+ 7. <span class="a07 v2">const setBrand = (brandName) =&gt; { ... }</span>
+ 8. if (<span class="a08 v1">sodaPicker</span>)
+ 9. <span class="a09 v1">sodaPicker(<span class="v2">setBrand</span>);</span>
+10. <span class="a10"><span class="v2">brandSetter</span>(&quot;Pepsi&quot;);</span>
+11. <span class="a11">this.brand = brandName;</span>
+12. <span class="a12">} // return from sodaPicker</span>
+13. <span class="a13">} // return from buyAPepsi</span>
+14. <span class="a14">return new buySoda (<span class="v1">sodaPicker</span>);</span>
+15. <span class="a15">console.log(buyAPepsi());</span></code></pre>
+          </pre></code>
+        </div>
+      </div>
   </section>
   <section>
     <h3>Promises: Custom Constructor</h3>
@@ -253,12 +372,12 @@
           }
         }
       }
-      const waterPromise = () => {
+      const sodaPromise = () => {
         return new Promise((resolve, reject) => {
-          resolve("water");
+          resolve("Pepsi");
         });
       } 
-      console.log(waterPromise());
+      console.log(sodaPromise());
     {% endfilter %}</code></pre>
   </section>
   <section>
