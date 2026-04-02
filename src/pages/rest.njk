@@ -91,10 +91,9 @@
             Use HTTP methods as verbs to manipulate them
             <ul>
                 <li>GET - get the state of an object</li>
-                <li>PUT - set the (entire) state of an object</li>
-                <li>PUT - create an object</li>
+                <li>PUT - set (replace) the entire state of an object</li>
                 <li>DELETE - delete an object</li>
-                <li>POST - manipulate an object some other way</li>
+                <li>POST - create a new object or perform actions</li>
             </ul>
         </li>
     </ul>
@@ -180,7 +179,7 @@
         <li>What methods are cacheable?
             <ul>
                 <li>GET? Yes!</li>
-                <li>POST? No :(</li>
+                <li>POST? Usually no (unless explicitly marked cacheable)</li>
             </ul>
         </li>
     </ul>

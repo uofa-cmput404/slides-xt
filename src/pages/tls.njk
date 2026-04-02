@@ -21,7 +21,7 @@
         <li>Transport Layer Security
             <ul>
                 <li>Transport Layer: works on top of TCP/UDP</li>
-                <li>Fully integrated with QUIC</li>
+                <li>Used with QUIC in HTTP/3</li>
             </ul>
         </li>
         <li>Security</li>
@@ -105,18 +105,18 @@
 </section>
 <section style="font-size: 90%;">
     <h4>TLS: Identity</h4>
-    <ul>
-        <li>With TLS I can ensure the server I'm connected to is the
-            server I meant to connect to.
-        </li>
-        <li>This is done with <em>certificates</em>.</li>
-        <li>A certificate works like an ID card.</li>
-        <li>The server sends a certificate with its domain name
-            (called a "Common Name") and a big number called a public key.
-        </li>
-        <li>The certificate also includes other details, such as
-            who made it, for example, "Bank Inc."</li>
-    </ul>
+<ul>
+    <li>With TLS I can ensure the server I'm connected to is the
+        server I meant to connect to.
+    </li>
+    <li>This is done with <em>certificates</em>.</li>
+    <li>A certificate works like an ID card.</li>
+    <li>The server sends a certificate with its domain name
+        (called a "Common Name", now typically stored in the Subject Alternative Name field) and a public key.
+    </li>
+    <li>The certificate also includes other details, such as
+        who issued it, for example, a Certificate Authority (CA).</li>
+</ul>
 </section>
 <section>
     <ul>

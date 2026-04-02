@@ -94,48 +94,56 @@
     </section>
     <section>
         <h3>HTTP Basics</h3>
-        <ul>
-            <li>HTTP uses TCP (usually)</li>
-            <li>HTTP uses TCP Port 80 (usually)
-            </li>
-            <li>
-                HTTPS allows for ENCRYPTED HTTP
-            </li>
-            <li>HTTPS uses port TCP 443 (usually)
-            </li>
-            <li>
-                HTTP can work over IPV4 and IPV6
-            </li>
-            <li>HTTP requests are made to addresses called URIs
-            </li>
-        </ul>
+<ul>
+    <li>HTTP uses TCP (usually)</li>
+    <li>HTTP uses TCP Port 80 (usually)
+    </li>
+    <li>
+        HTTPS allows for ENCRYPTED HTTP
+    </li>
+    <li>HTTPS uses port TCP 443 (usually)
+    </li>
+    <li>
+        HTTP can work over IPV4 and IPV6
+    </li>
+    <li>HTTP requests are made to addresses called URIs
+    </li>
+    <li style="font-size: 80%;">
+        HTTP is <strong>stateless</strong>, meaning each request is independent and the server does not remember previous requests.
+    </li>
+</ul>
     </section>
     <section>
         <h3>HTTP Commands</h3>
-        <p>Every HTTP command is made to a URI.</p>
-        <ul>
-            <li>GET – Retrieve information from that URI
-            </li>
-            <li>POST – Run search, log-in, append data, change data
-            </li>
-            <li>HEAD – GET without a message body (for caching)
-            </li>
-            <li>PUT – Store the entity at the that URI
-            </li>
-            <li>
-                DELETE – Delete the resource at that URI
-            </li>
-            <li class="rare">PATCH – Modify the entity at that URI
-            </li>
-            <li class="rare">OPTIONS – What options a resource can accommodate
-            </li>
-            <li class="rare">TRACE – Debugging / Echo Request
-            </li>
-            <li class="rare">CONNECT – Tunneling proxy over HTTP
-            </li>
-        </ul>
-    </section>
-    <section>
+<p>Every HTTP command is made to a URI.</p>
+<ul style="font-size: 80%;">
+    <li>GET – Retrieve information from that URI
+    </li>
+    <li>POST – Run search, log-in, append data, change data
+    </li>
+    <li>HEAD – GET without a message body (for caching)
+    </li>
+    <li>PUT – Store the entity at the that URI
+    </li>
+    <li>
+        DELETE – Delete the resource at that URI
+    </li>
+    <li class="rare">PATCH – Modify the entity at that URI
+    </li>
+    <li class="rare">OPTIONS – What options a resource can accommodate
+    </li>
+    <li class="rare">TRACE – Debugging / Echo Request
+    </li>
+    <li class="rare">CONNECT – Tunneling proxy over HTTP
+    </li>
+    <li style="font-size: 60%;">
+        Note: <strong>GET</strong> should be <em>safe</em> (no side effects) and <em>idempotent</em>. 
+        <strong>PUT</strong> and <strong>DELETE</strong> are also idempotent. 
+        <strong>POST</strong> is not idempotent and is typically used for creating or modifying resources.
+    </li>
+</ul>
+</section>
+<section>
         <h3>URI or URL?</h3>
         URI
         <ul style="font-size: 85%">
@@ -856,32 +864,40 @@ content-type: text/html; charset=utf-8
     </section>
     <section>
         <h3>Quick UDP Internet Connections</h3>
+<ul>
+    <li>QUIC provides the same guarantees that TCP provides
         <ul>
-            <li>QUIC provides the same guarantees that TCP provides
-                <ul>
-                    <li>Nickname: "TCP 2"</li>
-                </ul>
-            </li>
-            <li>TCP was specified in 1974!</li>
-            <li>However, QUIC has lower latency</li>
-            <li>Especially in the case of dropped packets</li>
-            <li>Provides multiple "streams", TCP only provides one</li>
-            <li>Integrates with TLS 1.3</li>
+            <li>Nickname: "TCP 2"</li>
         </ul>
-    </section>
-    <section>
+    </li>
+    <li>TCP was specified in 1974!</li>
+    <li>However, QUIC has lower latency</li>
+    <li>Especially in the case of dropped packets</li>
+    <li>Provides multiple "streams", TCP only provides one</li>
+    <li>Integrates with TLS 1.3</li>
+    <li style="font-size: 50%;">
+        Built on top of UDP to avoid TCP connection setup delays and improve performance.
+    </li>
+</ul>
+</section>
+
+<section>
+<ul>
+    <li>Avoid using multiple TCP connections to a single server
         <ul>
-            <li>Avoid using multiple TCP connections to a single server
-                <ul>
-                    <li>Reduce high-latency TCP handshakes</li>
-                    <li>Reduce high-CPU TLS handshakes</li>
-                </ul>
-            </li>
-            <li>Requests and responses in both directions happening all at the same time, data is interleaved</li>
-            <li>Requests/responses can be prioritized</li>
+            <li>Reduce high-latency TCP handshakes</li>
+            <li>Reduce high-CPU TLS handshakes</li>
         </ul>
-    </section>
-    <section>
+    </li>
+    <li>Requests and responses in both directions happening all at the same time, data is interleaved</li>
+    <li>Requests/responses can be prioritized</li>
+    <li style="font-size: 80%;">
+        This improves performance for modern web apps that load many resources simultaneously.
+    </li>
+</ul>
+</section>
+
+<section>
         <h3>Resources: RFCs</h3>
         <ul>
             <li>URIs:

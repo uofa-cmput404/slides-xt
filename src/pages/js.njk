@@ -226,10 +226,15 @@
 </section>
 <section>
     <h3>Type Coercion</h3>
-    <p>In Python the following code throws a type error:</p>
-    <pre><code class="javascript">"1" + 1</code></pre>
-    <p>But in JavaScript you get:</p>
-    <pre><code class="plaintext">"11"</code></pre>
+<p>In Python the following code throws a type error:</p>
+<pre><code class="javascript">"1" + 1</code></pre>
+<p>But in JavaScript you get:</p>
+<pre><code class="plaintext">"11"</code></pre>
+<ul style="font-size: 85%;">
+    <li>JavaScript automatically converts types when needed (type coercion)</li>
+    <li><code>"1" + 1</code> → string concatenation</li>
+    <li><code>"1" - 1</code> → number conversion → <code>0</code></li>
+</ul>
 </section>
 <section>
     <h3><var>this</var></h3>
@@ -714,22 +719,26 @@
     {% endfilter %}</code></pre>
 </section>
 <section>
-    <h3>Constructor Function</h3>
-    <ul>
-        <li>You might see this in old code</li>
-    </ul>
-    <pre><code class="javascript">{% filter prexample %}
-        // classes start with a capital letter by convention
-        function Pokemon(name,level) {
-            this.name = name;
-            this.level = level;
-            this.levelUp = function() {
-                this.level += 1;
-            }
-        }
-        pikachu = new Pokemon("Pikachu", 1);
-        pikachu.levelUp();
-    {% endfilter %}</code></pre>
+    <h4>Constructor Function</h4>
+<ul>
+    <li>You might also see the methods added to the prototype later</li>
+    <li style="font-size: 80%;">
+        Methods on the prototype are shared across all instances, saving memory.
+    </li>
+</ul>
+<pre><code class="javascript">{% filter prexample %}
+    // classes start with a capital letter by convention
+    function Pokemon(name,level) {
+        this.name = name;
+        this.level = level;
+    }
+    // have to include "prototype" here so "this" works in the method
+    Pokemon.prototype.levelUp = function() {
+        this.level += 1;
+    }
+    pikachu = new Pokemon("Pikachu", 1);
+    pikachu.levelUp();
+{% endfilter %}</code></pre>
 </section>
 <section>
     <h4>Constructor Function</h4>
@@ -772,18 +781,22 @@
 </section>
 <section>
     <h3>Manipulating the DOM</h3>
-    <ul>
-        <li>You can use JavaScript to manipulate what's on the page</li>
-        <li>Browser turns HTML into the DOM</li>
-        <li>Document Object Model
-            <ul>
-                <li>Document: the stuff on your page, the content</li>
-                <li>Object: gets turned into objects accessible by JS</li>
-                <li>Model: it's a tree with children nodes</li>
-            </ul>
-        </li>
-        <li>Take the <a href="https://www.w3schools.com/js/js_htmldom.asp">JS HTML DOM Tutorial</a></li>
-    </ul>
+<ul>
+    <li>You can use JavaScript to manipulate what's on the page</li>
+    <li>Browser turns HTML into the DOM</li>
+    <li>Document Object Model
+        <ul>
+            <li>Document: the stuff on your page, the content</li>
+            <li>Object: gets turned into objects accessible by JS</li>
+            <li>Model: it's a tree with children nodes</li>
+        </ul>
+    </li>
+    <li style="font-size:60%;">
+        Common operations include selecting elements (<code>document.getElementById</code>), 
+        modifying content (<code>innerHTML</code>), and handling events (<code>addEventListener</code>).
+    </li>
+    <li>Take the <a href="https://www.w3schools.com/js/js_htmldom.asp">JS HTML DOM Tutorial</a></li>
+</ul>
 </section>
 <section>
     <h3>DOM Elements from HTML</h3>
