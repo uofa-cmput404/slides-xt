@@ -9,6 +9,8 @@
         <script type="module" src="../../main.js"></script>
     </head>
     <body>
+       <a href="?print-pdf" id="print-button">Scrollable View</a>
+
         <div class="reveal">
             <div class="slides">
             {% block slides %}
@@ -18,5 +20,19 @@
             {% include "components/copyright_info.njk" %}
             </div>
           </div>
+
+        <script>
+            const button = document.getElementById('print-button');
+            const isPrintMode = window.location.search.includes('print-pdf');
+
+            if (isPrintMode) {
+                button.textContent = 'Slide View';
+                button.href = window.location.pathname;
+            } else {
+                buttontn.textContent = 'Scrollable View';
+                button.href = '?print-pdf';
+            }
+        </script>
+
     </body>    
 </html>
