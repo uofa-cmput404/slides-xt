@@ -62,7 +62,7 @@
     <ul>
         <li>Cannot customize username/password prompt</li>
         <li>Browser will remember to keep sending auth</li>
-        <li>All files an subdirs <em>at</em> or <em>below</em> will be considered authenticated
+        <li>All files and subdirs <em>at</em> or <em>below</em> will be considered authenticated
             <ul>
                 <li>If we authenticate at <code>/stuff/private/index.html</code>:</li>
                 <li><code>/stuff/private/1</code> browser will assume is authenticated</li>
@@ -75,7 +75,7 @@
     <h3 style="font-size: 90%;">
         HTTP Basic Authentication
     </h3>
-    <img src="../images/basic_auth.svg" class="stretch">
+    <img src="../images/basic_auth.svg" class="stretch" alt="Sequence diagram of HTTP Basic Authentication where the server sends a 401 challenge and the browser retries with an Authorization header">
 </section>
 <section style="font-size: 90%;">
     <h3>HTTP Digest Auth</h3>
@@ -102,13 +102,13 @@
     <h3 style="font-size: 90%;">
         Session Cookie Authentication
     </h3>
-    <img src="../images/sessionauth.svg" class="stretch">
+    <img src="../images/sessionauth.svg" class="stretch" alt="Sequence diagram of session cookie authentication where login creates a server-side session and later requests send the session cookie">
 </section>
 <section>
     <h3 style="font-size: 90%;">
         Signed Token Authentication
     </h3>
-    <img src="../images/token_auth.svg" class="stretch">
+    <img src="../images/token_auth.svg" class="stretch" alt="Sequence diagram of signed token authentication where login returns a token and later requests send that token for signature verification">
 </section>
 <section>
     <h3>Signed Token Authentication</h3>
@@ -168,12 +168,12 @@
 </section>
 <section>
     <h3 style="font-size: 80%;">OAuth 1</h3>
-    <img class="stretch" src="../images/oauth1.png">
+    <img class="stretch" src="../images/oauth1.png" alt="OAuth 1 sequence diagram showing the user, consumer, and service exchanging request tokens, authorization, and access tokens">
     <cite style="font-size: 50%;"><a href="https://commandlinefanatic.com/cgi-bin/showarticle.cgi?article=art014">https://commandlinefanatic.com/cgi-bin/showarticle.cgi?article=art014</a> Joshua Davies, 2012</cite>
 </section>
 <section>
     <h3 style="font-size: 80%;">OAuth 2</h3>
-    <img class="stretch" src="../images/oauth2flow.png">
+    <img class="stretch" src="../images/oauth2flow.png" alt="OAuth 2 flow diagram showing browser redirects to obtain an access token and then use it to request user data">
     <cite style="font-size: 50%;"><a href="https://www.soapui.org/docs/oauth2/oauth2-overview/">https://www.soapui.org/docs/oauth2/oauth2-overview/</a> Smartbear Software, 2023</cite>
 </section>
 <section>
@@ -218,16 +218,16 @@
 </section>
 <section>
     <h3 style="font-size: 80%;">OpenID Connect</h3>
-    <img src="../images/oidc.svg" height="500px">
+    <img src="../images/oidc.svg" height="500px" alt="OpenID Connect flow diagram showing the browser, app, and identity provider exchanging redirects and tokens to create a signed-in session">
     <cite style="font-size: 50%;"><a href="https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc">https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc</a> Richards et al., 2023, Microsoft</cite>
 </section>
 <section style="font-size: 80%;">
     <h3>SAML</h3>
     <ul>
         <li>Like OpenID Connect but doesn't use OAuth or JWT, instead uses XML and its own thing</li>
-        <li>Mostly used by academic institutions (such as the Unversity of Alberta)</li>
+        <li>Mostly used by academic institutions (such as the University of Alberta)</li>
     </ul>
-    <img class="stretch" src="../images/saml2flow.png">
+    <img class="stretch" src="../images/saml2flow.png" alt="SAML flow diagram showing the user agent, service provider, and identity provider exchanging redirects and an authentication assertion">
     <cite style="font-size: 50%;"><a href="https://commons.wikimedia.org/wiki/File:Saml2-browser-sso-redirect-post.png">https://commons.wikimedia.org/wiki/File:Saml2-browser-sso-redirect-post.png</a> Ayungn, 2021, Wikimedia Commons</cite>
 </section>
 <section>

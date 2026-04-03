@@ -101,7 +101,7 @@
 
 <section>
     <h3>JS on Webpages</h3>
-    <p>Or put the JavaScript at a seperate URL with <var>&lt;script></var> tags.</p>
+    <p>Or put the JavaScript at a separate URL with <var>&lt;script></var> tags.</p>
     <pre><code class="javascript">{% filter prexample %}
         <script src="myscript.js"></script>
         <!--You have to put the closing </script> tag because script isn't a void tag!-->
@@ -1113,5 +1113,5 @@ logger = new ActionLogger([consoleLogger, arrayLogger.makeLogger()]);
         <li><a href="http://www.w3.org/TR/WD-DOM/introduction.html">W3C What is a DOM</a></li>
     </ul>
 </section>
-<script src="/src/scripts/copyCodeButton.js"></script>
+<script type="module" src="/src/scripts/copyCodeButton.js"></script>
 {% endblock %}

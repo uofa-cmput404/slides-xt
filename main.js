@@ -72,7 +72,6 @@ const registerServiceWorker = async () => {
     let stale = false;
     for (const workerRegistration of workers) {
       const worker = workerRegistration.active;
-      let unregister = null;
       if (worker) {
         const otherURL = worker.scriptURL;
         if (new URL(otherURL).pathname.split('/').pop() === swName) {

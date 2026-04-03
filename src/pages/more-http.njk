@@ -1164,13 +1164,6 @@ content-length: 60
                     <li>The cookies were previously sent to the user agent to store by the server or JS</li>
                 </ul>
             </li>
-            <li>
-                <var>DNT: 1</var>
-                <ul>
-                    <li>The user prefers not to be tracked over receiving personalized content</li>
-                    <li>Browsers continue to add support, servers continue to ignore it</li>
-                </ul>
-            </li>
         </ul>
     </section>
     <section style="font-size: 95%;">
@@ -1528,12 +1521,6 @@ content-length: 60
                 <li>Example: a SHA1 hash of the content</li>
             </ul>
         </li>
-        <li>
-            <var>Expect-CT: max-age=86400, enforce, report-uri="https://foo.example/report"</var>
-            <ul>
-                <li>Tells the web browser to double-check the TLS certificate with a public certificate log service</li>
-            </ul>
-        </li>
     </ul>
 </section>
 <section>
@@ -1703,58 +1690,6 @@ content-length: 60
                     <var>401 Unauthorized</var>
                     to tell the user agent/user how to authenticate</li>
                 <li>Browser will pop up a dialog box with "What is the password" on it</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <h4>HTTP Server Headers</h4>
-    <ul style="font-size: 90%">
-        <li>
-            <var>Warning: 110 fancyproxy/1.3.37 "Response is Stale"</var>
-            <ul>
-                <li>Warns the client that the content was in the cache for too long</li>
-            </ul>
-        </li>
-        <li>
-            <var>Warning: 111 fancyproxy/1.3.37 "Revalidation Failed"</var>
-            <ul>
-                <li>Warns the client that the content was in the cache but the original server is down</li>
-            </ul>
-        </li>
-        <li>
-            <var>Warning: 112 fancyproxy/1.3.37 "Disconnected Operation"</var>
-            <ul>
-                <li>Warns the client that the content was in the cache but the network is down</li>
-            </ul>
-        </li>
-    </ul>
-</section>
-<section>
-    <h4>HTTP Server Headers</h4>
-    <ul style="font-size: 75%">
-        <li>
-            <var>Warning: 113 fancyproxy/1.3.37 "Heuristic Expiration"</var>
-            <ul>
-                <li>Warns the client that the content was in the cache over 24 hours</li>
-            </ul>
-        </li>
-        <li>
-            <var>Warning: 199 fancyproxy/1.3.37 "Miscellaneous Warning"</var>
-            <ul>
-                <li>Warns the client about something</li>
-            </ul>
-        </li>
-        <li>
-            <var>Warning: 214 fancyproxy/1.3.37 "Transformation Applied"</var>
-            <ul>
-                <li>Warns the client that the content was changed in some way by the proxy</li>
-            </ul>
-        </li>
-        <li>
-            <var>Warning: 299 fancyproxy/1.3.37 "Persistent Warning"</var>
-            <ul>
-                <li>Warns the client about something the proxy doesn't expect to change anytime soon</li>
             </ul>
         </li>
     </ul>
