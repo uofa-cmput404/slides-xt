@@ -568,3 +568,43 @@ body span.v1 {
 body span.v2 {
     color: #04f;
 }
+
+#print-button {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 9999;
+    background: linear-gradient(135deg, #2a75de, #2a75de);
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+}
+#print-button:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+/* Animate clicking */
+#print-button:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+/* Hide the button during printing */
+@media print {
+    #print-button { display: none; }
+}
+
+.reveal .slide-number {
+  pointer-events: none;
+  background: transparent !important; /* remove the dark box */
+  color: black !important; 
+  /* move to the bottom left side of the page: */
+  right: auto !important; 
+  top: auto !important;     
+}

@@ -137,6 +137,7 @@ Reveal.initialize({
     hash: true,
     respondToHashChanges: true,
     history: false,
+    slideNumber: 'c/t',
     plugins: [
         RevealMarkdown
     ]
