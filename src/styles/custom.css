@@ -257,26 +257,39 @@ when the notes are printed , it will adjust accordinly to the container and make
     }
   }
 
-.index-button {
-    --index-button-font-size: 4;
-    position: absolute;
-    display: block;
+.extra-buttons {
+    display: flex;
     color: var(--r-link-color);
     text-decoration: none;
-    font-size: calc(100% * var(--index-button-font-size));
-    bottom: calc(1.4em / var(--index-button-font-size));
-    right: calc(10.5em / var(--index-button-font-size));
-    width: calc(3.6em / var(--index-button-font-size));
-    height: 1em;
-    opacity: 0.3;
+    font-size: 40px;
+    top: 0;
+    left: 2ch;
+    right: 2ch;
+    height: min-content;
+    position: absolute;
     z-index: 22;
     pointer-events: auto;
     font-weight: bold;
+    justify-content: end;
+    column-gap: 0.5ch;
 }
 
-.index-button:hover {
+.extra-buttons>* {
+    opacity: 0.3;
+}
+
+.extra-buttons>*:hover {
     opacity: 1.0;
 }
+
+#index-button {
+    margin-top: 0.05em;
+}
+
+#print-button {
+    letter-spacing: -0.4ch;
+}
+
 
 body {
     --animation-bg-color: unset;
@@ -569,27 +582,6 @@ body span.v2 {
     color: #04f;
 }
 
-#print-button {
-    position: fixed;
-    top: 16px;
-    right: 16px;
-    z-index: 9999;
-    background: linear-gradient(135deg, #2a75de, #2a75de);
-    color: #fff;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 999px;
-    font-size: 12px;
-    letter-spacing: 0.03em;
-    text-decoration: none;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: all 0.2s ease;
-}
-#print-button:hover {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
-}
 /* Animate clicking */
 #print-button:active {
     transform: translateY(0) scale(0.98);
@@ -600,11 +592,11 @@ body span.v2 {
     #print-button { display: none; }
 }
 
-.reveal .slide-number {
+html .reveal .slide-number {
   pointer-events: none;
-  background: transparent !important; /* remove the dark box */
-  color: black !important; 
+  background: transparent; /* remove the dark box */
+  color: black; 
   /* move to the bottom left side of the page: */
-  right: auto !important; 
-  top: auto !important;     
+  right: auto; 
+  top: auto;     
 }

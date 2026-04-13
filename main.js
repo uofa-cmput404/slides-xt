@@ -154,19 +154,47 @@ const rafPromise = async () => {
   }); 
 }
 
-const addIndexButton = async () => {
-  const indexButton = document.createElement("a");
-  indexButton.classList.add("index-button");
-  indexButton.href = base;
-  indexButton.textContent = "⋮⋮";
-  indexButton.title = "Index";
-  indexButton.ariaLabel = "Index";
-  let asideControls;
-  while (!asideControls) {
-    await rafPromise();
-    asideControls = document.querySelector("aside.controls");
+const addExtraButtons = async () => {
+  const asideControls = document.createElement("aside");
+  asideControls.classList.add("extra-buttons");
+  {
+    let revealDiv;
+    while (!revealDiv) {
+      await rafPromise();
+      revealDiv = document.querySelector("div.reveal");
+    }
+    revealDiv.appendChild(asideControls);
   }
-  asideControls.appendChild(indexButton);
+  {
+    const indexButton = document.createElement("a");
+    indexButton.classList.add("extra-button");
+    indexButton.id = "index-button";
+    indexButton.href = base;
+    indexButton.textContent = "⋮⋮";
+    indexButton.title = "Index";
+    indexButton.ariaLabel = "Index";
+    asideControls.appendChild(indexButton);
+  }
+  {
+    const printButton = document.createElement("a");
+    printButton.classList.add("extra-button");
+    printButton.id = "print-button";
+    const url = new URL(window.location);
+    const isPrintMode =  url.searchParams.has('print-pdf');
+    let title;
+    if (isPrintMode) {
+      title = "Slide View";
+      url.searchParams.delete('print-pdf');
+    } else {
+      title = "Scrollable View";
+      url.searchParams.append('print-pdf', 'print-pdf');
+      url.search = url.search.replace('=print-pdf', '');
+    }
+    printButton.textContent = "🖺↕";
+    printButton.title = title;
+    printButton.ariaLabel = title;
+    printButton.href = url.toString();
+    asideControls.appendChild(printButton);
+  }
 }
-
-addIndexButton();
+addExtraButtons();
